@@ -4,24 +4,24 @@
 
 CheckBoard :: CheckBoard( void )  {
 
-    clear_board();
+    ClearBoard();
 }
 
 CheckBoard :: ~CheckBoard( void )  {
     
 }
 
-int CheckBoard :: get_col_index(char ch)  {
+int CheckBoard :: GetColIndex(char ch)  {
 
     return ch - 'a';
 }
 
-int CheckBoard :: get_row_index(char ch)  {
+int CheckBoard :: GetRowIndex(char ch)  {
 
     return ch - '0' - 1;
 }
 
-void CheckBoard :: clear_board( void )  {
+void CheckBoard :: ClearBoard( void )  {
 
     for( int row = 0; row < board.size(); row++ )   {
         for( int col = 0; col < board[row].size(); col++ )  {
@@ -30,32 +30,38 @@ void CheckBoard :: clear_board( void )  {
     }
 }
 
-void CheckBoard :: put_board(char row, char col, Piece* piece)  {
+void CheckBoard :: Put(char row, char col, Piece* piece)  {
 
-    int  c = get_col_index(col);
-    int  r = get_row_index(row);
+    int  c = GetColIndex(col);
+    int  r = GetRowIndex(row);
 
     board[r][c] = piece;
 }
 
-void CheckBoard :: move(char src_row, char src_col, char dst_row, char dst_col )  {
+bool CheckBoard :: Move(char src_row, char src_col, char dst_row, char dst_col )  {
 
     // TODO: Checar limites do board 
     // TODO: Checar se origem é o mesmo que destino
-    int  src_c = get_col_index(src_col);
-    int  src_r = get_row_index(src_row);
-    int  dst_c = get_col_index(dst_col);
-    int  dst_r = get_row_index(dst_row);
+    int  src_c = GetColIndex(src_col);
+    int  src_r = GetRowIndex(src_row);
+    int  dst_c = GetColIndex(dst_col);
+    int  dst_r = GetRowIndex(dst_row);
 
+    if( src_c > 0 && src_c < MAX_COLS ) {
+        
+        Piece *piece = board[src_r][src_c];
 
-    Piece *piece = board[src_r][src_c];
+        if ( ( piece != nullptr ) && piece -> Check( src_r, src_c, dst_r, dst_c ))  {
+            //TODO: mover
 
-    if (piece -> Check( src_r, src_c, dst_r, dst_c ))  {
-        //TODO: mover
+            return true;
+        }
     }
+
+    return false;
 }
 
-void CheckBoard :: print_board( void )  {
+void CheckBoard :: Print( void )  {
 
     for(int cc = 0; cc < (MAX_COLS * 2) + 1; cc++)  {
         std :: cout << "-";

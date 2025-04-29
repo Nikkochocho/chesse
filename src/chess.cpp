@@ -20,16 +20,16 @@ int main( int argc, char **argv ) {
     Knight*       k1 = new Knight(Color :: WHITE);
     Rook*         r1 = new Rook(Color :: WHITE);
 
-    board.put_board('7', 'a', p1);
-    board.put_board('7', 'd', p2);
-    board.put_board('7', 'g', p3);
-    board.put_board('7', 'b', k1);
-    board.put_board('5', 'c', r1);
+    board.Put('7', 'a', p1);
+    board.Put('7', 'd', p2);
+    board.Put('7', 'g', p3);
+    board.Put('7', 'b', k1);
+    board.Put('5', 'c', r1);
 
 
-    board.print_board();
+    board.Print();
 
-    board.move('5', 'c', '5', 'd');
+    board.Move('5', 'c', '5', 'd');
 
     delete p1;
     delete p2;

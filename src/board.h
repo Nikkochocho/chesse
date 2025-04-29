@@ -20,13 +20,13 @@ class CheckBoard  {
     CheckBoard( void );
     ~CheckBoard( void );
 
-    int get_col_index( char ch );
-    int get_row_index( char ch );
+    int GetColIndex( char ch );
+    int GetRowIndex( char ch );
 
-    void clear_board( void );
-    void put_board( char row, char col, Piece* piece );
-    void move( char src_row, char src_col, char dst_row, char dst_col);
-    void print_board( void );
+    void ClearBoard( void );
+    void Put( char row, char col, Piece* piece );
+    void Move( char src_row, char src_col, char dst_row, char dst_col );
+    void Print( void );
 };
 
 #endif // __BOARD_H__
