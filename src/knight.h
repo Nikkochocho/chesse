@@ -7,7 +7,7 @@ class Knight : public Piece {
 
     public :
 
-    Knight ( Color color );
+    Knight ( Color color, BoardVision *boardVision );
     ~Knight ( void );
 
     void Movement ( void );

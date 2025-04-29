@@ -11,48 +11,68 @@ CheckBoard :: ~CheckBoard( void )  {
     
 }
 
-int CheckBoard :: GetColIndex(char ch)  {
+int CheckBoard :: GetColIndex( char ch )  {
 
     return ch - 'a';
 }
 
-int CheckBoard :: GetRowIndex(char ch)  {
+int CheckBoard :: GetRowIndex( char ch )  {
 
     return ch - '0' - 1;
 }
 
-void CheckBoard :: ClearBoard( void )  {
+bool CheckBoard :: isValid( int src_r, int src_c, int dst_r, int dst_c )  {
 
-    for( int row = 0; row < board.size(); row++ )   {
-        for( int col = 0; col < board[row].size(); col++ )  {
-            board[row][col] = nullptr;
+    if( src_r >= 0 && src_r < MAX_ROWS && src_c >= 0 && src_c < MAX_COLS &&
+        dst_r >= 0 && dst_r < MAX_ROWS && dst_c >= 0 && dst_c < MAX_COLS &&
+        dst_r != src_r || dst_c != src_c)  {
+
+            return true;
         }
-    }
+    return false;
 }
 
-void CheckBoard :: Put(char row, char col, Piece* piece)  {
+IPiece* CheckBoard :: GetPiece( int dst_r, int dst_c )  {
+
+    return m_board[dst_r][dst_c];
+}
+
+void CheckBoard :: ClearBoard( void )  {
+
+    for( int row = 0; row < m_board.size(); row++ )   {
+        for( int col = 0; col < m_board[row].size(); col++ )  {
+            m_board[row][col] = nullptr;
+        }
+    }
+    
+    m_onCheck = false;
+}
+
+void CheckBoard :: Put( char row, char col, IPiece* piece )  {
 
     int  c = GetColIndex(col);
     int  r = GetRowIndex(row);
 
-    board[r][c] = piece;
+    m_board[r][c] = piece;
 }
 
-bool CheckBoard :: Move(char src_row, char src_col, char dst_row, char dst_col )  {
+bool CheckBoard :: Move( char src_row, char src_col, char dst_row, char dst_col )  {
 
-    // TODO: Checar limites do board 
     // TODO: Checar se origem é o mesmo que destino
     int  src_c = GetColIndex(src_col);
     int  src_r = GetRowIndex(src_row);
     int  dst_c = GetColIndex(dst_col);
     int  dst_r = GetRowIndex(dst_row);
 
-    if( src_c > 0 && src_c < MAX_COLS ) {
+    if( isValid( src_r, src_c, dst_r, dst_c ) ) {
         
-        Piece *piece = board[src_r][src_c];
+        IPiece *piece = m_board[src_r][src_c];
 
-        if ( ( piece != nullptr ) && piece -> Check( src_r, src_c, dst_r, dst_c ))  {
-            //TODO: mover
+        if ( ( piece != nullptr ) && piece -> Check( src_r, src_c, dst_r, dst_c ) )  {
+            
+            m_board[dst_r][dst_c] = piece;
+            piece -> Movement();
+            m_board[src_r][src_c] = nullptr;
 
             return true;
         }
@@ -74,8 +94,8 @@ void CheckBoard :: Print( void )  {
 
         for(int col = 0; col < MAX_COLS; col++)  {
 
-            if(board[row][col] != nullptr)  {
-                board[row][col] -> Print();
+            if(m_board[row][col] != nullptr)  {
+                m_board[row][col] -> Print();
             }
             else  {
                 std :: cout << " ";    

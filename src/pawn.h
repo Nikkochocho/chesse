@@ -9,7 +9,7 @@ class Pawn : public Piece  {
 
     public:
 
-    Pawn( Color color );
+    Pawn( Color color, BoardVision *boardVision );
     ~Pawn( void );
 
     virtual void Movement ( void );

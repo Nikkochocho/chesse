@@ -1,7 +1,9 @@
 #ifndef __BOARD_H__
 #define __BOARD_H__
 
-#include "piece.h"
+#include "boardvision.h"
+#include "ipiece.h"
+#include "empty.h"
 #include <array>
 
 #define MAX_ROWS 8
@@ -9,11 +11,12 @@
 #define KNIGHT_MOVES 8
 
 
-typedef std :: array<std :: array<Piece*, MAX_COLS>, MAX_ROWS> ArrayBoard;
+typedef std :: array<std :: array<IPiece*, MAX_COLS>, MAX_ROWS> ArrayBoard;
 
-class CheckBoard  {
+class CheckBoard : public BoardVision  {
 
-    ArrayBoard board;
+    ArrayBoard m_board;
+    bool       m_onCheck;
 
     public:
     
@@ -23,9 +26,12 @@ class CheckBoard  {
     int GetColIndex( char ch );
     int GetRowIndex( char ch );
 
+    bool isValid( int src_r, int src_c, int dst_r, int dst_c );
+    IPiece* GetPiece( int dst_r, int dst_c ) override;
+
     void ClearBoard( void );
-    void Put( char row, char col, Piece* piece );
-    void Move( char src_row, char src_col, char dst_row, char dst_col );
+    void Put( char row, char col, IPiece* piece );
+    bool Move( char src_row, char src_col, char dst_row, char dst_col );
     void Print( void );
 };
 

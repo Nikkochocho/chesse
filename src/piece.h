@@ -1,25 +1,26 @@
 #ifndef __PIECE_H__
 #define __PIECE_H__
 
-enum Color {
-    WHITE,
-    BLACK
-};
+#include "boardvision.h"
 
-class Piece  {
+
+class Piece : public IPiece  {
 
     protected:
     
-    Color     m_color;
+    Color       m_color;
+    BoardVision *m_BoardVision;
 
     public:
 
-    Piece( Color color );
+    Piece( Color color, BoardVision *boardVision );
 
     virtual void Movement( void );
     virtual bool Check( int src_row, int src_col, int dst_row, int dst_col );
 
     virtual void Print( void );
+
+    virtual Color GetColor( void );
 };
 
 #endif // __PIECE_H__

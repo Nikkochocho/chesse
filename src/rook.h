@@ -7,7 +7,7 @@ class Rook : public Piece {
 
     public :
 
-    Rook ( Color color );
+    Rook ( Color color, BoardVision *boardVision );
     ~Rook ( void );
 
     void Movement ( void );
