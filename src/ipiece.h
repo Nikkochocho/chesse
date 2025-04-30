@@ -15,4 +15,4 @@ class IPiece  {
     virtual Color GetColor( void ) = 0;
 };
 
-#endif //__IPIECE_H__
+#endif // __IPIECE_H__

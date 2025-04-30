@@ -15,6 +15,7 @@ void Empty :: Movement( void )  {
 }
 
 bool Empty :: Check( int src_row, int src_col, int dst_row, int dst_col )  {
+    
     return false;
 }
 

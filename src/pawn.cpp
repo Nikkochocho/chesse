@@ -1,7 +1,9 @@
 #include <iostream>
 #include "pawn.h"
 
+
 Pawn :: Pawn( Color color, BoardVision *boardVision ) : Piece(color, boardVision)  {
+    
     m_bFirstMove = false;
 }
 

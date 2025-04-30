@@ -4,6 +4,7 @@
 #include "pawn.h"
 #include "rook.h"
 #include "bishop.h"
+#include "queen.h"
 
 
 int main( int argc, char **argv ) {
@@ -15,6 +16,7 @@ int main( int argc, char **argv ) {
     Knight*       k1 = new Knight(Color :: WHITE, &board);
     Rook*         r1 = new Rook(Color :: BLACK, &board);
     Bishop*       b1 = new Bishop(Color :: BLACK, &board);
+    Queen*        q1 = new Queen(Color :: BLACK, &board);
 
     board.Put('7', 'a', p1);
     board.Put('7', 'd', p2);
@@ -22,6 +24,7 @@ int main( int argc, char **argv ) {
     board.Put('7', 'b', k1);
     board.Put('5', 'b', r1);
     board.Put('2', 'b', b1);
+    board.Put('3', 'g', q1);
 
 
     board.Print();
@@ -32,6 +35,7 @@ int main( int argc, char **argv ) {
     board.Move('7', 'b', '5', 'c');
     board.Move('7', 'a', '5', 'a');
     board.Move('2', 'b', '3', 'c');
+    board.Move('3', 'g', '7', 'g');
 
     board.Print();
     std :: cout << std :: endl;
@@ -40,6 +44,8 @@ int main( int argc, char **argv ) {
     board.Move('5', 'a', '4', 'a');
     board.Move('5', 'c', '6', 'e');
     board.Move('3', 'c', '4', 'b');
+    board.Move('7', 'g', '6', 'f');
+
     board.Print();
 
     delete p1;

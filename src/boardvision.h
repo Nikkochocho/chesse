@@ -3,6 +3,7 @@
 
 #include "ipiece.h"
 
+
 class BoardVision  {
 
     public :
@@ -10,5 +11,4 @@ class BoardVision  {
     virtual IPiece* GetPiece( int dst_r, int dst_c ) = 0;  
 };
 
-
-#endif //__BOARDVISION_H__
+#endif // __BOARDVISION_H__

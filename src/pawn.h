@@ -3,6 +3,7 @@
 
 #include "piece.h"
 
+
 class Pawn : public Piece  {
 
     bool     m_bFirstMove;
