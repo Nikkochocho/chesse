@@ -13,12 +13,10 @@ class Piece : public IPiece  {
 
     public:
 
-    Piece( Color color, BoardVision *boardVision );
-
     virtual void Movement( void );
     virtual bool Check( int src_row, int src_col, int dst_row, int dst_col );
 
-    virtual void Print( void );
+    virtual char Print( void );
 
     virtual Color GetColor( void );
 };

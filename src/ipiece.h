@@ -11,7 +11,7 @@ class IPiece  {
     virtual void Movement( void ) = 0;
     virtual bool Check( int src_row, int src_col, int dst_row, int dst_col ) = 0;
 
-    virtual void Print( void ) = 0;
+    virtual char Print( void ) = 0;
     virtual Color GetColor( void ) = 0;
 };
 

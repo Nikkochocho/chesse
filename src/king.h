@@ -1,19 +1,19 @@
-#ifndef __QUEEN_H__
-#define __QUEEN_H__
+#ifndef __KING_H__
+#define __KING_H__
 
 #include "piece.h"
 
 
-class Queen : public Piece {
+class King : public Piece {
 
     public :
 
-    Queen ( Color color, BoardVision *boardVision );
-    ~Queen ( void );
+    King ( Color color, BoardVision *boardVision );
+    ~King ( void );
 
     void Movement ( void );
     bool Check( int src_row, int src_col, int dst_row, int dst_col );
     char Print( void );
 };
 
-#endif // __QUEEN_H__
+#endif // __KING_H__

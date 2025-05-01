@@ -1,59 +1,34 @@
 #include <iostream>
 #include "board.h"
-#include "knight.h"
-#include "pawn.h"
-#include "rook.h"
-#include "bishop.h"
-#include "queen.h"
 
 
 int main( int argc, char **argv ) {
-    
+
     CheckBoard    board;
-    Pawn*         p1 = new Pawn(Color :: WHITE, &board);
-    Pawn*         p2 = new Pawn(Color :: WHITE, &board);
-    Pawn*         p3 = new Pawn(Color :: WHITE, &board);
-    Knight*       k1 = new Knight(Color :: WHITE, &board);
-    Rook*         r1 = new Rook(Color :: BLACK, &board);
-    Bishop*       b1 = new Bishop(Color :: BLACK, &board);
-    Queen*        q1 = new Queen(Color :: BLACK, &board);
 
-    board.Put('7', 'a', p1);
-    board.Put('7', 'd', p2);
-    board.Put('7', 'g', p3);
-    board.Put('7', 'b', k1);
-    board.Put('5', 'b', r1);
-    board.Put('2', 'b', b1);
-    board.Put('3', 'g', q1);
+    board.NewBoard();
 
-
+    do  {
+    
     board.Print();
     std :: cout << std :: endl;
+    
+    char src_input[2];
+    char dst_input[2];
 
-    board.Move('7', 'd', '6', 'd');
-    board.Move('5', 'b', '5', 'e');
-    board.Move('7', 'b', '5', 'c');
-    board.Move('7', 'a', '5', 'a');
-    board.Move('2', 'b', '3', 'c');
-    board.Move('3', 'g', '7', 'g');
+    std :: cin >> src_input;
+    std :: cin >> dst_input;
 
-    board.Print();
-    std :: cout << std :: endl;
+    char src_r = src_input[0];
+    char src_c = src_input[1];
+    char dst_r = dst_input[0];
+    char dst_c = dst_input[1];
 
-    board.Move('6', 'd', '5', 'e');
-    board.Move('5', 'a', '4', 'a');
-    board.Move('5', 'c', '6', 'e');
-    board.Move('3', 'c', '4', 'b');
-    board.Move('7', 'g', '6', 'f');
+    board.Move( src_r , src_c, dst_r, dst_c );
+    continue;
+    
+    } while ( !board.IsCheckmate() );
 
-    board.Print();
-
-    delete p1;
-    delete p2;
-    delete p3;
-    delete k1;
-    delete r1;
-    delete b1;
 
     return 0;
 }

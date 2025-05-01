@@ -7,4 +7,9 @@ enum Color {
     BLACK
 };
 
+enum Player  {
+    PLAYER_1,
+    PLAYER_2
+};
+
 #endif // __DEFS_H__

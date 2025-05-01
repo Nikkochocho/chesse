@@ -6,7 +6,7 @@
 
 class Pawn : public Piece  {
 
-    bool     m_bFirstMove;
+    int     m_bMovement;
 
     public:
 
@@ -15,7 +15,7 @@ class Pawn : public Piece  {
 
     virtual void Movement ( void );
     virtual bool Check( int src_row, int src_col, int dst_row, int dst_col );
-    virtual void Print( void );
+    virtual char Print( void );
 };
 
 #endif // __PAWN_H__

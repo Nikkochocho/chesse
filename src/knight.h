@@ -13,7 +13,7 @@ class Knight : public Piece {
 
     void Movement ( void );
     bool Check( int src_row, int src_col, int dst_row, int dst_col );
-    void Print( void );
+    char Print( void );
 };
 
 #endif // __KNIGHT_H__
