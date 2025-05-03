@@ -1,14 +1,14 @@
-#ifndef __BOARDVISION_H__
-#define __BOARDVISION_H__
+#ifndef __IBOARD_H__
+#define __IBOARD_H__
 
 #include "ipiece.h"
 
 
-class BoardVision  {
+class IBoard  {
 
     public :
 
     virtual IPiece* GetPiece( int dst_r, int dst_c ) = 0;  
 };
 
-#endif // __BOARDVISION_H__
+#endif // __IBOARD_H__

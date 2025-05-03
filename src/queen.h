@@ -8,12 +8,11 @@ class Queen : public Piece {
 
     public :
 
-    Queen ( Color color, BoardVision *boardVision );
+    Queen ( Color color, IBoard *boardVision );
     ~Queen ( void );
 
-    void Movement ( void );
     bool Check( int src_row, int src_col, int dst_row, int dst_col );
-    char Print( void );
+    void Print( void );
 };
 
 #endif // __QUEEN_H__

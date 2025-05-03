@@ -8,12 +8,11 @@ class Knight : public Piece {
 
     public :
 
-    Knight ( Color color, BoardVision *boardVision );
+    Knight ( Color color, IBoard *boardVision );
     ~Knight ( void );
 
-    void Movement ( void );
     bool Check( int src_row, int src_col, int dst_row, int dst_col );
-    char Print( void );
+    void Print( void );
 };
 
 #endif // __KNIGHT_H__

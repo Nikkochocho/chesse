@@ -1,19 +1,14 @@
 #ifndef __BOARD_H__
 #define __BOARD_H__
 
-#include "boardvision.h"
+#include "iboard.h"
 #include "ipiece.h"
-#include "empty.h"
 #include <array>
-
-#define MAX_ROWS 8
-#define MAX_COLS 8
-#define KNIGHT_MOVES 8
 
 
 typedef std :: array<std :: array<IPiece*, MAX_COLS>, MAX_ROWS> ArrayBoard;
 
-class CheckBoard : public BoardVision  {
+class CheckBoard : public IBoard  {
 
     ArrayBoard m_board;
     bool       m_onCheck[2];
@@ -27,7 +22,6 @@ class CheckBoard : public BoardVision  {
 
     bool IsValid( int src_r, int src_c, int dst_r, int dst_c );
     IPiece* GetPiece( int dst_r, int dst_c ) override;
-
 
     public:
     

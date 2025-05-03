@@ -49,7 +49,8 @@ int CheckBoard :: GetRowIndex( char ch )  {
 
 bool CheckBoard :: IsValid( int src_r, int src_c, int dst_r, int dst_c )  {
 
-    if( src_r >= 0 && src_r < MAX_ROWS && src_c >= 0 && src_c < MAX_COLS &&
+    if( //src_r != NULL && src_c != NULL && dst_r != NULL && dst_c != NULL &&
+        src_r >= 0 && src_r < MAX_ROWS && src_c >= 0 && src_c < MAX_COLS &&
         dst_r >= 0 && dst_r < MAX_ROWS && dst_c >= 0 && dst_c < MAX_COLS &&
         dst_r != src_r || dst_c != src_c )  {
 
@@ -130,16 +131,17 @@ bool CheckBoard :: IsCheckmate( void )  {
 }
 
 void CheckBoard :: Print( void )  {
-    
-    int count = 0;
+   
+    int count_row = 1;
+    int count_col = 0;
 
     for(int i = 0; i < ( MAX_COLS * 2 ) + 1; i++)  {
 
         if ( i % 2 != 0 )  {
 
-            char output = 'a' + count;
+            char output = 'a' + count_col;
             std :: cout << output;
-            count++;
+            count_col++;
             continue;
         }
 
@@ -162,7 +164,7 @@ void CheckBoard :: Print( void )  {
 
             if( m_board[row][col] != nullptr )  {
 
-                std :: cout << m_board[row][col] -> Print();
+                m_board[row][col] -> Print();
             }
             else  {
 
@@ -171,7 +173,10 @@ void CheckBoard :: Print( void )  {
 
             std :: cout << "|";
 
-            if( col == ( MAX_COLS - 1 ) ) std :: cout << std ::endl;
+            if( col == ( MAX_COLS - 1 ) )  {
+                std :: cout << count_row << std ::endl;
+                count_row++;
+            }
         }
 
         for(int cc = 0; cc < (MAX_COLS * 2) + 1; cc++)  {

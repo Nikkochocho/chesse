@@ -8,12 +8,11 @@ class Bishop : public Piece {
 
     public :
 
-    Bishop ( Color color, BoardVision *boardVision );
+    Bishop ( Color color, IBoard *boardVision );
     ~Bishop ( void );
 
-    void Movement ( void );
     bool Check( int src_row, int src_col, int dst_row, int dst_col );
-    char Print( void );
+    void Print( void );
 };
 
 #endif // __BISHOP_H__

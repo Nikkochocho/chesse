@@ -1,24 +1,31 @@
 #ifndef __PIECE_H__
 #define __PIECE_H__
 
-#include "boardvision.h"
+#include "iboard.h"
 
 
 class Piece : public IPiece  {
 
     protected:
     
+    int         m_MovementCount = 0;
+    Pieces      m_type;
     Color       m_color;
-    BoardVision *m_BoardVision;
+    IBoard      *m_BoardVision;
 
     public:
 
-    virtual void Movement( void );
+    void Movement( void );
+    int GetMovementCount( void );
+    bool CanMove( IPiece* target );
+    bool IsFree( int src_row, int src_col, int dst_row, int dst_col );
     virtual bool Check( int src_row, int src_col, int dst_row, int dst_col );
 
-    virtual char Print( void );
+    virtual void Print( void );
 
     virtual Color GetColor( void );
+
+    Pieces GetType( void );
 };
 
 #endif // __PIECE_H__

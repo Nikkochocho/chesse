@@ -9,10 +9,15 @@ class IPiece  {
     public:
 
     virtual void Movement( void ) = 0;
+    virtual int GetMovementCount( void ) = 0;
+    virtual bool CanMove( IPiece* target ) = 0;
+    virtual bool IsFree( int src_row, int src_col, int dst_row, int dst_col ) = 0;
     virtual bool Check( int src_row, int src_col, int dst_row, int dst_col ) = 0;
 
-    virtual char Print( void ) = 0;
+    virtual void Print( void ) = 0;
     virtual Color GetColor( void ) = 0;
+
+    virtual Pieces GetType( void ) = 0;
 };
 
 #endif // __IPIECE_H__

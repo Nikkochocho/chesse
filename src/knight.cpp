@@ -2,8 +2,9 @@
 #include "knight.h"
 
 
-Knight :: Knight( Color color, BoardVision *boardVision )  {
+Knight :: Knight( Color color, IBoard *boardVision )  {
 
+    this -> m_type = KNIGHT;
     this -> m_color = color;
     this -> m_BoardVision = boardVision;
 }
@@ -12,22 +13,18 @@ Knight :: ~Knight( void )  {
 
 }
 
-void Knight :: Movement( void )  {
-
-}
-
 bool Knight :: Check( int src_row, int src_col, int dst_row, int dst_col )  {
     
     int         jump_r = abs(dst_row - src_row);
     int         jump_c = abs(dst_col - src_col);
     IPiece*     target = m_BoardVision -> GetPiece( dst_row, dst_col );
-    bool        ret = ( ( ( target == nullptr ) || ( target -> GetColor() != m_color ) ) && 
+    bool        ret = ( CanMove( target ) && 
                         (jump_r == 1 && jump_c == 2) || (jump_r == 2 && jump_c == 1) );
 
     return ret;
 }
 
-char Knight :: Print( void )  {
+void Knight :: Print( void )  {
 
-    return 'N';
+    std :: cout << 'N';
 }

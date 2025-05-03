@@ -8,12 +8,11 @@ class Rook : public Piece {
 
     public :
 
-    Rook ( Color color, BoardVision *boardVision );
+    Rook ( Color color, IBoard *boardVision );
     ~Rook ( void );
 
-    void Movement ( void );
     bool Check( int src_row, int src_col, int dst_row, int dst_col );
-    char Print( void );
+    void Print( void );
 };
 
 #endif // __ROOK_H__
