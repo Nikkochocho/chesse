@@ -19,8 +19,8 @@ class Board : public IBoard  {
     Board( void );
     virtual ~Board( void );
 
-    void SetPiece( int row, int col, IPiece* piece );
     IPiece* GetPiece( int dst_r, int dst_c );
+    void SetPiece( int row, int col, IPiece* piece );
     void Init( void );
 };
 

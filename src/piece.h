@@ -11,7 +11,8 @@ class Piece : public IPiece  {
     int         m_MovementCount = 0;
     Pieces      m_type;
     Color       m_color;
-    IBoard *m_BoardVision;
+    Status       m_state = NORMAL;
+    IBoard      *m_BoardVision;
 
     public:
 
@@ -24,8 +25,9 @@ class Piece : public IPiece  {
     virtual void Print( void );
 
     virtual Color GetColor( void );
-
     Pieces GetType( void );
+    Status GetStatus( void );
+    void SetStatus( Status state );
 };
 
 #endif // __PIECE_H__

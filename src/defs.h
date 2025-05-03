@@ -25,4 +25,12 @@ enum Pieces  {
     UNSET
 };
 
+enum Status  {
+    NORMAL,
+    LONGCASTLE,
+    SHORTCASTLE,
+    ENPASSANT,
+    PROMOTION
+};
+
 #endif // __DEFS_H__

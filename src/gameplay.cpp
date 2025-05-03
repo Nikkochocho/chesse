@@ -48,18 +48,56 @@ bool GamePlay :: Move( char src_row, char src_col, char dst_row, char dst_col ) 
     if( IsValid( src_r, src_c, dst_r, dst_c ) ) {
         
         IPiece *piece = m_board -> GetPiece( src_r, src_c );
+        IPiece *castle = nullptr;
+        int    direction;
 
         if ( ( piece != nullptr ) && piece -> Check( src_r, src_c, dst_r, dst_c ) )  {
             
             m_board -> SetPiece( dst_r, dst_c, piece );
             piece -> Movement();
             m_board -> SetPiece( src_r, src_c, nullptr );
+            
+            if( piece -> GetStatus() != NORMAL )  {
+
+                switch( piece -> GetStatus() )  {
+
+                    case LONGCASTLE:
+                        castle = m_board -> GetPiece( dst_r, dst_c - 1 );
+                        m_board -> SetPiece( dst_r, dst_c + 1, castle );
+                        castle -> Movement();
+                        m_board -> SetPiece( dst_r, dst_c - 1, nullptr );
+                        break;
+
+                    case SHORTCASTLE:
+                        castle = m_board -> GetPiece( dst_r, dst_c + 1 );
+                        m_board -> SetPiece( dst_r, dst_c - 1, castle );
+                        castle -> Movement();
+                        m_board -> SetPiece( dst_r, dst_c + 1, nullptr );
+                        break;
+
+                    case ENPASSANT: 
+                        direction = piece -> GetColor() == WHITE ? -1 : 1;
+                        m_board -> SetPiece( (dst_r + direction ), dst_c, nullptr );
+                        break;
+
+                    case PROMOTION:
+                    // TODO: Promotion implementation
+                        break;
+                }
+
+                piece -> SetStatus( NORMAL );
+            }
 
             return true;
         }
     }
 
     return false;
+}
+
+bool GamePlay :: HasPromotion( void )  {
+
+    return m_Promotion;
 }
 
 bool GamePlay :: IsCheckmate( void )  {

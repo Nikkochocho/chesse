@@ -25,14 +25,14 @@ Board :: ~Board( void )  {
 
 }
 
-void Board :: SetPiece( int row, int col, IPiece* piece )  {
-
-    m_board[row][col] = piece;
-}
-
 IPiece* Board :: GetPiece( int dst_r, int dst_c )  {
 
     return m_board[dst_r][dst_c];
+}
+
+void Board :: SetPiece( int row, int col, IPiece* piece )  {
+
+    m_board[row][col] = piece;
 }
 
 void Board :: Init( void )  {

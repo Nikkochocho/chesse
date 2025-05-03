@@ -66,3 +66,13 @@ Pieces Piece :: GetType( void )  {
 
     return m_type;
 }
+
+Status Piece :: GetStatus( void )  {
+
+    return m_state;
+}
+
+void Piece :: SetStatus( Status state )  {
+
+    m_state = state;
+}

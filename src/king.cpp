@@ -26,9 +26,11 @@ bool King :: Check( int src_row, int src_col, int dst_row, int dst_col )  {
 
         int     iterator = abs( dst_col - src_col ) == 2 ? 1 : -1;
         IPiece* castle_room = m_BoardVision -> GetPiece( src_row, ( dst_col + iterator ) );
+        Status   castle_type = iterator == 1 ? SHORTCASTLE : LONGCASTLE;
 
         if ( IsFree( src_row, src_col, dst_row, dst_col) && ( castle_room -> GetType() == ROOK ) )  {
 
+            this -> SetStatus( castle_type );
             return ( ( m_color == castle_room -> GetColor() ) && ( castle_room -> GetMovementCount() == 0) );
         }
     }

@@ -7,6 +7,7 @@
 
 class GamePlay {
 
+    bool       m_Promotion = false;
     bool       m_onCheck[2];
     bool       m_checkmate;
     IBoard*    m_board;
@@ -23,6 +24,7 @@ class GamePlay {
 
     void NewGame( void );
     bool Move( char src_row, char src_col, char dst_row, char dst_col );
+    bool HasPromotion( void );
     bool IsCheckmate( void );
     void Print( void );
 };
