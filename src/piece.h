@@ -11,7 +11,7 @@ class Piece : public IPiece  {
     int         m_MovementCount = 0;
     Pieces      m_type;
     Color       m_color;
-    IBoard      *m_BoardVision;
+    IBoard *m_BoardVision;
 
     public:
 

@@ -2,36 +2,26 @@
 #define __BOARD_H__
 
 #include "iboard.h"
-#include "ipiece.h"
 #include <array>
-
 
 typedef std :: array<std :: array<IPiece*, MAX_COLS>, MAX_ROWS> ArrayBoard;
 
-class CheckBoard : public IBoard  {
 
-    ArrayBoard m_board;
-    bool       m_onCheck[2];
-    bool       m_checkmate;
+class Board : public IBoard  {
 
-    void Put( char row, char col, IPiece* piece );
-    void ClearBoard( void );
+    ArrayBoard        m_board;
 
-    int GetColIndex( char ch );
-    int GetRowIndex( char ch );
-
-    bool IsValid( int src_r, int src_c, int dst_r, int dst_c );
-    IPiece* GetPiece( int dst_r, int dst_c ) override;
+    
+    void Clear( void );
 
     public:
-    
-    CheckBoard( void );
-    ~CheckBoard( void );
 
-    void NewBoard( void );
-    bool Move( char src_row, char src_col, char dst_row, char dst_col );
-    bool IsCheckmate( void );
-    void Print( void );
+    Board( void );
+    virtual ~Board( void );
+
+    void SetPiece( int row, int col, IPiece* piece );
+    IPiece* GetPiece( int dst_r, int dst_c );
+    void Init( void );
 };
 
-#endif // __BOARD_H__
+#endif  // __BOARD_H__

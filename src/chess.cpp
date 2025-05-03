@@ -1,18 +1,20 @@
 #include <iostream>
+#include "gameplay.h"
 #include "board.h"
 
 
 int main( int argc, char **argv ) {
 
-    CheckBoard    board;
-    int           turn = 0;
+    Board       board;
+    GamePlay    game( &board );
+    int         turn = 0;
 
-    board.NewBoard();
+    game.NewGame();
 
     do  {
     
         const char* color = ( turn % 2 == 0 ) ? "white" : "black";
-        board.Print();
+        game.Print();
         std :: cout << std :: endl;
         std :: cout << color << " turn:" << std :: endl;
         
@@ -27,10 +29,10 @@ int main( int argc, char **argv ) {
         char dst_c = dst_input[0];
         char dst_r = dst_input[1];
 
-        if ( board.Move( src_r , src_c, dst_r, dst_c ) )
+        if ( game.Move( src_r , src_c, dst_r, dst_c ) )
             turn++;
         
-    } while ( !board.IsCheckmate() );
+    } while ( !game.IsCheckmate() );
 
 
     return 0;
