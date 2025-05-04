@@ -33,4 +33,9 @@ enum Status  {
     PROMOTION
 };
 
+enum Tile  {
+    SAFE,
+    UNSAFE
+};
+
 #endif // __DEFS_H__

@@ -8,6 +8,7 @@ int main( int argc, char **argv ) {
     Board       board;
     GamePlay    game( &board );
     int         turn = 0;
+    char        promotion;
 
     game.NewGame();
 
@@ -29,8 +30,18 @@ int main( int argc, char **argv ) {
         char dst_c = dst_input[0];
         char dst_r = dst_input[1];
 
-        if ( game.Move( src_r , src_c, dst_r, dst_c ) )
+        if ( game.Move( src_r , src_c, dst_r, dst_c ) )  {
+            
             turn++;
+
+            if ( game.HasPromotion() )  {
+
+                std :: cin >> promotion;
+
+                while ( !game.Promote( dst_r, dst_c, promotion ) )
+                    std :: cin >> promotion;
+            }
+        }
         
     } while ( !game.IsCheckmate() );
 

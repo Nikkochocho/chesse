@@ -25,6 +25,32 @@ Board :: ~Board( void )  {
 
 }
 
+IPiece* Board :: GetPromotion( Pieces piece, Color color )  {
+
+    IPiece* promoted_piece;
+
+    switch ( piece )  {
+
+        case QUEEN:
+            promoted_piece = new Queen( color, this );
+            break;
+
+        case BISHOP:
+            promoted_piece = new Bishop( color, this );
+            break;
+
+        case KNIGHT:
+            promoted_piece = new Knight( color, this );
+            break;
+
+        case ROOK:
+            promoted_piece = new Rook( color, this );
+            break;
+    }
+
+    return promoted_piece;
+}
+
 IPiece* Board :: GetPiece( int dst_r, int dst_c )  {
 
     return m_board[dst_r][dst_c];

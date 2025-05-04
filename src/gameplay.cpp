@@ -47,9 +47,9 @@ bool GamePlay :: Move( char src_row, char src_col, char dst_row, char dst_col ) 
 
     if( IsValid( src_r, src_c, dst_r, dst_c ) ) {
         
-        IPiece *piece = m_board -> GetPiece( src_r, src_c );
-        IPiece *castle = nullptr;
-        int    direction;
+        IPiece    *piece = m_board -> GetPiece( src_r, src_c );
+        IPiece    *castle = nullptr;
+        int       direction;
 
         if ( ( piece != nullptr ) && piece -> Check( src_r, src_c, dst_r, dst_c ) )  {
             
@@ -81,7 +81,7 @@ bool GamePlay :: Move( char src_row, char src_col, char dst_row, char dst_col ) 
                         break;
 
                     case PROMOTION:
-                    // TODO: Promotion implementation
+                        m_promotion = true;
                         break;
                 }
 
@@ -97,7 +97,31 @@ bool GamePlay :: Move( char src_row, char src_col, char dst_row, char dst_col ) 
 
 bool GamePlay :: HasPromotion( void )  {
 
-    return m_Promotion;
+    return m_promotion;
+}
+
+bool GamePlay :: Promote( char dst_row, char dst_col, char promotion )  {
+
+    int        dst_c = GetColIndex( dst_col );
+    int        dst_r = GetRowIndex( dst_row );
+    IPiece*    piece = m_board -> GetPiece( dst_r, dst_c );
+    Color      color = piece -> GetColor();
+    Pieces     piece_type;
+
+    switch ( promotion )  {
+
+        case 'Q': piece_type = QUEEN; break; 
+        case 'B': piece_type = BISHOP; break;
+        case 'N': piece_type = KNIGHT; break;
+        case 'R': piece_type = ROOK; break;
+        default: return false;
+    }
+
+    IPiece* promoted_piece = m_board -> GetPromotion( piece_type, color );
+    m_board -> SetPiece( dst_r, dst_c, promoted_piece ) ;
+    m_promotion = false;
+
+    return true;
 }
 
 bool GamePlay :: IsCheckmate( void )  {
@@ -107,7 +131,7 @@ bool GamePlay :: IsCheckmate( void )  {
 
 void GamePlay :: Print( void )  {
    
-    int count_row = 1;
+    int count_row = MAX_ROWS;
     int count_col = 0;
 
     for(int i = 0; i < ( MAX_COLS * 2 ) + 1; i++)  {
@@ -152,7 +176,7 @@ void GamePlay :: Print( void )  {
 
             if( col == ( MAX_COLS - 1 ) )  {
                 std :: cout << count_row << std ::endl;
-                count_row++;
+                count_row--;
             }
         }
 
