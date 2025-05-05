@@ -110,14 +110,28 @@ bool GamePlay :: Promote( char dst_row, char dst_col, char promotion )  {
 
     switch ( promotion )  {
 
-        case 'Q': piece_type = QUEEN; break; 
-        case 'B': piece_type = BISHOP; break;
-        case 'N': piece_type = KNIGHT; break;
-        case 'R': piece_type = ROOK; break;
-        default: return false;
+        case 'Q': 
+            piece_type = QUEEN; 
+            break; 
+
+        case 'B': 
+            piece_type = BISHOP; 
+            break;
+
+        case 'N': 
+            piece_type = KNIGHT; 
+            break;
+
+        case 'R':
+            piece_type = ROOK; 
+            break;
+
+        default:
+            return false;
     }
 
     IPiece* promoted_piece = m_board -> GetPromotion( piece_type, color );
+    
     m_board -> SetPiece( dst_r, dst_c, promoted_piece ) ;
     m_promotion = false;
 
@@ -134,7 +148,7 @@ void GamePlay :: Print( void )  {
     int count_row = MAX_ROWS;
     int count_col = 0;
 
-    for(int i = 0; i < ( MAX_COLS * 2 ) + 1; i++)  {
+    for( int i = 0; i < ( MAX_COLS * 2 ) + 1; i++ )  {
 
         if ( i % 2 != 0 )  {
 
@@ -149,17 +163,17 @@ void GamePlay :: Print( void )  {
 
     std :: cout << std ::endl;
 
-    for(int cc = 0; cc < ( MAX_COLS * 2 ) + 1; cc++)  {
+    for( int cc = 0; cc < ( MAX_COLS * 2 ) + 1; cc++ )  {
 
         std :: cout << "-";
     }
     std :: cout << std ::endl;
     
-    for(int row = ( MAX_ROWS - 1 ); row >= 0; row--)  {
+    for( int row = ( MAX_ROWS - 1 ); row >= 0; row-- )  {
 
         std :: cout << "|";
 
-        for(int col = 0; col < MAX_COLS; col++)  {
+        for( int col = 0; col < MAX_COLS; col++ )  {
 
             IPiece *piece = m_board -> GetPiece( row, col );
 
@@ -180,7 +194,7 @@ void GamePlay :: Print( void )  {
             }
         }
 
-        for(int cc = 0; cc < (MAX_COLS * 2) + 1; cc++)  {
+        for( int cc = 0; cc < ( MAX_COLS * 2 ) + 1; cc++ )  {
 
             std :: cout << "-";
         }

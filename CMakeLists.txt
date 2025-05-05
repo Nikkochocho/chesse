@@ -15,10 +15,20 @@ endif()
 
 include_directories("./src/")
 
-file(GLOB_RECURSE TEST_APP_SOURCES ./src/*.cpp)
-file(GLOB TEST_APP_HEADERS ./src/*.h)
+file(GLOB_RECURSE CHESSE_APP_SOURCES ./src/*.cpp)
+file(GLOB CHESSE_APP_HEADERS ./src/*.h)
 
 file(GLOB_RECURSE REMOVE_CMAKE_FILES CMakeFiles/*)
 file(GLOB_RECURSE REMOVE_BUILD_FILES build/*)
 
-add_executable(chess ${TEST_APP_SOURCES} ${TEST_APP_HEADERS})
+add_executable(chess ${CHESSE_APP_SOURCES} ${CHESSE_APP_HEADERS})
+
+#==================================================
+# Unit Tests
+#==================================================
+
+add_subdirectory(test)
+
+enable_testing ()
+add_test (NAME chesse_tests_step COMMAND chesse_tests)
+

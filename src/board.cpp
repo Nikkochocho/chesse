@@ -10,7 +10,9 @@
 void Board :: Clear( void )  {
 
     for( int row = 0; row < m_board.size(); row++ )   {
+
         for( int col = 0; col < m_board[row].size(); col++ )  {
+            
             m_board[row][col] = nullptr;
         }
     }   
@@ -77,20 +79,48 @@ void Board :: Init( void )  {
 
         switch ( pieceOrder[col] ) {
 
-            case 'R': SetPiece( 0, col, new Rook( Color :: WHITE, this ) ); break;
-            case 'N': SetPiece( 0, col, new Knight( Color :: WHITE, this ) ); break;
-            case 'B': SetPiece( 0, col, new Bishop( Color :: WHITE, this ) ); break;
-            case 'Q': SetPiece( 0, col, new Queen( Color :: WHITE, this ) ); break;
-            case 'K': SetPiece( 0, col, new King( Color :: WHITE, this ) ); break;
+            case 'R': 
+                SetPiece( 0, col, new Rook( Color :: WHITE, this ) ); 
+                break;
+
+            case 'N': 
+                SetPiece( 0, col, new Knight( Color :: WHITE, this ) ); 
+                break;
+
+            case 'B': 
+                SetPiece( 0, col, new Bishop( Color :: WHITE, this ) ); 
+                break;
+
+            case 'Q': 
+                SetPiece( 0, col, new Queen( Color :: WHITE, this ) ); 
+                break;
+
+            case 'K': 
+                SetPiece( 0, col, new King( Color :: WHITE, this ) ); 
+                break;
         }
 
         switch ( pieceOrder[col] ) {
 
-            case 'R': SetPiece( 7, col, new Rook( Color :: BLACK, this ) ); break;
-            case 'N': SetPiece( 7, col, new Knight( Color :: BLACK, this ) ); break;
-            case 'B': SetPiece( 7, col, new Bishop( Color :: BLACK, this ) ); break;
-            case 'Q': SetPiece( 7, col, new Queen( Color :: BLACK, this ) ); break;
-            case 'K': SetPiece( 7, col, new King( Color :: BLACK, this ) ); break;
+            case 'R': 
+                SetPiece( 7, col, new Rook( Color :: BLACK, this ) ); 
+                break;
+
+            case 'N': 
+                SetPiece( 7, col, new Knight( Color :: BLACK, this ) ); 
+                break;
+                
+            case 'B': 
+                SetPiece( 7, col, new Bishop( Color :: BLACK, this ) ); 
+                break;
+
+            case 'Q': 
+                SetPiece( 7, col, new Queen( Color :: BLACK, this ) ); 
+                break;
+
+            case 'K': 
+                SetPiece( 7, col, new King( Color :: BLACK, this ) ); 
+                break;
         }
     }
 }

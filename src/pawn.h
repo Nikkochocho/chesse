@@ -12,8 +12,8 @@ class Pawn : public Piece  {
     Pawn( Color color, IBoard *boardVision );
     ~Pawn( void );
     
-    virtual bool Check( int src_row, int src_col, int dst_row, int dst_col );
-    virtual void Print( void );
+    bool Check( int src_row, int src_col, int dst_row, int dst_col );
+    void Print( void );
 };
 
 #endif // __PAWN_H__
