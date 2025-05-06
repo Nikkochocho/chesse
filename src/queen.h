@@ -11,7 +11,7 @@ class Queen : public Piece {
     Queen ( Color color, IBoard *boardVision );
     ~Queen ( void );
 
-    bool Check( int src_row, int src_col, int dst_row, int dst_col );
+    bool Check( int src_col, int src_row, int dst_col, int dst_row );
     void Print( void );
 };
 

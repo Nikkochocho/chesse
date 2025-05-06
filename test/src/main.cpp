@@ -1,4 +1,6 @@
 #include "pawn_tests.h"
+#include "rook_tests.h"
+#include "knight_tests.h"
 
 
 /**

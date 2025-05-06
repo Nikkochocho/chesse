@@ -12,7 +12,7 @@ class Pawn : public Piece  {
     Pawn( Color color, IBoard *boardVision );
     ~Pawn( void );
     
-    bool Check( int src_row, int src_col, int dst_row, int dst_col );
+    bool Check( int src_col, int src_row, int dst_col, int dst_row );
     void Print( void );
 };
 

@@ -19,12 +19,12 @@ class Piece : public IPiece  {
     void Movement( void );
     int GetMovementCount( void );
     bool CanMove( IPiece* target );
-    bool IsFree( int src_row, int src_col, int dst_row, int dst_col );
-    virtual bool Check( int src_row, int src_col, int dst_row, int dst_col );
+    bool IsFree( int src_col, int src_row, int dst_col, int dst_row );
+    virtual bool Check( int src_col, int src_row, int dst_col, int dst_row );
 
     virtual void Print( void );
 
-    virtual Color GetColor( void );
+    Color GetColor( void );
     Pieces GetType( void );
     Status GetStatus( void );
     void SetStatus( Status state );

@@ -13,11 +13,11 @@ Rook :: ~Rook( void )  {
 
 }
 
-bool Rook :: Check( int src_row, int src_col, int dst_row, int dst_col )  {
+bool Rook :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
 
     if ( dst_row == src_row || dst_col == src_col )  {
 
-        return IsFree( src_row, src_col, dst_row, dst_col );
+        return IsFree( src_col, src_row, dst_col, dst_row );
     } 
 
     return false;

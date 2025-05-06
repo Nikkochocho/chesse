@@ -11,7 +11,7 @@ class Bishop : public Piece {
     Bishop ( Color color, IBoard *boardVision );
     ~Bishop ( void );
 
-    bool Check( int src_row, int src_col, int dst_row, int dst_col );
+    bool Check( int src_col, int src_row, int dst_col, int dst_row );
     void Print( void );
 };
 

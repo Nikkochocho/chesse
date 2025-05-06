@@ -16,7 +16,7 @@ bool Piece :: CanMove( IPiece* target )  {
     return ( ( target == nullptr ) || ( target -> GetColor() != m_color ) );
 }  
 
-bool Piece :: IsFree( int src_row, int src_col, int dst_row, int dst_col )  {
+bool Piece :: IsFree( int src_col, int src_row, int dst_col, int dst_row )  {
 
     int col_iterations = 0;
     int row_iterations = 0;
@@ -35,7 +35,7 @@ bool Piece :: IsFree( int src_row, int src_col, int dst_row, int dst_col )  {
 
         row_iterations += iterator_row;
         col_iterations += iterator_col;
-        IPiece* target = m_BoardVision -> GetPiece( ( src_row + row_iterations ), ( src_col + col_iterations ) );
+        IPiece* target = m_BoardVision -> GetPiece( ( src_col + col_iterations ), ( src_row + row_iterations ) );
 
         //last iteration
         if ( ( row_iterations ==  dist_row ) && ( col_iterations ==  dist_col ) ) 
@@ -48,7 +48,7 @@ bool Piece :: IsFree( int src_row, int src_col, int dst_row, int dst_col )  {
     return true;
 }
 
-bool Piece :: Check( int src_row, int src_col, int dst_row, int dst_col )  {
+bool Piece :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
 
     return false;
 }

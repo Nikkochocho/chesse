@@ -30,7 +30,7 @@ int main( int argc, char **argv ) {
         char dst_c = dst_input[0];
         char dst_r = dst_input[1];
 
-        if ( game.Move( src_r , src_c, dst_r, dst_c ) )  {
+        if ( game.Move( src_c , src_r, dst_c, dst_r ) )  {
             
             turn++;
 
@@ -38,7 +38,7 @@ int main( int argc, char **argv ) {
 
                 std :: cin >> promotion;
 
-                while ( !game.Promote( dst_r, dst_c, promotion ) )
+                while ( !game.Promote( dst_c, dst_r, promotion ) )
                     std :: cin >> promotion;
             }
         }

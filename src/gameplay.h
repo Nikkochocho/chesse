@@ -12,7 +12,7 @@ class GamePlay {
     bool       m_checkmate;
     IBoard*    m_board;
 
-    bool IsValid( int src_r, int src_c, int dst_r, int dst_c );
+    bool IsValid( int src_c, int src_r, int dst_c, int dst_r );
 
     int GetColIndex( char ch );
     int GetRowIndex( char ch );
@@ -23,9 +23,9 @@ class GamePlay {
     ~GamePlay( void );
 
     void NewGame( void );
-    bool Move( char src_row, char src_col, char dst_row, char dst_col );
+    bool Move( char src_col, char src_row, char dst_col, char dst_row );
     bool HasPromotion( void );
-    bool Promote( char dst_row, char dst_col, char promotion );
+    bool Promote( char dst_col, char dst_row, char promotion );
     bool IsCheckmate( void );
     void Print( void );
 };

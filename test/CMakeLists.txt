@@ -1,5 +1,5 @@
 cmake_minimum_required (VERSION 3.24)
-project (cheese_tests)
+project (chesse_tests)
 
 include(FetchContent)
 include(ExternalProject)
@@ -18,6 +18,8 @@ include_directories("test//src")
 set(CHESSE_TESTS_SOURCES
    ${PROJECT_SOURCE_DIR}/src/main.cpp 
    ${PROJECT_SOURCE_DIR}/src/pawn_tests.cc
+   ${PROJECT_SOURCE_DIR}/src/rook_tests.cc
+   ${PROJECT_SOURCE_DIR}/src/knight_tests.cc
    )
 
 # Add all chesse source files
@@ -42,7 +44,7 @@ ExternalProject_Get_Property(gtest SOURCE_DIR BINARY_DIR)
 
 ################
 # Define a test
-add_executable(cheese_tests
+add_executable(chesse_tests
                ${CHESSE_APP_SOURCES}
                ${CHESSE_TESTS_SOURCES})
 
@@ -51,7 +53,7 @@ add_executable(cheese_tests
 #
 # If used often, could be made a macro.
 
-add_dependencies(cheese_tests gtest)
+add_dependencies(chesse_tests gtest)
 
 #
 # GTest include and generated link libraries paths
@@ -59,13 +61,13 @@ add_dependencies(cheese_tests gtest)
 #
 include_directories(${SOURCE_DIR}/googletest/include)
 include_directories(${SOURCE_DIR}/googlemock/include)
-target_link_libraries(cheese_tests ${BINARY_DIR}/lib/libgtest.a)
-target_link_libraries(cheese_tests ${BINARY_DIR}/lib/libgtest_main.a)
+target_link_libraries(chesse_tests ${BINARY_DIR}/lib/libgtest.a)
+target_link_libraries(chesse_tests ${BINARY_DIR}/lib/libgtest_main.a)
 
 ##################################
 # Just make the test runnable with
 #   $ make test
 
 enable_testing()
-add_test(NAME    cheese_tests 
-         COMMAND cheese_tests)
+add_test(NAME    chesse_tests 
+         COMMAND chesse_tests)

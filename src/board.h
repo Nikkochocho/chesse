@@ -20,8 +20,8 @@ class Board : public IBoard  {
     virtual ~Board( void );
 
     IPiece* GetPromotion( Pieces piece, Color color );
-    IPiece* GetPiece( int dst_r, int dst_c );
-    void SetPiece( int row, int col, IPiece* piece );
+    IPiece* GetPiece( int dst_c, int dst_r );
+    void SetPiece( int col, int row, IPiece* piece );
     void Init( void );
 };
 

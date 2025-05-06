@@ -1,8 +1,8 @@
 #ifndef __DEFS_H__
 #define __DEFS_H__
 
-#define MAX_ROWS 8
 #define MAX_COLS 8
+#define MAX_ROWS 8
 
 
 enum Color {

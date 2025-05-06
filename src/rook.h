@@ -11,7 +11,7 @@ class Rook : public Piece {
     Rook ( Color color, IBoard *boardVision );
     ~Rook ( void );
 
-    bool Check( int src_row, int src_col, int dst_row, int dst_col );
+    bool Check( int src_col, int src_row, int dst_col, int dst_row );
     void Print( void );
 };
 
