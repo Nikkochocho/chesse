@@ -3,7 +3,7 @@
 #include "rook.h"
 
 
-TEST( chesse_tests, ROOK_HORIZONTAL_MOVE_TEST )  {
+TEST( chesse_tests, ROOK_HORIZONTAL_FORWARD_MOVE_TEST )  {
     
     Board       board;
     Rook        piece = Rook( WHITE, &board );
@@ -12,11 +12,29 @@ TEST( chesse_tests, ROOK_HORIZONTAL_MOVE_TEST )  {
     EXPECT_EQ ( ret, true );
 }
 
-TEST( chesse_tests, ROOK_VERTICAL_MOVE_TEST )  {
+TEST( chesse_tests, ROOK_HORIZONTAL_BACKWARD_MOVE_TEST )  {
+    
+    Board       board;
+    Rook        piece = Rook( WHITE, &board );
+    bool        ret   = piece.Check( 5, 0, 0, 0 );
+    
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, ROOK_VERTICAL_FORWARD_MOVE_TEST )  {
     
     Board       board;
     Rook        piece = Rook( BLACK, &board );
     bool        ret   = piece.Check( 0, 0, 0, 5 );
+    
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, ROOK_VERTICAL_BACKWARD_MOVE_TEST )  {
+    
+    Board       board;
+    Rook        piece = Rook( BLACK, &board );
+    bool        ret   = piece.Check( 0, 5, 0, 0 );
     
     EXPECT_EQ ( ret, true );
 }
@@ -30,7 +48,7 @@ TEST( chesse_tests, ROOK_INVALID_MOVE_TEST )  {
     EXPECT_EQ ( ret, false );
 }
 
-TEST( chesse_tests, ROOK_INVALID_TRESPASS_HORIZONTAL_MOVE_TEST )  {
+TEST( chesse_tests, ROOK_INVALID_TRESPASS_MOVE_TEST )  {
     
     Board       board;
     Rook        piece = Rook( BLACK, &board );
@@ -43,26 +61,13 @@ TEST( chesse_tests, ROOK_INVALID_TRESPASS_HORIZONTAL_MOVE_TEST )  {
     EXPECT_EQ ( ret, false );
 }
 
-TEST( chesse_tests, ROOK_INVALID_TRESPASS_VERTICAL_MOVE_TEST )  {
-    
-    Board       board;
-    Rook        piece = Rook( BLACK, &board );
-    Rook        block_piece = Rook( WHITE, &board );
-
-    board.SetPiece( 0, 2, &block_piece);
-
-    bool        ret   = piece.Check( 0, 0, 0, 5 );
-    
-    EXPECT_EQ ( ret, false );
-}
-
 TEST( chesse_tests, ROOK_CAPTURE_MOVE_TEST )  {
     
     Board       board;
     Rook        piece = Rook( WHITE, &board );
-    Rook        block_piece = Rook( BLACK, &board );
+    Rook        captured_piece = Rook( BLACK, &board );
 
-    board.SetPiece( 2, 0, &block_piece);
+    board.SetPiece( 2, 0, &captured_piece);
 
     bool        ret   = piece.Check( 0, 0, 2, 0 );
     
@@ -73,9 +78,9 @@ TEST( chesse_tests, ROOK_INVALID_CAPTURE_MOVE_TEST )  {
     
     Board       board;
     Rook        piece = Rook( WHITE, &board );
-    Rook        block_piece = Rook( WHITE, &board ); //same color
+    Rook        captured_piece = Rook( WHITE, &board ); //same color
 
-    board.SetPiece( 0, 2, &block_piece);
+    board.SetPiece( 0, 2, &captured_piece);
 
     bool        ret   = piece.Check( 0, 0, 0, 2 );
     

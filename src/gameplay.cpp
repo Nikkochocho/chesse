@@ -62,10 +62,10 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
                 switch( piece -> GetStatus() )  {
 
                     case LONGCASTLE:
-                        castle = m_board -> GetPiece( ( dst_c - 1 ), dst_r );
+                        castle = m_board -> GetPiece( ( dst_c - 2 ), dst_r );
                         m_board -> SetPiece( ( dst_c + 1 ), dst_r, castle );
                         castle -> Movement();
-                        m_board -> SetPiece( ( dst_c - 1 ), dst_r, nullptr );
+                        m_board -> SetPiece( ( dst_c - 2 ), dst_r, nullptr );
                         break;
 
                     case SHORTCASTLE:
