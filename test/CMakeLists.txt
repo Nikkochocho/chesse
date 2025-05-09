@@ -23,6 +23,7 @@ set(CHESSE_TESTS_SOURCES
    ${PROJECT_SOURCE_DIR}/src/bishop_tests.cc
    ${PROJECT_SOURCE_DIR}/src/queen_tests.cc
    ${PROJECT_SOURCE_DIR}/src/king_tests.cc
+   ${PROJECT_SOURCE_DIR}/src/gameplay_tests.cc
    )
 
 # Add all chesse source files
