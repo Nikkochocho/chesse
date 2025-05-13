@@ -15,11 +15,11 @@ Pawn :: ~Pawn( void )  {
 
 bool Pawn :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
     
-    int         direction = m_color == WHITE ? 1 : -1;
-    int         enpassant_row = m_color == WHITE ? 4 : 3;
-    int         promotion_row = m_color == WHITE ? 7 : 0;
-    IPiece*     target = m_BoardVision -> GetPiece( dst_col, dst_row );
-    IPiece*     side_piece = m_BoardVision -> GetPiece( dst_col, dst_row + ( direction * -1 ) );
+    int         direction = ( m_color == WHITE ) ? 1 : -1;
+    int         enpassant_row = ( m_color == WHITE ) ? 4 : 3;
+    int         promotion_row = ( m_color == WHITE ) ? 7 : 0;
+    IPiece      *target = m_BoardVision -> GetPiece( dst_col, dst_row );
+    IPiece      *side_piece = m_BoardVision -> GetPiece( dst_col, dst_row + ( direction * -1 ) );
     bool        ret = ( ( target == nullptr ) &&
                         ( ( dst_col == src_col ) && ( dst_row == src_row + direction ) ) ); //default
 

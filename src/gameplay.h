@@ -12,7 +12,7 @@ class GamePlay {
 
     bool         m_promotion = false;
     bool         m_checkmate;
-    IBoard*      m_board;
+    IBoard       *m_board;
     PlayerMap    m_players;
     PlayerNumber m_turn = PLAYER_1;
 
@@ -27,7 +27,7 @@ class GamePlay {
 
     public:
     
-    GamePlay( IBoard* board );
+    GamePlay( IBoard *board );
     ~GamePlay( void );
 
     void NewGame( void );

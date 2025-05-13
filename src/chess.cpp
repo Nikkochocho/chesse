@@ -14,7 +14,7 @@ int main( int argc, char **argv ) {
 
     do  {
     
-        const char* color = ( turn % 2 == 0 ) ? "white" : "black";
+        const char *color = ( turn % 2 == 0 ) ? "white" : "black";
         game.Print();
         std :: cout << std :: endl;
         std :: cout << color << " turn:" << std :: endl;

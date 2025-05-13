@@ -31,16 +31,17 @@ bool Piece :: IsFree( int src_col, int src_row, int dst_col, int dst_row )  {
     int dist_row = dst_row - src_row;
 
     if ( dist_col != 0 ) 
-        iterator_col = dst_col - src_col > 0 ? 1 : -1;
+        iterator_col = ( dst_col - src_col > 0 ) ? 1 : -1;
     
     if ( dist_row != 0 ) 
-        iterator_row = dst_row - src_row > 0 ? 1 : -1;
+        iterator_row = ( dst_row - src_row > 0 ) ? 1 : -1;
 
     while ( ( row_iterations !=  dist_row ) || ( col_iterations !=  dist_col ) )  {
 
         row_iterations += iterator_row;
         col_iterations += iterator_col;
-        IPiece* target = m_BoardVision -> GetPiece( ( src_col + col_iterations ), ( src_row + row_iterations ) );
+        
+        IPiece *target = m_BoardVision -> GetPiece( ( src_col + col_iterations ), ( src_row + row_iterations ) );
 
         //last iteration
         if ( ( row_iterations ==  dist_row ) && ( col_iterations ==  dist_col ) ) 

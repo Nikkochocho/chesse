@@ -16,7 +16,7 @@ King :: ~King( void )  {
 
 bool King :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
 
-    IPiece*     target = m_BoardVision -> GetPiece( dst_col, dst_row );
+    IPiece      *target = m_BoardVision -> GetPiece( dst_col, dst_row );
     bool        castling = ( abs( dst_col - src_col ) == 2 );
     bool        ret = ( CanMove( target ) && ( ( abs( dst_row - src_row ) <= 1 ) && ( abs( dst_col - src_col ) <= 1 ) ) &&
                         ( ( abs( dst_row - src_row ) == abs( dst_col - src_col ) ) || 
@@ -24,8 +24,8 @@ bool King :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
 
     if ( castling && ( m_MovementCount == 0 ) && ( dst_row == src_row ) && IsFree( src_col, src_row, dst_col, dst_row ) )  {
 
-        int      rook_pos = dst_col - src_col == 2 ? 1 : -2;
-        Status   castle_type = rook_pos == 1 ? SHORTCASTLE : LONGCASTLE;
+        int      rook_pos = ( dst_col - src_col == 2 ) ? 1 : -2;
+        Status   castle_type = ( rook_pos == 1 ) ? SHORTCASTLE : LONGCASTLE;
         IPiece   *castle_room = m_BoardVision -> GetPiece( ( dst_col + rook_pos ), src_row );
 
         if ( ( target == nullptr ) && ( castle_room -> GetType() == ROOK ) )  {

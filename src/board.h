@@ -21,7 +21,7 @@ class Board : public IBoard  {
 
     IPiece* GetPromotion( Pieces piece, Color color );
     IPiece* GetPiece( int dst_c, int dst_r );
-    void SetPiece( int col, int row, IPiece* piece );
+    void SetPiece( int col, int row, IPiece *piece );
     void RemovePiece( int col, int row );
     void Init( void );
 };

@@ -58,7 +58,7 @@ IPiece* Board :: GetPiece( int dst_c, int dst_r )  {
     return m_board[dst_c][dst_r];
 }
 
-void Board :: SetPiece( int col, int row, IPiece* piece )  {
+void Board :: SetPiece( int col, int row, IPiece *piece )  {
 
     m_board[col][row] = piece;
 }

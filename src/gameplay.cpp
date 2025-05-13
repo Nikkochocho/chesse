@@ -29,10 +29,10 @@ void GamePlay :: InitPieces( void )  {
 
 void GamePlay :: ChangeTurn( void )  {
 
-    m_turn = m_turn == PLAYER_1 ? PLAYER_2 : PLAYER_1;
+    m_turn = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
 }
 
-GamePlay :: GamePlay( IBoard* board )  {
+GamePlay :: GamePlay( IBoard *board )  {
 
     this -> m_board = board;
     this -> m_players.insert( std :: make_pair<PlayerNumber, Player*>( PLAYER_1, new Player( WHITE ) ) );
@@ -42,6 +42,7 @@ GamePlay :: GamePlay( IBoard* board )  {
 GamePlay :: ~GamePlay( void )  {
 
     for ( auto item : m_players ) {
+        
         delete item.second;
     }
 
@@ -114,8 +115,8 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
                         break;
 
                     case ENPASSANT: 
-                        direction = piece -> GetColor() == WHITE ? -1 : 1;
-                        player = piece -> GetColor() == WHITE ? PLAYER_2 : PLAYER_1;
+                        direction = ( piece -> GetColor() == WHITE ) ? -1 : 1;
+                        player = ( piece -> GetColor() == WHITE ) ? PLAYER_2 : PLAYER_1;
                         remove = m_board -> GetPiece( dst_c, ( dst_r + direction ) );
                         m_players[player] -> Remove( remove );
                         m_board -> RemovePiece( dst_c, ( dst_r + direction ) );
@@ -145,7 +146,7 @@ bool GamePlay :: Promote( char dst_col, char dst_row, char promotion )  {
 
     int        dst_c = GetColIndex( dst_col );
     int        dst_r = GetRowIndex( dst_row );
-    IPiece*    piece = m_board -> GetPiece( dst_c, dst_r );
+    IPiece     *piece = m_board -> GetPiece( dst_c, dst_r );
     Color      color = piece -> GetColor();
     Pieces     piece_type;
 
@@ -171,7 +172,7 @@ bool GamePlay :: Promote( char dst_col, char dst_row, char promotion )  {
             return false;
     }
 
-    IPiece* promoted_piece = m_board -> GetPromotion( piece_type, color );
+    IPiece *promoted_piece = m_board -> GetPromotion( piece_type, color );
     
     m_board -> SetPiece( dst_c, dst_r, promoted_piece ) ;
     m_promotion = false;
@@ -229,7 +230,7 @@ void GamePlay :: Print( void )  {
 
             std :: cout << "|";
 
-            if ( col == ( MAX_COLS - 1 ) )  {
+            if ( col == MAX_COLS - 1 )  {
                 
                 std :: cout << count_row << std ::endl;
                 count_row--;

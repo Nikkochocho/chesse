@@ -9,7 +9,6 @@ TEST( chesse_tests, KNIGHT_ALL_VALID_MOVES_TEST )  {
     Knight        piece = Knight( WHITE, &board );
     const int     x[8] = { 2, 1, -1, -2, -2, -1, 1, 2 };
     const int     y[8] = { 1, 2, 2, 1, -1, -2, -2, -1 };
-    int           count = 0;
     int           Xknight, Yknight;
     bool          ret;
 
