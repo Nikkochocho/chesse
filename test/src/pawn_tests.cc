@@ -178,7 +178,7 @@ TEST( chesse_tests, BLACK_PAWN_CAPTURE_RIGHT_MOVE_TEST )  {
     Pawn        piece = Pawn( BLACK, &board );
     Pawn        captured_piece = Pawn( WHITE, &board );
 
-    board.SetPiece( 0, 0, &captured_piece);
+    board.SetPiece( 0, 0, &captured_piece );
 
     bool        ret   = piece.Check( 1, 1, 0, 0 );
     
@@ -191,7 +191,7 @@ TEST( chesse_tests, BLACK_PAWN_CAPTURE_LEFT_MOVE_TEST )  {
     Pawn        piece = Pawn( BLACK, &board );
     Pawn        captured_piece = Pawn( WHITE, &board );
 
-    board.SetPiece( 1, 0, &captured_piece);
+    board.SetPiece( 1, 0, &captured_piece );
 
     bool        ret   = piece.Check( 0, 1, 1, 0 );
     
@@ -204,7 +204,7 @@ TEST( chesse_tests, BLACK_PAWN_INVALID_CAPTURE_MOVE_TEST )  {
     Pawn        piece = Pawn( BLACK, &board );
     Pawn        captured_piece = Pawn( BLACK, &board ); //same color
 
-    board.SetPiece( 0, 0, &captured_piece);
+    board.SetPiece( 0, 0, &captured_piece );
 
     bool        ret   = piece.Check( 1, 1, 0, 0 );
     
@@ -240,7 +240,7 @@ TEST( chesse_tests, PAWN_EN_PASSANT_CAPTURE_RIGHT_MOVE_TEST )  {
     Pawn        piece = Pawn( WHITE, &board );
     Pawn        captured_piece = Pawn( BLACK, &board );
 
-    board.SetPiece( 1, 4, &captured_piece);
+    board.SetPiece( 1, 4, &captured_piece );
     captured_piece.Movement();
 
     piece.Check( 0, 4, 1, 5 );
@@ -256,7 +256,7 @@ TEST( chesse_tests, PAWN_EN_PASSANT_CAPTURE_LEFT_MOVE_TEST )  {
     Pawn        piece = Pawn( BLACK, &board );
     Pawn        captured_piece = Pawn( WHITE, &board );
 
-    board.SetPiece( 0, 3, &captured_piece);
+    board.SetPiece( 0, 3, &captured_piece );
     captured_piece.Movement();
 
     piece.Check( 1, 3, 0, 2 );
@@ -272,7 +272,7 @@ TEST( chesse_tests, PAWN_INVALID_EN_PASSANT_ROW_MOVE_TEST )  {
     Pawn        piece = Pawn( WHITE, &board );
     Pawn        captured_piece = Pawn( BLACK, &board );
 
-    board.SetPiece( 0, 5, &captured_piece);
+    board.SetPiece( 0, 5, &captured_piece );
     captured_piece.Movement();
 
     piece.Check( 1, 5, 0, 6 );
@@ -288,7 +288,7 @@ TEST( chesse_tests, PAWN_FAILED_EN_PASSANT_CAPTURE_MOVE_TEST )  {
     Pawn        piece = Pawn( BLACK, &board );
     Pawn        captured_piece = Pawn( WHITE, &board );
 
-    board.SetPiece( 0, 3, &captured_piece);
+    board.SetPiece( 0, 3, &captured_piece );
     //m_moviment = 0;
 
     piece.Check( 1, 3, 0, 2 );

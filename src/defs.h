@@ -10,7 +10,7 @@ enum Color {
     BLACK
 };
 
-enum Player  {
+enum PlayerNumber  {
     PLAYER_1,
     PLAYER_2
 };
@@ -27,15 +27,11 @@ enum Pieces  {
 
 enum Status  {
     NORMAL,
+    CAPTURED,
     LONGCASTLE,
     SHORTCASTLE,
     ENPASSANT,
     PROMOTION
-};
-
-enum Tile  {
-    SAFE,
-    UNSAFE
 };
 
 #endif // __DEFS_H__

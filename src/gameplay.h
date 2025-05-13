@@ -3,19 +3,27 @@
 
 #include "iboard.h"
 #include "ipiece.h"
+#include "player.h"
+#include <map>
 
+typedef std::map<PlayerNumber, Player*> PlayerMap;
 
 class GamePlay {
 
-    bool       m_promotion = false;
-    bool       m_onCheck[2];
-    bool       m_checkmate;
-    IBoard*    m_board;
+    bool         m_promotion = false;
+    bool         m_checkmate;
+    IBoard*      m_board;
+    PlayerMap    m_players;
+    PlayerNumber m_turn = PLAYER_1;
+
 
     bool IsValid( int src_c, int src_r, int dst_c, int dst_r );
 
     int GetColIndex( char ch );
     int GetRowIndex( char ch );
+
+    void InitPieces( void );
+    void ChangeTurn( void );
 
     public:
     

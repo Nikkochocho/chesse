@@ -54,7 +54,7 @@ TEST( chesse_tests, BISHOP_INVALID_TRESPASS_MOVE_TEST )  {
     Bishop      piece = Bishop( BLACK, &board );
     Bishop      block_piece = Bishop( WHITE, &board );
 
-    board.SetPiece( 5, 5, &block_piece);
+    board.SetPiece( 5, 5, &block_piece );
 
     bool        ret   = piece.Check( 4, 4, 7, 7 );
     
@@ -67,7 +67,7 @@ TEST( chesse_tests, BISHOP_CAPTURE_MOVE_TEST )  {
     Bishop      piece = Bishop( BLACK, &board );
     Bishop      captured_piece = Bishop( WHITE, &board );
 
-    board.SetPiece( 5, 5, &captured_piece);
+    board.SetPiece( 5, 5, &captured_piece );
 
     bool        ret   = piece.Check( 0, 0, 5, 5 );
     
@@ -80,7 +80,7 @@ TEST( chesse_tests, BISHOP_INVALID_CAPTURE_MOVE_TEST )  {
     Bishop      piece = Bishop( WHITE, &board );
     Bishop      captured_piece = Bishop( WHITE, &board ); //same color
 
-    board.SetPiece( 5, 5, &captured_piece);
+    board.SetPiece( 5, 5, &captured_piece );
 
     bool        ret   = piece.Check( 0, 0, 5, 5 );
     

@@ -54,7 +54,7 @@ TEST( chesse_tests, ROOK_INVALID_TRESPASS_MOVE_TEST )  {
     Rook        piece = Rook( BLACK, &board );
     Rook        block_piece = Rook( WHITE, &board );
 
-    board.SetPiece( 2, 0, &block_piece);
+    board.SetPiece( 2, 0, &block_piece );
 
     bool        ret   = piece.Check( 0, 0, 5, 0 );
     
@@ -67,7 +67,7 @@ TEST( chesse_tests, ROOK_CAPTURE_MOVE_TEST )  {
     Rook        piece = Rook( WHITE, &board );
     Rook        captured_piece = Rook( BLACK, &board );
 
-    board.SetPiece( 2, 0, &captured_piece);
+    board.SetPiece( 2, 0, &captured_piece );
 
     bool        ret   = piece.Check( 0, 0, 2, 0 );
     
@@ -80,7 +80,7 @@ TEST( chesse_tests, ROOK_INVALID_CAPTURE_MOVE_TEST )  {
     Rook        piece = Rook( WHITE, &board );
     Rook        captured_piece = Rook( WHITE, &board ); //same color
 
-    board.SetPiece( 0, 2, &captured_piece);
+    board.SetPiece( 0, 2, &captured_piece );
 
     bool        ret   = piece.Check( 0, 0, 0, 2 );
     

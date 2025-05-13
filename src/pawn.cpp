@@ -33,16 +33,17 @@ bool Pawn :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
     
     if ( dst_col != src_col )  { 
 
-        if ( ( side_piece != nullptr ) && ( side_piece -> GetType() == PAWN ) && ( side_piece -> GetColor() != m_color ) && 
-            ( target == nullptr ) && ( src_row == enpassant_row) && ( side_piece -> GetMovementCount() == 1) )  {
+        if ( ( side_piece != nullptr ) && ( ( side_piece -> GetType() == PAWN ) && ( side_piece -> GetColor() != m_color ) ) && 
+             ( target == nullptr ) && ( src_row == enpassant_row ) && ( side_piece -> GetMovementCount() == 1 ) )  {
 
             this -> SetStatus( ENPASSANT );
             return true; //en passant capture
-        }
+        }  
 
         if ( ( target != nullptr ) && ( target -> GetColor() != m_color ) && 
             ( abs( dst_col -  src_col ) == 1 ) && ( dst_row == src_row + direction ) )  {
 
+            target -> SetStatus( CAPTURED );
             ret = true; //capture
         }
 

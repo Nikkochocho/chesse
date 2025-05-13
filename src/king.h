@@ -9,7 +9,7 @@ class King : public Piece {
     public :
 
     King ( Color color, IBoard *boardVision );
-    ~King ( void );
+    virtual ~King ( void );
 
     bool Check( int src_col, int src_row, int dst_col, int dst_row );
     void Print( void );

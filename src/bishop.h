@@ -9,7 +9,7 @@ class Bishop : public Piece {
     public :
 
     Bishop ( Color color, IBoard *boardVision );
-    ~Bishop ( void );
+    virtual ~Bishop ( void );
 
     bool Check( int src_col, int src_row, int dst_col, int dst_row );
     void Print( void );

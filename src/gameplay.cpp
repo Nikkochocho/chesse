@@ -12,23 +12,51 @@ int GamePlay :: GetRowIndex( char ch )  {
     return ch - '0' - 1;
 }
 
+void GamePlay :: InitPieces( void )  {
+
+    for ( int col = 0; col < MAX_COLS; col++ ) {
+
+        m_players[PLAYER_1] -> Add( m_board -> GetPiece( col, 1 ) );
+        m_players[PLAYER_2] -> Add( m_board -> GetPiece( col, 6 ) );
+    }
+
+    for ( int col = 0; col < MAX_COLS; col++ ) {
+
+        m_players[PLAYER_1] -> Add( m_board -> GetPiece( col, 0 ) ); 
+        m_players[PLAYER_2] -> Add( m_board -> GetPiece( col, 7 ) );
+    }
+}
+
+void GamePlay :: ChangeTurn( void )  {
+
+    m_turn = m_turn == PLAYER_1 ? PLAYER_2 : PLAYER_1;
+}
+
 GamePlay :: GamePlay( IBoard* board )  {
 
     this -> m_board = board;
+    this -> m_players.insert( std :: make_pair<PlayerNumber, Player*>( PLAYER_1, new Player( WHITE ) ) );
+    this -> m_players.insert( std :: make_pair<PlayerNumber, Player*>( PLAYER_2, new Player( BLACK ) ) );
 }
 
 GamePlay :: ~GamePlay( void )  {
-    
+
+    for ( auto item : m_players ) {
+        delete item.second;
+    }
+
+    m_players.clear();
 }
 
 void GamePlay :: NewGame( void )  {
 
     m_board -> Init();
+    InitPieces();
 }
 
 bool GamePlay :: IsValid( int src_c, int src_r, int dst_c, int dst_r )  {
 
-    if( src_r >= 0 && src_r < MAX_ROWS && src_c >= 0 && src_c < MAX_COLS &&
+    if ( src_r >= 0 && src_r < MAX_ROWS && src_c >= 0 && src_c < MAX_COLS &&
         dst_r >= 0 && dst_r < MAX_ROWS && dst_c >= 0 && dst_c < MAX_COLS &&
         dst_r != src_r || dst_c != src_c )  {
 
@@ -45,21 +73,31 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
     int  dst_c = GetColIndex( dst_col );
     int  dst_r = GetRowIndex( dst_row );
 
-    if( IsValid( src_c, src_r, dst_c, dst_r ) ) {
+    if ( IsValid( src_c, src_r, dst_c, dst_r ) ) {
         
-        IPiece    *piece = m_board -> GetPiece( src_c, src_r );
-        IPiece    *castle = nullptr;
-        int       direction;
+        IPiece         *piece = m_board -> GetPiece( src_c, src_r );
+        IPiece         *captured_piece = m_board -> GetPiece( dst_c, dst_r );
+        IPiece         *castle = nullptr;
+        IPiece         *remove = nullptr;
+        int            direction;
+        PlayerNumber   player;
 
         if ( ( piece != nullptr ) && piece -> Check( src_c, src_r, dst_c, dst_r ) )  {
             
+            if ( ( captured_piece != nullptr ) && ( captured_piece -> GetStatus() == CAPTURED ) )  {
+
+                player = ( captured_piece -> GetColor() == WHITE ) ? PLAYER_1 : PLAYER_2;
+                m_players[player] -> Remove( captured_piece );
+                m_board -> RemovePiece( dst_c, dst_r );
+            }
+
             m_board -> SetPiece( dst_c, dst_r, piece );
             piece -> Movement();
             m_board -> SetPiece( src_c, src_r, nullptr );
             
-            if( piece -> GetStatus() != NORMAL )  {
+            if ( piece -> GetStatus() != NORMAL )  {
 
-                switch( piece -> GetStatus() )  {
+                switch ( piece -> GetStatus() )  {
 
                     case LONGCASTLE:
                         castle = m_board -> GetPiece( ( dst_c - 2 ), dst_r );
@@ -77,7 +115,10 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
 
                     case ENPASSANT: 
                         direction = piece -> GetColor() == WHITE ? -1 : 1;
-                        m_board -> SetPiece( dst_c, ( dst_r + direction ), nullptr );
+                        player = piece -> GetColor() == WHITE ? PLAYER_2 : PLAYER_1;
+                        remove = m_board -> GetPiece( dst_c, ( dst_r + direction ) );
+                        m_players[player] -> Remove( remove );
+                        m_board -> RemovePiece( dst_c, ( dst_r + direction ) );
                         break;
 
                     case PROMOTION:
@@ -148,7 +189,7 @@ void GamePlay :: Print( void )  {
     int count_row = MAX_ROWS;
     int count_col = 0;
 
-    for( int i = 0; i < ( MAX_COLS * 2 ) + 1; i++ )  {
+    for ( int i = 0; i < ( MAX_COLS * 2 ) + 1; i++ )  {
 
         if ( i % 2 != 0 )  {
 
@@ -163,21 +204,21 @@ void GamePlay :: Print( void )  {
 
     std :: cout << std ::endl;
 
-    for( int cc = 0; cc < ( MAX_COLS * 2 ) + 1; cc++ )  {
+    for ( int cc = 0; cc < ( MAX_COLS * 2 ) + 1; cc++ )  {
 
         std :: cout << "-";
     }
     std :: cout << std ::endl;
     
-    for( int row = ( MAX_ROWS - 1 ); row >= 0; row-- )  {
+    for ( int row = ( MAX_ROWS - 1 ); row >= 0; row-- )  {
 
         std :: cout << "|";
 
-        for( int col = 0; col < MAX_COLS; col++ )  {
+        for ( int col = 0; col < MAX_COLS; col++ )  {
 
             IPiece *piece = m_board -> GetPiece( col, row );
 
-            if( piece != nullptr )  {
+            if ( piece != nullptr )  {
 
                 piece -> Print();
             }
@@ -188,14 +229,14 @@ void GamePlay :: Print( void )  {
 
             std :: cout << "|";
 
-            if( col == ( MAX_COLS - 1 ) )  {
+            if ( col == ( MAX_COLS - 1 ) )  {
                 
                 std :: cout << count_row << std ::endl;
                 count_row--;
             }
         }
 
-        for( int cc = 0; cc < ( MAX_COLS * 2 ) + 1; cc++ )  {
+        for ( int cc = 0; cc < ( MAX_COLS * 2 ) + 1; cc++ )  {
 
             std :: cout << "-";
         }

@@ -9,7 +9,7 @@ class Queen : public Piece {
     public :
 
     Queen ( Color color, IBoard *boardVision );
-    ~Queen ( void );
+    virtual ~Queen ( void );
 
     bool Check( int src_col, int src_row, int dst_col, int dst_row );
     void Print( void );

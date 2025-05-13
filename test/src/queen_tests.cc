@@ -90,7 +90,7 @@ TEST( chesse_tests, QUEEN_INVALID_TRESPASS_MOVE_TEST )  {
     Queen       piece = Queen( BLACK, &board );
     Queen       block_piece = Queen( WHITE, &board );
 
-    board.SetPiece( 5, 5, &block_piece);
+    board.SetPiece( 5, 5, &block_piece );
 
     bool        ret   = piece.Check( 4, 4, 7, 7 );
     
@@ -103,7 +103,7 @@ TEST( chesse_tests, QUEEN_CAPTURE_MOVE_TEST )  {
     Queen       piece = Queen( WHITE, &board );
     Queen       captured_piece = Queen( BLACK, &board );
 
-    board.SetPiece( 5, 0, &captured_piece);
+    board.SetPiece( 5, 0, &captured_piece );
 
     bool        ret   = piece.Check( 0, 0, 5, 0 );
     
@@ -116,7 +116,7 @@ TEST( chesse_tests, QUEEN_FAILED_CAPTURE_MOVE_TEST )  {
     Queen       piece = Queen( WHITE, &board );
     Queen       captured_piece = Queen( WHITE, &board ); //same color
 
-    board.SetPiece( 5, 0, &captured_piece);
+    board.SetPiece( 5, 0, &captured_piece );
 
     bool        ret   = piece.Check( 0, 0, 5, 0 );
     

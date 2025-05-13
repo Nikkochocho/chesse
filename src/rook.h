@@ -9,7 +9,7 @@ class Rook : public Piece {
     public :
 
     Rook ( Color color, IBoard *boardVision );
-    ~Rook ( void );
+    virtual ~Rook ( void );
 
     bool Check( int src_col, int src_row, int dst_col, int dst_row );
     void Print( void );

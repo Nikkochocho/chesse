@@ -13,6 +13,11 @@ int Piece :: GetMovementCount( void )  {
 
 bool Piece :: CanMove( IPiece* target )  {
 
+    if ( ( target != nullptr ) && ( target -> GetColor() != m_color ) )  {
+
+        target -> SetStatus ( CAPTURED );
+    }
+
     return ( ( target == nullptr ) || ( target -> GetColor() != m_color ) );
 }  
 

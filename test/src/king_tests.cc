@@ -91,7 +91,7 @@ TEST( chesse_tests, KING_CAPTURE_MOVE_TEST )  {
     King        piece = King( WHITE, &board );
     King        captured_piece = King( BLACK, &board );
 
-    board.SetPiece( 1, 0, &captured_piece);
+    board.SetPiece( 1, 0, &captured_piece );
 
     bool        ret   = piece.Check( 0, 0, 1, 0 );
     
@@ -104,9 +104,26 @@ TEST( chesse_tests, KING_FAILED_CAPTURE_MOVE_TEST )  {
     King        piece = King( WHITE, &board );
     King        captured_piece = King( WHITE, &board ); //same color
 
-    board.SetPiece( 1, 0, &captured_piece);
+    board.SetPiece( 1, 0, &captured_piece );
 
     bool        ret   = piece.Check( 0, 0, 1, 0 );
+    
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, KING_INVALID_CASTLE_CAPTURE_MOVE_TEST )  {
+    
+    Board       board;
+    King        piece = King( BLACK, &board );
+    Rook        captured_piece = Rook( WHITE, &board );
+    Rook        castle = Rook( BLACK, &board );
+
+    board.SetPiece( 6, 0, &captured_piece );
+    board.SetPiece( 7, 0, &castle );
+
+    piece.Check( 4, 0, 6, 0 );
+
+    bool        ret   = ( piece.GetStatus() == SHORTCASTLE );
     
     EXPECT_EQ ( ret, false );
 }
@@ -117,11 +134,11 @@ TEST( chesse_tests, KING_SHORT_CASTLE_MOVE_TEST )  {
     King        piece = King( BLACK, &board );
     Rook        castle = Rook( BLACK, &board );
 
-    board.SetPiece( 7, 0, &castle);
+    board.SetPiece( 7, 0, &castle );
 
     piece.Check( 4, 0, 6, 0 );
 
-    bool        ret   = piece.GetStatus() == SHORTCASTLE;
+    bool        ret   = ( piece.GetStatus() == SHORTCASTLE );
     
     EXPECT_EQ ( ret, true );
 }
@@ -133,12 +150,12 @@ TEST( chesse_tests, KING_INVALID_TRESPASS_SHORT_CASTLE_MOVE_TEST )  {
     King        block_piece = King( WHITE, &board );
     Rook        castle = Rook( BLACK, &board );
 
-    board.SetPiece( 5, 0, &block_piece);
-    board.SetPiece( 7, 0, &castle);
+    board.SetPiece( 5, 0, &block_piece );
+    board.SetPiece( 7, 0, &castle );
 
     piece.Check( 4, 0, 6, 0 );
 
-    bool        ret   = piece.GetStatus() == SHORTCASTLE;
+    bool        ret   = ( piece.GetStatus() == SHORTCASTLE );
     
     EXPECT_EQ ( ret, false );
 }
@@ -149,11 +166,11 @@ TEST( chesse_tests, KING_LONG_CASTLE_MOVE_TEST )  {
     King        piece = King( WHITE, &board );
     Rook        castle = Rook( WHITE, &board );
 
-    board.SetPiece( 0, 0, &castle);
+    board.SetPiece( 0, 0, &castle );
 
     piece.Check( 4, 0, 2, 0 );
 
-    bool        ret   = piece.GetStatus() == LONGCASTLE;
+    bool        ret   = ( piece.GetStatus() == LONGCASTLE );
     
     EXPECT_EQ ( ret, true );
 }
@@ -164,11 +181,11 @@ TEST( chesse_tests, KING_INVALID_LONG_CASTLE_MOVE_TEST )  {
     King        piece = King( WHITE, &board );
     Rook        castle = Rook( WHITE, &board );
 
-    board.SetPiece( 0, 0, &castle);
+    board.SetPiece( 0, 0, &castle );
 
     piece.Check( 4, 0, 1, 0 );
 
-    bool        ret   = piece.GetStatus() == LONGCASTLE;
+    bool        ret   = ( piece.GetStatus() == LONGCASTLE );
     
     EXPECT_EQ ( ret, false );
 }
@@ -180,12 +197,12 @@ TEST( chesse_tests, KING_INVALID_TRESPASS_LONG_CASTLE_MOVE_TEST )  {
     King        block_piece = King( WHITE, &board );
     Rook        castle = Rook( WHITE, &board );
 
-    board.SetPiece( 1, 0, &block_piece);
-    board.SetPiece( 0, 0, &castle);
+    board.SetPiece( 1, 0, &block_piece );
+    board.SetPiece( 0, 0, &castle );
 
     piece.Check( 4, 0, 2, 0 );
 
-    bool        ret   = piece.GetStatus() == LONGCASTLE;
+    bool        ret   = ( piece.GetStatus() == LONGCASTLE );
     
     EXPECT_EQ ( ret, false );
 }
