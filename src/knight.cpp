@@ -18,8 +18,12 @@ bool Knight :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
     int         jump_r = abs( dst_row - src_row );
     int         jump_c = abs( dst_col - src_col );
     IPiece      *target = m_BoardVision -> GetPiece( dst_col, dst_row );
-    bool        ret = ( CanMove( target ) && 
-                        ( ( jump_r == 1 && jump_c == 2 ) || ( jump_r == 2 && jump_c == 1 ) ) );
+    bool        ret = ( ( jump_r == 1 && jump_c == 2 ) || ( jump_r == 2 && jump_c == 1 ) );
+
+    if ( ret )  {
+
+        return CanMove( target );
+    }
 
     return ret;
 }

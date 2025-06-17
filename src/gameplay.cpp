@@ -83,8 +83,10 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
         int            direction;
         PlayerNumber   player;
 
-        if ( ( piece != nullptr ) && piece -> Check( src_c, src_r, dst_c, dst_r ) )  {
+        if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && 
+              piece -> Check( src_c, src_r, dst_c, dst_r ) )  {
             
+            //has capture
             if ( ( captured_piece != nullptr ) && ( captured_piece -> GetStatus() == CAPTURED ) )  {
 
                 player = ( captured_piece -> GetColor() == WHITE ) ? PLAYER_1 : PLAYER_2;
@@ -95,6 +97,7 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
             m_board -> SetPiece( dst_c, dst_r, piece );
             piece -> Movement();
             m_board -> SetPiece( src_c, src_r, nullptr );
+            ChangeTurn();
             
             if ( piece -> GetStatus() != NORMAL )  {
 
@@ -144,11 +147,12 @@ bool GamePlay :: HasPromotion( void )  {
 
 bool GamePlay :: Promote( char dst_col, char dst_row, char promotion )  {
 
-    int        dst_c = GetColIndex( dst_col );
-    int        dst_r = GetRowIndex( dst_row );
-    IPiece     *piece = m_board -> GetPiece( dst_c, dst_r );
-    Color      color = piece -> GetColor();
-    Pieces     piece_type;
+    int            dst_c = GetColIndex( dst_col );
+    int            dst_r = GetRowIndex( dst_row );
+    IPiece         *piece = m_board -> GetPiece( dst_c, dst_r );
+    Color          color = piece -> GetColor();
+    PlayerNumber   player = ( color == WHITE ) ? PLAYER_1 : PLAYER_2;
+    Pieces         piece_type;
 
     switch ( promotion )  {
 
@@ -173,8 +177,11 @@ bool GamePlay :: Promote( char dst_col, char dst_row, char promotion )  {
     }
 
     IPiece *promoted_piece = m_board -> GetPromotion( piece_type, color );
-    
+
+    m_board -> RemovePiece( dst_c, dst_r );
     m_board -> SetPiece( dst_c, dst_r, promoted_piece ) ;
+    this -> m_players[player] -> Add( m_board -> GetPiece( dst_c, dst_r ) );
+
     m_promotion = false;
 
     return true;
@@ -183,6 +190,11 @@ bool GamePlay :: Promote( char dst_col, char dst_row, char promotion )  {
 bool GamePlay :: IsCheckmate( void )  {
 
     return m_checkmate;
+}
+
+PlayerNumber GamePlay :: GetTurn( void )  {
+
+    return m_turn;
 }
 
 void GamePlay :: Print( void )  {

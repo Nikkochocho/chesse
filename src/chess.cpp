@@ -5,16 +5,15 @@
 
 int main( int argc, char **argv ) {
 
-    Board       board;
-    GamePlay    game( &board );
-    int         turn = 0;
-    char        promotion;
+    Board         board;
+    GamePlay      game( &board );
+    char          promotion;
 
     game.NewGame();
 
     do  {
     
-        const char *color = ( turn % 2 == 0 ) ? "white" : "black";
+        const char *color = ( game.GetTurn() == PLAYER_1 ) ? "white" : "black";
         game.Print();
         std :: cout << std :: endl;
         std :: cout << color << " turn:" << std :: endl;
@@ -31,8 +30,6 @@ int main( int argc, char **argv ) {
         char dst_r = dst_input[1];
 
         if ( game.Move( src_c , src_r, dst_c, dst_r ) )  {
-            
-            turn++;
 
             if ( game.HasPromotion() )  {
 

@@ -86,3 +86,33 @@ TEST( chesse_tests, ROOK_INVALID_CAPTURE_MOVE_TEST )  {
     
     EXPECT_EQ ( ret, false );
 }
+
+TEST( chesse_tests, CAPTURED_ROOK_STATUS_CHECK ) {
+
+    Board       board;
+    Rook        piece = Rook( WHITE, &board );
+    Rook        captured_piece = Rook( BLACK, &board );
+
+    board.SetPiece( 0, 0, &piece );
+    board.SetPiece( 0, 1, &captured_piece );
+    piece.Check( 0, 0, 0, 1 );
+
+    bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
+
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, INVALID_CAPTURED_ROOK_STATUS_CHECK ) {
+
+    Board       board;
+    Rook        piece = Rook( WHITE, &board );
+    Rook        captured_piece = Rook( WHITE, &board ); //same color
+
+    board.SetPiece( 0, 0, &piece );
+    board.SetPiece( 0, 1, &captured_piece );
+    piece.Check( 0, 0, 0, 1 );
+
+    bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
+
+    EXPECT_EQ ( ret, false );
+}

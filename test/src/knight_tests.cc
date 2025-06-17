@@ -25,12 +25,34 @@ TEST( chesse_tests, KNIGHT_ALL_VALID_MOVES_TEST )  {
     EXPECT_EQ ( ret, true );
 }
 
-TEST( chesse_tests, KNIGHT_INVALID_MOVE_TEST )  {
+TEST( chesse_tests, KNIGHT_INVALID_VERTICAL_MOVE_TEST )  {
 
     Board         board;
     Knight        piece = Knight( WHITE, &board );
 
     bool          ret = piece.Check( 0, 0, 0, 1 );
+
+
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, KNIGHT_INVALID_HORIZONTAL_MOVE_TEST )  {
+
+    Board         board;
+    Knight        piece = Knight( WHITE, &board );
+
+    bool          ret = piece.Check( 0, 0, 1, 0 );
+
+
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, KNIGHT_INVALID_DIAGONAL_MOVE_TEST )  {
+
+    Board         board;
+    Knight        piece = Knight( WHITE, &board );
+
+    bool          ret = piece.Check( 0, 0, 1, 1 );
 
 
     EXPECT_EQ ( ret, false );
@@ -77,6 +99,36 @@ TEST( chesse_tests, KNIGHT_INVALID_CAPTURE_MOVE_TEST )  {
 
     bool          ret = piece.Check( 0, 0, 1, 2 );
 
+
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, CAPTURED_KNIGHT_STATUS_CHECK ) {
+
+    Board       board;
+    Knight      piece = Knight( WHITE, &board );
+    Knight      captured_piece = Knight( BLACK, &board );
+
+    board.SetPiece( 0, 0, &piece );
+    board.SetPiece( 1, 2, &captured_piece );
+    piece.Check( 0, 0, 1, 2 );
+
+    bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
+
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, INVALID_CAPTURED_KNIGHT_STATUS_CHECK ) {
+
+    Board       board;
+    Knight      piece = Knight( WHITE, &board );
+    Knight      captured_piece = Knight( WHITE, &board ); //same color
+
+    board.SetPiece( 0, 0, &piece );
+    board.SetPiece( 1, 2, &captured_piece );
+    piece.Check( 0, 0, 1, 2 );
+
+    bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
 
     EXPECT_EQ ( ret, false );
 }

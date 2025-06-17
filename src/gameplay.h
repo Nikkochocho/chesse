@@ -35,6 +35,7 @@ class GamePlay {
     bool HasPromotion( void );
     bool Promote( char dst_col, char dst_row, char promotion );
     bool IsCheckmate( void );
+    PlayerNumber GetTurn( void );
     void Print( void );
 };
 

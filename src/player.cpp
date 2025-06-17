@@ -20,3 +20,16 @@ void Player :: Remove( IPiece *piece )  {
 
     m_pieces.remove( piece );
 }
+
+bool Player :: CheckPieces( IPiece *piece )  {
+
+    for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++)  {
+
+        if ( *it == piece )  {
+
+            return true;
+        }
+    }
+
+    return false;
+}

@@ -86,3 +86,33 @@ TEST( chesse_tests, BISHOP_INVALID_CAPTURE_MOVE_TEST )  {
     
     EXPECT_EQ ( ret, false );
 }
+
+TEST( chesse_tests, CAPTURED_BISHOP_STATUS_CHECK ) {
+
+    Board       board;
+    Bishop      piece = Bishop( WHITE, &board );
+    Bishop      captured_piece = Bishop( BLACK, &board );
+
+    board.SetPiece( 0, 0, &piece );
+    board.SetPiece( 1, 1, &captured_piece );
+    piece.Check( 0, 0, 1, 1 );
+
+    bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
+
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, INVALID_CAPTURED_BISHOP_STATUS_CHECK ) {
+
+    Board       board;
+    Bishop      piece = Bishop( WHITE, &board );
+    Bishop      captured_piece = Bishop( WHITE, &board ); //same color
+
+    board.SetPiece( 0, 0, &piece );
+    board.SetPiece( 1, 1, &captured_piece );
+    piece.Check( 0, 0, 1, 1 );
+
+    bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
+
+    EXPECT_EQ ( ret, false );
+}
