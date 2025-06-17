@@ -6,7 +6,7 @@
 #include "player.h"
 #include <map>
 
-typedef std::map<PlayerNumber, Player*> PlayerMap;
+typedef std :: map<PlayerNumber, Player*> PlayerMap;
 
 class GamePlay {
 

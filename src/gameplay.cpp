@@ -179,6 +179,7 @@ bool GamePlay :: Promote( char dst_col, char dst_row, char promotion )  {
     IPiece *promoted_piece = m_board -> GetPromotion( piece_type, color );
 
     m_board -> RemovePiece( dst_c, dst_r );
+    this -> m_players[player] -> Remove( m_board -> GetPiece( dst_c, dst_r ) );
     m_board -> SetPiece( dst_c, dst_r, promoted_piece ) ;
     this -> m_players[player] -> Add( m_board -> GetPiece( dst_c, dst_r ) );
 

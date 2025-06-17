@@ -1,0 +1,4 @@
+This is a TODO list with improvements and new features;
+
+* Start Check and Checkmate implementation;
+* GetRow(), GetCol(), GetDiagonals(), GetJump() to each piece based on their moveset (GetVision on interface);
