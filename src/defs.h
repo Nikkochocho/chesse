@@ -31,7 +31,13 @@ enum Status  {
     LONGCASTLE,
     SHORTCASTLE,
     ENPASSANT,
-    PROMOTION
+    PROMOTION,
+    CHECK
+};
+
+struct stPosition  {
+    int         col;
+    int         row;
 };
 
 #endif // __DEFS_H__

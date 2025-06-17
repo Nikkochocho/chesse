@@ -33,3 +33,15 @@ bool Player :: CheckPieces( IPiece *piece )  {
 
     return false;
 }
+
+bool Player :: CheckHit( void ) {
+    for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++)  {
+        IPiece *pPiece = *it; 
+
+        if ( pPiece -> CheckVision(1,1) )  {
+            return true;
+        }
+    }
+
+    return false;
+}

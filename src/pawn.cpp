@@ -57,6 +57,30 @@ bool Pawn :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
     return ret; 
 }
 
+bool Pawn :: CheckVision( int src_col, int src_row )  {
+
+    int       direction = ( m_color == WHITE ) ? 1 : -1;
+    int       col = 1;
+    bool      ret = false;
+    IPiece    *piece;
+
+    for ( int i = 0; i < 2; i++ )  {
+
+        piece = m_BoardVision -> GetPiece( ( src_col + col ), ( src_row + direction ) );
+
+        if ( piece != nullptr && piece -> GetType() == KING && piece -> GetColor() != m_color )  {
+
+            piece -> SetStatus( CHECK );
+            ret = true;
+            break;
+        }
+
+        col = -1;
+    }
+
+    return ret;
+}
+
 void Pawn :: Print( void )  {
 
     std :: cout << 'P';

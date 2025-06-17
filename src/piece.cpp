@@ -59,9 +59,20 @@ bool Piece :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
     return false;
 }
 
+bool Piece :: CheckVision( int src_col, int src_row )  {
+
+    return false;
+}
+
 void Piece :: Print( void ) {
 
 }
+
+stPosition& Piece :: Position( void )  {
+
+    return m_position;
+}
+
 
 Color Piece :: GetColor( void )  {
 

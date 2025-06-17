@@ -9,6 +9,7 @@ class Piece : public IPiece  {
     protected:
     
     int         m_MovementCount = 0;
+    stPosition  m_position;
     Pieces      m_type;
     Color       m_color;
     Status      m_state = NORMAL;
@@ -21,9 +22,11 @@ class Piece : public IPiece  {
     bool CanMove( IPiece *target );
     bool IsFree( int src_col, int src_row, int dst_col, int dst_row );
     virtual bool Check( int src_col, int src_row, int dst_col, int dst_row );
+    virtual bool CheckVision( int src_col, int src_row );
 
     virtual void Print( void );
-
+   
+    stPosition& Position( void );
     Color GetColor( void );
     Pieces GetType( void );
     Status GetStatus( void );

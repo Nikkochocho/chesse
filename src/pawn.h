@@ -13,6 +13,7 @@ class Pawn : public Piece  {
     virtual ~Pawn( void );
     
     bool Check( int src_col, int src_row, int dst_col, int dst_row );
+    bool CheckVision( int src_col, int src_row );
     void Print( void );
 };
 

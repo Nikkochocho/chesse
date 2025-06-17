@@ -13,8 +13,10 @@ class IPiece  {
     virtual bool CanMove( IPiece *target ) = 0;
     virtual bool IsFree( int src_col, int src_row, int dst_col, int dst_row ) = 0;
     virtual bool Check( int src_col, int src_row, int dst_col, int dst_row ) = 0;
+    virtual bool CheckVision( int src_col, int src_row ) = 0;
 
     virtual void Print( void ) = 0;
+    virtual stPosition& Position( void ) = 0;
     virtual Color GetColor( void ) = 0;
     virtual Pieces GetType( void ) = 0;
     virtual Status GetStatus( void ) = 0;

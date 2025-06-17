@@ -20,6 +20,7 @@ class Player  {
     void Add( IPiece *piece );
     void Remove( IPiece *piece );
     bool CheckPieces( IPiece *piece );
+    bool CheckHit( void );
 };
 
 #endif // __PLAYER_H__
