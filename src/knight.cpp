@@ -13,12 +13,12 @@ Knight :: ~Knight( void )  {
 
 }
 
-bool Knight :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
+bool Knight :: Check( int dst_col, int dst_row )  {
     
-    int         jump_r = abs( dst_row - src_row );
-    int         jump_c = abs( dst_col - src_col );
+    int         jump_c = abs( dst_col - m_position.col );
+    int         jump_r = abs( dst_row - m_position.row );
     IPiece      *target = m_BoardVision -> GetPiece( dst_col, dst_row );
-    bool        ret = ( ( jump_r == 1 && jump_c == 2 ) || ( jump_r == 2 && jump_c == 1 ) );
+    bool        ret = ( ( jump_c == 1 && jump_r == 2 ) || ( jump_c == 2 && jump_r == 1 ) );
 
     if ( ret )  {
 
@@ -28,7 +28,7 @@ bool Knight :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
     return ret;
 }
 
-bool Knight :: CheckVision( int src_col, int src_row )  {
+bool Knight :: CheckVision( void )  {
 
     const int     col_number[8] = { 2, 1, -1, -2, -2, -1, 1, 2 };
     const int     row_number[8] = { 1, 2, 2, 1, -1, -2, -2, -1 };
@@ -37,7 +37,7 @@ bool Knight :: CheckVision( int src_col, int src_row )  {
 
     for ( int i = 0; i < 8; i++ ) {
 
-        piece = m_BoardVision -> GetPiece(( src_col + col_number[i] ), ( src_row + row_number[i] ) );
+        piece = m_BoardVision -> GetPiece( ( m_position.col + col_number[i] ), ( m_position.row + row_number[i] ) );
 
         if ( piece != nullptr && piece -> GetType() == KING && piece -> GetColor() != m_color )  {
 

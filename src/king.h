@@ -11,7 +11,7 @@ class King : public Piece {
     King ( Color color, IBoard *boardVision );
     virtual ~King ( void );
 
-    bool Check( int src_col, int src_row, int dst_col, int dst_row );
+    bool Check( int dst_col, int dst_row );
     void Print( void );
 };
 

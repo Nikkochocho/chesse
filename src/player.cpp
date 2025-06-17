@@ -23,7 +23,7 @@ void Player :: Remove( IPiece *piece )  {
 
 bool Player :: CheckPieces( IPiece *piece )  {
 
-    for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++)  {
+    for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
         if ( *it == piece )  {
 
@@ -34,11 +34,14 @@ bool Player :: CheckPieces( IPiece *piece )  {
     return false;
 }
 
-bool Player :: CheckHit( void ) {
-    for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++)  {
+bool Player :: CanCheck( void ) {
+
+    for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
+
         IPiece *pPiece = *it; 
 
-        if ( pPiece -> CheckVision(1,1) )  {
+        if ( pPiece -> CheckVision() )  {
+            
             return true;
         }
     }

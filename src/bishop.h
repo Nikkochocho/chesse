@@ -11,7 +11,7 @@ class Bishop : public Piece {
     Bishop ( Color color, IBoard *boardVision );
     virtual ~Bishop ( void );
 
-    bool Check( int src_col, int src_row, int dst_col, int dst_row );
+    bool Check( int dst_col, int dst_row );
     void Print( void );
 };
 

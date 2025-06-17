@@ -11,8 +11,8 @@ class Knight : public Piece {
     Knight ( Color color, IBoard *boardVision );
     virtual ~Knight ( void );
 
-    bool Check( int src_col, int src_row, int dst_col, int dst_row );
-    bool CheckVision( int src_col, int src_row );
+    bool Check( int dst_col, int dst_row );
+    bool CheckVision( void );
     void Print( void );
 };
 

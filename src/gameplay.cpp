@@ -84,7 +84,7 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
         PlayerNumber   player;
 
         if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && 
-              piece -> Check( src_c, src_r, dst_c, dst_r ) )  {
+              piece -> Check( dst_c, dst_r ) )  {
             
             //has capture
             if ( ( captured_piece != nullptr ) && ( captured_piece -> GetStatus() == CAPTURED ) )  {
@@ -94,10 +94,9 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
                 m_board -> RemovePiece( dst_c, dst_r );
             }
 
-            m_board -> SetPiece( src_c, src_r, nullptr );
-
             m_board -> SetPiece( dst_c, dst_r, piece );
             piece -> Movement();
+            m_board -> SetPiece( src_c, src_r, nullptr );
             ChangeTurn();
             
             if ( piece -> GetStatus() != NORMAL )  {

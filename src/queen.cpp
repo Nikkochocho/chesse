@@ -13,11 +13,11 @@ Queen :: ~Queen( void )  {
 
 }
 
-bool Queen :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
+bool Queen :: Check( int dst_col, int dst_row )  {
 
-    if ( ( abs( dst_row - src_row ) == abs( dst_col - src_col ) ) || ( dst_row == src_row || dst_col == src_col ) )  {
+    if ( ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) ) || ( dst_col == m_position.col || dst_row == m_position.row ) )  {
 
-        return IsFree( src_col, src_row, dst_col, dst_row );
+        return IsFree( dst_col, dst_row );
     }
 
     return false;

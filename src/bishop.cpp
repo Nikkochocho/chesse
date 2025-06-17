@@ -13,11 +13,11 @@ Bishop :: ~Bishop( void )  {
 
 }
 
-bool Bishop :: Check( int src_col, int src_row, int dst_col, int dst_row )  {
+bool Bishop :: Check( int dst_col, int dst_row )  {
 
-    if ( abs( dst_row - src_row ) == abs( dst_col - src_col ) )  {
+    if ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) )  {
 
-        return IsFree( src_col, src_row, dst_col, dst_row );
+        return IsFree( dst_col, dst_row );
     }
 
     return false;

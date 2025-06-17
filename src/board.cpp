@@ -60,9 +60,12 @@ IPiece* Board :: GetPiece( int dst_c, int dst_r )  {
 
 void Board :: SetPiece( int col, int row, IPiece *piece )  {
 
-    piece -> Position().col = col;
-    piece -> Position().row = row;
-    
+    if ( piece != nullptr )  {
+        
+        piece -> Position().col = col;
+        piece -> Position().row = row;
+    }
+
     m_board[col][row] = piece;
 }
 
