@@ -10,7 +10,6 @@ King :: King( Color color, IBoard *boardVision )  {
 }
 
 King :: ~King( void )  {
-
     
 }
 
@@ -46,6 +45,11 @@ bool King :: Check( int dst_col, int dst_row )  {
     }
 
     return ret;
+}
+
+bool King :: CheckVision( void )  {
+
+    return false;
 }
 
 void King :: Print( void )  {

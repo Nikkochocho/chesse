@@ -59,23 +59,33 @@ bool Pawn :: Check( int dst_col, int dst_row )  {
 
 bool Pawn :: CheckVision( void )  {
 
-    int       col = 1;
+    int       col_pos;
+    int       row_pos;
+    int       col;
     int       row = ( m_color == WHITE ) ? 1 : -1;
     bool      ret = false;
     IPiece    *piece;
 
     for ( int i = 0; i < 2; i++ )  {
 
-        piece = m_BoardVision -> GetPiece( ( m_position.col + col ), ( m_position.row + row ) );
+        col = ( i == 0 ) ? 1 : -1;
+        col_pos = m_position.col + col;
+        m_position.row + row;
+        
+        if ( ( col_pos < 0 || col_pos > 7 ) || ( row_pos < 0 || row_pos > 7 ) )  {
 
-        if ( piece != nullptr && piece -> GetType() == KING && piece -> GetColor() != m_color )  {
+            continue;
+        }
+
+        piece = m_BoardVision -> GetPiece( ( col_pos ), ( row_pos ) );
+
+        if ( ( piece != nullptr ) && 
+             ( piece -> GetType() == KING ) && ( piece -> GetColor() != m_color ) )  {
 
             piece -> SetStatus( CHECK );
             ret = true;
             break;
         }
-
-        col = -1;
     }
 
     return ret;

@@ -81,7 +81,7 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
         IPiece         *castle = nullptr;
         IPiece         *remove = nullptr;
         int            direction;
-        PlayerNumber   player;
+        PlayerNumber   opponent = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
 
         if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && 
               piece -> Check( dst_c, dst_r ) )  {
@@ -89,14 +89,21 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
             //has capture
             if ( ( captured_piece != nullptr ) && ( captured_piece -> GetStatus() == CAPTURED ) )  {
 
-                player = ( captured_piece -> GetColor() == WHITE ) ? PLAYER_1 : PLAYER_2;
-                m_players[player] -> Remove( captured_piece );
+                m_players[opponent] -> Remove( captured_piece );
                 m_board -> RemovePiece( dst_c, dst_r );
+            }
+
+            m_board -> SetPiece( src_c, src_r, nullptr );
+
+            if ( m_players[opponent] -> CanCheck() )  {
+
+                m_board -> SetPiece( dst_c, dst_r, piece );
+                return false;
             }
 
             m_board -> SetPiece( dst_c, dst_r, piece );
             piece -> Movement();
-            m_board -> SetPiece( src_c, src_r, nullptr );
+            
             ChangeTurn();
             
             if ( piece -> GetStatus() != NORMAL )  {
@@ -119,9 +126,8 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
 
                     case ENPASSANT: 
                         direction = ( piece -> GetColor() == WHITE ) ? -1 : 1;
-                        player = ( piece -> GetColor() == WHITE ) ? PLAYER_2 : PLAYER_1;
                         remove = m_board -> GetPiece( dst_c, ( dst_r + direction ) );
-                        m_players[player] -> Remove( remove );
+                        m_players[opponent] -> Remove( remove );
                         m_board -> RemovePiece( dst_c, ( dst_r + direction ) );
                         break;
 

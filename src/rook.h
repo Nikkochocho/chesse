@@ -12,6 +12,7 @@ class Rook : public Piece {
     virtual ~Rook ( void );
 
     bool Check( int dst_col, int dst_row );
+    bool CheckVision( void );
     void Print( void );
 };
 

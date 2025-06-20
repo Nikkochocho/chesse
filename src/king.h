@@ -12,6 +12,7 @@ class King : public Piece {
     virtual ~King ( void );
 
     bool Check( int dst_col, int dst_row );
+    bool CheckVision( void );
     void Print( void );
 };
 

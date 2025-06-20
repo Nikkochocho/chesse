@@ -23,6 +23,14 @@ bool Queen :: Check( int dst_col, int dst_row )  {
     return false;
 }
 
+bool Queen :: CheckVision( void )  {
+
+    return ( ( IsFree( 7, m_position.row, true ) || IsFree( 0, m_position.row, true ) ) ||
+             ( IsFree( m_position.col, 7, true ) || IsFree( m_position.col, 0, true ) ) ||
+             ( IsFree( 7, 7, true ) || IsFree( 0, 0, true ) ) ||
+             ( IsFree( 0, 7, true ) || IsFree( 7, 0, true ) ) );
+}
+
 void Queen :: Print( void )  {
 
     std :: cout << 'Q';

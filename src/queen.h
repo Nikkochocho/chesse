@@ -12,6 +12,7 @@ class Queen : public Piece {
     virtual ~Queen ( void );
 
     bool Check( int dst_col, int dst_row );
+    bool CheckVision( void );
     void Print( void );
 };
 

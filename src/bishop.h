@@ -12,6 +12,7 @@ class Bishop : public Piece {
     virtual ~Bishop ( void );
 
     bool Check( int dst_col, int dst_row );
+    bool CheckVision( void );
     void Print( void );
 };
 

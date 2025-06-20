@@ -23,6 +23,12 @@ bool Bishop :: Check( int dst_col, int dst_row )  {
     return false;
 }
 
+bool Bishop :: CheckVision( void )  {
+
+    return ( ( IsFree( 7, 7, true ) || IsFree( 0, 0, true ) ) ||
+             ( IsFree( 0, 7, true ) || IsFree( 7, 0, true ) ) );
+}
+
 void Bishop :: Print( void )  {
 
     std :: cout << 'B';

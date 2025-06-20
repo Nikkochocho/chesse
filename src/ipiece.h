@@ -11,7 +11,7 @@ class IPiece  {
     virtual void Movement( void ) = 0;
     virtual int GetMovementCount( void ) = 0;
     virtual bool CanMove( IPiece *target ) = 0;
-    virtual bool IsFree( int dst_col, int dst_row ) = 0;
+    virtual bool IsFree( int dst_col, int dst_row, bool check = false ) = 0;
     virtual bool Check( int dst_col, int dst_row ) = 0;
     virtual bool CheckVision( void ) = 0;
 

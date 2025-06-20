@@ -23,6 +23,12 @@ bool Rook :: Check( int dst_col, int dst_row )  {
     return false;
 }
 
+bool Rook :: CheckVision( void )  {
+
+    return ( ( IsFree( 7, m_position.row, true ) || IsFree( 0, m_position.row, true ) ) ||
+             ( IsFree( m_position.col, 7, true ) || IsFree( m_position.col, 0, true ) ) );
+}
+
 void Rook :: Print( void )  {
 
     std :: cout << 'R';

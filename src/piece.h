@@ -20,7 +20,7 @@ class Piece : public IPiece  {
     void Movement( void );
     int GetMovementCount( void );
     bool CanMove( IPiece *target );
-    bool IsFree( int dst_col, int dst_row );
+    bool IsFree( int dst_col, int dst_row, bool check = false );
     virtual bool Check( int dst_col, int dst_row );
     virtual bool CheckVision( void );
 
