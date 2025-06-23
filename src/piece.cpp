@@ -4,20 +4,20 @@
 void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal )  {
 
     bool asc, desc;
-    bool direction = ( diagonal ) ? 1 : -1; //default main; else secondary diagonal
+    int direction = ( diagonal == true ) ? 1 : -1; //default main; else secondary diagonal
 
     asc = desc = true;
 
     while ( asc || desc )  {
 
-        if ( ( posAsc.col < 7 ) && ( posAsc.row < 7 ) )  {
+        if ( ( ( posAsc.col < 7 ) && ( posAsc.col > 0 ) ) && ( posAsc.row < 7 ) )  {
 
             posAsc.col += direction;
             posAsc.row++;
         }
         else asc = false;
 
-        if ( ( posDesc.col > 0 ) && ( posDesc.row > 0 ) )  {
+        if ( ( ( posDesc.col > 0 ) && ( posDesc.col < 7 ) ) && ( posDesc.row > 0 ) )  {
 
             posDesc.col += ( direction * -1 );
             posDesc.row--;
@@ -44,7 +44,8 @@ bool Piece :: TrespassCheck( int dist_col, int dist_row, int itr_col, int itr_ro
             target -> SetStatus( CHECK );
             return true;
         }
-        else if ( ( row_iterations ==  dist_row ) && ( col_iterations ==  dist_col ) )  {
+        
+        if ( !check && ( row_iterations ==  dist_row ) && ( col_iterations ==  dist_col ) )  {
 
                 return CanMove( target );
         }
