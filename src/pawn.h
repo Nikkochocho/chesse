@@ -6,7 +6,6 @@
 
 class Pawn : public Piece  {
 
-
     public:
 
     Pawn( Color color, IBoard *boardVision );

@@ -97,7 +97,7 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
 
             if ( m_players[opponent] -> CanCheck() )  {
 
-                m_board -> SetPiece( dst_c, dst_r, piece );
+                m_board -> SetPiece( src_c, src_r, piece );
                 return false;
             }
 

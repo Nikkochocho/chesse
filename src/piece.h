@@ -15,6 +15,13 @@ class Piece : public IPiece  {
     Status      m_state = NORMAL;
     IBoard      *m_BoardVision;
 
+    void CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal );
+
+    private:
+
+    bool TrespassCheck( int dist_col, int dist_row, int itr_col, int itr_row, bool check );
+    bool KingCheck( IPiece *target ) ;
+
     public:
 
     void Movement( void );

@@ -25,8 +25,14 @@ bool Bishop :: Check( int dst_col, int dst_row )  {
 
 bool Bishop :: CheckVision( void )  {
 
-    return ( ( IsFree( 7, 7, true ) || IsFree( 0, 0, true ) ) ||
-             ( IsFree( 0, 7, true ) || IsFree( 7, 0, true ) ) );
+    stPosition MainposAsc, MainposDesc, SecposAsc, SecposDesc;
+    MainposAsc =  MainposDesc = SecposAsc = SecposDesc = m_position;
+
+    CalcDiagonals( MainposAsc, MainposDesc, true ); //main diagonal
+    CalcDiagonals( SecposAsc, SecposDesc, false ); //secondary diagonal
+
+    return ( ( IsFree( MainposAsc.col, MainposAsc.row, true ) || IsFree( MainposDesc.col, MainposDesc.row, true ) ) ||
+             ( IsFree( SecposAsc.col, SecposAsc.row, true ) || IsFree( SecposDesc.col, SecposDesc.row, true ) ) );
 }
 
 void Bishop :: Print( void )  {
