@@ -1,5 +1,8 @@
 This is a TODO list with improvements and new features;
 
-* Start Check and Checkmate implementation;
-* GetRow(), GetCol(), GetDiagonals(), GetJump() to each piece based on their moveset (GetVision on interface);
-* Add a GetPos() to each piece;
+* change IsFree() from public to protected
+* Start Checkmate implementation
+* Revaluate CheckVision() from rook and queen
+* Checks the other players list of pieces, see if camp of vision can block the king attack
+* Checks if piece can be captured
+* Checks if king can move its way outta the check (double check)

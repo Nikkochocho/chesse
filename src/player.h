@@ -10,6 +10,8 @@ class Player  {
 
     PieceList    m_pieces;
     Color        m_color;
+    IPiece       *m_king;
+    bool         m_oncheck = false;
     
 
     public:
@@ -19,6 +21,10 @@ class Player  {
 
     void Add( IPiece *piece );
     void Remove( IPiece *piece );
+    IPiece* GetKing( void );
+    void SetKing( IPiece *piece );
+    bool GetCheckStatus( void );
+    void SetCheckStatus( bool check );
     bool CheckPieces( IPiece *piece );
     bool CanCheck( void );
 };

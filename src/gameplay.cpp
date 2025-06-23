@@ -25,6 +25,9 @@ void GamePlay :: InitPieces( void )  {
         m_players[PLAYER_1] -> Add( m_board -> GetPiece( col, 0 ) ); 
         m_players[PLAYER_2] -> Add( m_board -> GetPiece( col, 7 ) );
     }
+
+    m_players[PLAYER_1] -> SetKing( m_board -> GetPiece( 4, 0 ) );
+    m_players[PLAYER_2] -> SetKing( m_board -> GetPiece( 4, 7 ) );
 }
 
 void GamePlay :: ChangeTurn( void )  {
@@ -76,12 +79,13 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
 
     if ( IsValid( src_c, src_r, dst_c, dst_r ) ) {
         
+        PlayerNumber   opponent = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
+        IPiece         *king_opponent = m_players[opponent] -> GetKing();
         IPiece         *piece = m_board -> GetPiece( src_c, src_r );
         IPiece         *captured_piece = m_board -> GetPiece( dst_c, dst_r );
         IPiece         *castle = nullptr;
         IPiece         *remove = nullptr;
         int            direction;
-        PlayerNumber   opponent = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
 
         if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && 
               piece -> Check( dst_c, dst_r ) )  {
@@ -95,16 +99,30 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
 
             m_board -> SetPiece( src_c, src_r, nullptr );
 
-            if ( m_players[opponent] -> CanCheck() )  {
+            if ( m_players[m_turn] -> GetCheckStatus() )  {
+
+                m_board -> SetPiece( dst_c, dst_r, piece );
+
+                if ( m_players[opponent] -> CanCheck() )  { //checks if check is blocked
+
+                    m_board -> SetPiece( src_c, src_r, piece );
+                    m_board -> SetPiece( dst_c, dst_r, nullptr );
+                    return false;
+                }
+
+                m_players[m_turn] -> GetKing() -> SetStatus( NORMAL );
+                m_players[m_turn] -> SetCheckStatus( false );
+            }
+
+            if ( m_players[opponent] -> CanCheck() )  { //checks if movement can make player check themselves
 
                 m_board -> SetPiece( src_c, src_r, piece );
                 return false;
             }
 
             m_board -> SetPiece( dst_c, dst_r, piece );
-            piece -> Movement();
             
-            ChangeTurn();
+            piece -> Movement();
             
             if ( piece -> GetStatus() != NORMAL )  {
 
@@ -138,6 +156,13 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
 
                 piece -> SetStatus( NORMAL );
             }
+
+            if ( m_players[m_turn] -> CanCheck() )  {
+
+                m_players[opponent] -> SetCheckStatus( true );
+            }
+
+            ChangeTurn();
 
             return true;
         }
