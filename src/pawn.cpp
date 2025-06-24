@@ -63,15 +63,15 @@ bool Pawn :: KingCheck( void )  {
     int       col_pos;
     int       row_pos;
     int       col;
-    int       row = ( m_color == WHITE ) ? 1 : -1;
-    bool      ret = false;
+    int       row      = ( m_color == WHITE ) ? 1 : -1;
+    bool      ret      = false;
 
     for ( int i = 0; i < 2; i++ )  {
 
         col     = ( i == 0 ) ? 1 : -1;
         col_pos = m_position.col + col;
         
-        m_position.row + row;
+        row_pos = m_position.row + row;
         
         if ( ( col_pos < 0 || col_pos > 7 ) || ( row_pos < 0 || row_pos > 7 ) )  {
 

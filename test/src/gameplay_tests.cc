@@ -2,7 +2,8 @@
 #include "gameplay.h"
 #include "player.h"
 #include "board.h"
-//#include "pawn.h"
+#include "pawn.h"
+#include "test_helper.h"
 
 
 TEST( chesse_tests, CHECK_TURN_DEFAULT ) {
@@ -12,7 +13,7 @@ TEST( chesse_tests, CHECK_TURN_DEFAULT ) {
 
     game.NewGame();
 
-    bool        ret   = game.GetTurn() == PLAYER_1;
+    bool        ret   = ( game.GetTurn() == PLAYER_1 );
 
     EXPECT_EQ ( ret, true );
 }
@@ -25,7 +26,7 @@ TEST( chesse_tests, CHECK_TURN_CHANGE ) {
     game.NewGame();
     game.Move( 'e', '2', 'e', '3' );
 
-    bool        ret   = game.GetTurn() == PLAYER_2;
+    bool        ret   = ( game.GetTurn() == PLAYER_2 );
 
     EXPECT_EQ ( ret, true );
 }
@@ -38,7 +39,7 @@ TEST( chesse_tests, CHECK_INVALID_TURN_CHANGE ) {
     game.NewGame();
     game.Move( 'e', '2', 'e', '1' );
 
-    bool        ret   = game.GetTurn() == PLAYER_2;
+    bool        ret   = ( game.GetTurn() == PLAYER_2 );
 
     EXPECT_EQ ( ret, false );
 }
@@ -93,104 +94,203 @@ TEST( chesse_tests, MOVE_PIECE_INVALID_POSITION_CHECK_MOVEMENT ) {
     EXPECT_EQ ( ret, false );
 }
 
-// TEST( chesse_tests, CHECK_PROMOTION_TRUE ) {
+TEST( chesse_tests, CHECK_PROMOTION_TRUE ) {
     
-//     Board       board;
-//     GamePlay    game( &board );
-//     Pawn        piece = Pawn( WHITE, &board );
+    Board       board;
+    GamePlay    game( &board );
+    Pawn        piece = Pawn( WHITE, &board );
 
-//     board.SetPiece( 0, 6, &piece );
-//     game.Move( 'a', '7', 'a', '8' );
+    game.NewGame();
+    game.Move( 'd', '2', 'd', '4' );
+    game.Move( 'e', '7', 'e', '5' );
+    game.Move( 'd', '4', 'e', '5' );
+    game.Move( 'f', '7', 'f', '5' );
+    game.Move( 'e', '5', 'f', '6' );
+    game.Move( 'd', '7', 'd', '5' );
+    game.Move( 'f', '6', 'g', '7' );
+    game.Move( 'g', '8', 'e', '7' );
+    game.Move( 'g', '7', 'h', '8' );
 
-//     bool        ret   = game.HasPromotion();
+    bool        ret   = game.HasPromotion();
 
-//     EXPECT_EQ ( ret, true );
-// }
+    EXPECT_EQ ( ret, true );
+}
 
-// TEST( chesse_tests, CHECK_PROMOTION_FALSE ) {
+TEST( chesse_tests, CHECK_PROMOTION_FALSE ) {
     
-//     Board       board;
-//     GamePlay    game( &board );
-//     Pawn        piece = Pawn( WHITE, &board );
+    Board       board;
+    GamePlay    game( &board );
+    Pawn        piece = Pawn( WHITE, &board );
 
-//     board.SetPiece( 0, 5, &piece );
-//     game.Move( 'a', '6', 'a', '7' );
+    game.NewGame();
 
-//     bool        ret   = game.HasPromotion();
+    bool        ret   = game.HasPromotion();
 
-//     EXPECT_EQ ( ret, false );
-// }
+    EXPECT_EQ ( ret, false );
+}
 
-// TEST( chesse_tests, CHECK_PROMOTED_QUEEN ) {
+TEST( chesse_tests, CHECK_PROMOTED_QUEEN ) {
     
-//     Board       board;
-//     GamePlay    game( &board );
-//     Pawn        piece = Pawn( WHITE, &board );
+    Board       board;
+    GamePlay    game( &board );
+    Pawn        piece = Pawn( WHITE, &board );
 
-//     board.SetPiece( 0, 6, &piece );
-//     game.Move( 'a', '7', 'a', '8' );
-//     game.Promote( 'a', '8', 'Q');
+    game.NewGame();
+    PromotionMove( game );
+    game.Promote('h','8', QUEEN );
 
-//     bool        ret   = ( board.GetPiece( 0, 7 ) -> GetType() == QUEEN );
+    bool        ret   = ( board.GetPiece( 7, 7 ) -> GetType() == QUEEN );
 
-//     EXPECT_EQ ( ret, true );
-// }
+    EXPECT_EQ ( ret, true );
+}
 
-// TEST( chesse_tests, CHECK_PROMOTED_BISHOP ) {
+TEST( chesse_tests, CHECK_PROMOTED_BISHOP ) {
     
-//     Board       board;
-//     GamePlay    game( &board );
-//     Pawn        piece = Pawn( WHITE, &board );
+    Board       board;
+    GamePlay    game( &board );
+    Pawn        piece = Pawn( WHITE, &board );
 
-//     board.SetPiece( 0, 6, &piece );
-//     game.Move( 'a', '7', 'a', '8' );
-//     game.Promote( 'a', '8', 'B');
+    game.NewGame();
+    PromotionMove( game );
+    game.Promote('h','8', BISHOP );
 
-//     bool        ret   = ( board.GetPiece( 0, 7 ) -> GetType() == BISHOP );
+    bool        ret   = ( board.GetPiece( 7, 7 ) -> GetType() == BISHOP );
 
-//     EXPECT_EQ ( ret, true );
-// }
+    EXPECT_EQ ( ret, true );
+}
 
-// TEST( chesse_tests, CHECK_PROMOTED_KNIGHT ) {
+TEST( chesse_tests, CHECK_PROMOTED_KNIGHT ) {
     
-//     Board       board;
-//     GamePlay    game( &board );
-//     Pawn        piece = Pawn( WHITE, &board );
+    Board       board;
+    GamePlay    game( &board );
+    Pawn        piece = Pawn( WHITE, &board );
 
-//     board.SetPiece( 0, 6, &piece );
-//     game.Move( 'a', '7', 'a', '8' );
-//     game.Promote( 'a', '8', 'N');
+    game.NewGame();
+    PromotionMove( game );
+    game.Promote('h','8', KNIGHT );
 
-//     bool        ret   = ( board.GetPiece( 0, 7 ) -> GetType() == KNIGHT );
+    bool        ret   = ( board.GetPiece( 7, 7 ) -> GetType() == KNIGHT );
 
-//     EXPECT_EQ ( ret, true );
-// }
+    EXPECT_EQ ( ret, true );
+}
 
-// TEST( chesse_tests, CHECK_PROMOTED_ROOK ) {
+TEST( chesse_tests, CHECK_PROMOTED_ROOK ) {
     
-//     Board       board;
-//     GamePlay    game( &board );
-//     Pawn        piece = Pawn( WHITE, &board );
+    Board       board;
+    GamePlay    game( &board );
 
-//     board.SetPiece( 0, 6, &piece );
-//     game.Move( 'a', '7', 'a', '8' );
-//     game.Promote( 'a', '8', 'R');
+    game.NewGame();
+    PromotionMove( game );
+    game.Promote('h','8', ROOK );
 
-//     bool        ret   = ( board.GetPiece( 0, 7 ) -> GetType() == ROOK );
+    bool        ret   = ( board.GetPiece( 7, 7 ) -> GetType() == ROOK );
 
-//     EXPECT_EQ ( ret, true );
-// }
+    EXPECT_EQ ( ret, true );
+}
 
-// TEST( chesse_tests, CHECK_PROMOTED_INVALID ) {
+TEST( chesse_tests, PAWN_BLOCK_CHECK ) {
     
-//     Board       board;
-//     GamePlay    game( &board );
-//     Pawn        piece = Pawn( WHITE, &board );
+    Board       board;
+    GamePlay    game( &board );
 
-//     board.SetPiece( 0, 6, &piece );
-//     game.Move( 'a', '7', 'a', '8' );
+    game.NewGame();
+    CheckKing( game );
+    game.Move( 'c', '2', 'c', '3' );
 
-//     bool        ret   = game.Promote( 'a', '8', 'L');;
+    bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
 
-//     EXPECT_EQ ( ret, false );
-// }
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, ROOK_BLOCK_CHECK ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    game.Move( 'a', '2', 'a', '4' );
+    game.Move( 'a', '7', 'a', '5' );
+    game.Move( 'a', '1', 'a', '3' );
+    game.Move( 'b', '7', 'b', '6' );
+    CheckKing( game );
+    game.Move( 'a', '3', 'c', '3' );
+
+    bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
+
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, KNIGHT_BLOCK_CHECK ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    CheckKing( game );
+    game.Move( 'b', '1', 'c', '3' );
+
+    bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
+
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, BISHOP_BLOCK_CHECK ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    CheckKing( game );
+    game.Move( 'c', '1', 'd', '2' );
+
+    bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
+
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, QUEEN_BLOCK_CHECK ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    CheckKing( game );
+    game.Move( 'd', '1', 'd', '2' );
+
+    bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
+
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, KING_MOVE_OUT_CHECK ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    game.Move( 'e', '2', 'e', '3' );
+    game.Move( 'a', '7', 'a', '5' );
+    CheckKing( game );
+    game.Move( 'e', '1', 'e', '2' );
+
+    bool        ret   = ( board.GetPiece( 4, 1 ) -> GetStatus() == CHECK );
+
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, KING_MOVE_INTO_CHECK ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    game.Move( 'e', '2', 'e', '3' );
+    game.Move( 'a', '7', 'a', '5' );
+    game.Move( 'e', '1', 'e', '2' );
+    game.Move( 'h', '7', 'h', '5' );
+    CheckKing( game );
+
+    bool        ret   = game.Move( 'e', '2', 'e', '1' );
+
+    EXPECT_EQ ( ret, false );
+}

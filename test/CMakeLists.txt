@@ -13,7 +13,7 @@ set(CMAKE_CXX_STANDARD 17)
 # Add all chesse app include directories
 #
 include_directories("../src")
-include_directories("test//src")
+include_directories("test/src")
 
 set(CHESSE_TESTS_SOURCES
    ${PROJECT_SOURCE_DIR}/src/main.cpp 
@@ -24,6 +24,7 @@ set(CHESSE_TESTS_SOURCES
    ${PROJECT_SOURCE_DIR}/src/queen_tests.cc
    ${PROJECT_SOURCE_DIR}/src/king_tests.cc
    ${PROJECT_SOURCE_DIR}/src/gameplay_tests.cc
+   ${PROJECT_SOURCE_DIR}/src/test_helper.cpp
    )
 
 # Add all chesse source files

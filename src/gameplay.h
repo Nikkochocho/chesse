@@ -33,7 +33,7 @@ class GamePlay {
     void NewGame( void );
     bool Move( char src_col, char src_row, char dst_col, char dst_row );
     bool HasPromotion( void );
-    bool Promote( char dst_col, char dst_row, char promotion );
+    bool Promote( char dst_col, char dst_row, Pieces piece_type );
     bool IsCheckmate( void );
     PlayerNumber GetTurn( void );
     void Print( void );

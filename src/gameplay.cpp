@@ -59,8 +59,7 @@ bool GamePlay :: ValidMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumbe
 
         if ( captured_piece != nullptr )  {
 
-            m_players[opponent] -> Remove( captured_piece );
-            m_board -> RemovePiece( captured_piece -> Position().col, captured_piece -> Position().row );
+            SpecialCases( captured_piece, opponent );
         }
 
         m_board -> SetPiece( dst_c, dst_r, piece );
@@ -81,6 +80,7 @@ bool GamePlay :: ValidMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumbe
     if ( m_players[opponent] -> CanCheck() )  { //checks if movement can make player check themselves
 
         m_board -> SetPiece( col, row, piece );
+        m_board -> SetPiece( dst_c, dst_r, captured_piece );
         return false;
     }
 
@@ -203,36 +203,13 @@ bool GamePlay :: HasPromotion( void )  {
     return m_promotion;
 }
 
-bool GamePlay :: Promote( char dst_col, char dst_row, char promotion )  {
+bool GamePlay :: Promote( char dst_col, char dst_row, Pieces piece_type )  {
 
-    Pieces         piece_type;
     int            dst_c  = GetColIndex( dst_col );
     int            dst_r  = GetRowIndex( dst_row );
     IPiece         *piece = m_board -> GetPiece( dst_c, dst_r );
     Color          color  = piece -> GetColor();
     PlayerNumber   player = ( color == WHITE ) ? PLAYER_1 : PLAYER_2;
-
-    switch ( promotion )  {
-
-        case 'Q': 
-            piece_type = QUEEN; 
-            break; 
-
-        case 'B': 
-            piece_type = BISHOP; 
-            break;
-
-        case 'N': 
-            piece_type = KNIGHT; 
-            break;
-
-        case 'R':
-            piece_type = ROOK; 
-            break;
-
-        default:
-            return false;
-    }
 
     IPiece *promoted_piece = m_board -> GetPromotion( piece_type, color );
 
@@ -280,6 +257,7 @@ void GamePlay :: Print( void )  {
 
         std :: cout << "-";
     }
+    
     std :: cout << std :: endl;
     
     for ( int row = ( MAX_ROWS - 1 ); row >= 0; row-- )  {

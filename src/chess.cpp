@@ -1,6 +1,7 @@
 #include <iostream>
 #include "gameplay.h"
 #include "board.h"
+#include "helper.h"
 
 
 int main( int argc, char **argv ) {
@@ -35,8 +36,15 @@ int main( int argc, char **argv ) {
 
                 std :: cin >> promotion;
 
-                while ( !game.Promote( dst_c, dst_r, promotion ) )
+                Pieces piece_type = Conversion( promotion );
+
+                while ( piece_type == UNSET )  {
+
                     std :: cin >> promotion;
+                    Conversion( promotion );
+                }
+
+                game.Promote( dst_c, dst_r, piece_type );
             }
         }
         

@@ -1,6 +1,7 @@
 #include "knight_tests.h"
 #include "board.h"
 #include "knight.h"
+#include "king.h"
 
 
 TEST( chesse_tests, KNIGHT_ALL_VALID_MOVES_TEST )  {
@@ -131,6 +132,36 @@ TEST( chesse_tests, INVALID_CAPTURED_KNIGHT_STATUS_CHECK ) {
     piece.CanMove( 1, 2 );
 
     bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
+
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, KNIGHT_CHECK_KING ) {
+    
+    Board       board;
+
+    Knight      piece = Knight( WHITE, &board );
+    King        king = King( BLACK, &board );
+
+    board.SetPiece( 0, 0, &piece );
+    board.SetPiece( 1, 2, &king );
+
+    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, INVALID_KNIGHT_CHECK_KING ) {
+    
+    Board       board;
+
+    Knight      piece = Knight( WHITE, &board );
+    King        king = King( WHITE, &board ); //same color
+
+    board.SetPiece( 0, 0, &piece );
+    board.SetPiece( 1, 2, &king );
+
+    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, false );
 }

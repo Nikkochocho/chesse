@@ -59,7 +59,7 @@ bool Piece :: TrespassCheck( int dist_col, int dist_row, int itr_col, int itr_ro
         
         IPiece *target = m_BoardVision -> GetPiece( ( m_position.col + col_iterations ), ( m_position.row + row_iterations ) );
         
-        if ( check && KingCheck( target ) )  {
+        if ( check && IsOpponentKing( target ) )  {
 
             target -> SetStatus( CHECK );
             return true;
@@ -79,7 +79,7 @@ bool Piece :: TrespassCheck( int dist_col, int dist_row, int itr_col, int itr_ro
     return ret;
 }
 
-bool Piece :: KingCheck( IPiece *target )  {
+bool Piece :: IsOpponentKing( IPiece *target )  {
 
     return ( ( target != nullptr ) && 
              ( target -> GetType() == KING && target -> GetColor() != m_color ) );

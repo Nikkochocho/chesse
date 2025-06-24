@@ -6,11 +6,13 @@
 
 
 enum PlayerNumber  {
+
     PLAYER_1,
     PLAYER_2
 };
 
 enum Pieces  {
+
     KING,
     QUEEN,
     BISHOP,
@@ -20,12 +22,14 @@ enum Pieces  {
     UNSET
 };
 
-enum Color {
+enum Color  {
+
     WHITE,
     BLACK
 };
 
 enum Status  {
+
     NORMAL,
     CAPTURED,
     LONGCASTLE,
@@ -36,6 +40,7 @@ enum Status  {
 };
 
 struct stPosition  {
+
     int         col;
     int         row;
 };

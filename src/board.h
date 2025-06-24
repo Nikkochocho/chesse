@@ -4,7 +4,7 @@
 #include "iboard.h"
 #include <array>
 
-typedef std :: array<std :: array< IPiece*, MAX_COLS>, MAX_ROWS > ArrayBoard;
+typedef std :: array< std :: array< IPiece*, MAX_COLS >, MAX_ROWS > ArrayBoard;
 
 
 class Board : public IBoard  {

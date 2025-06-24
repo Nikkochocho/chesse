@@ -1,8 +1,8 @@
 This is a TODO list with improvements and new features;
 
-* change IsFree() from public to protected
+* change IsFree() from public to protected V
 * Start Checkmate implementation
-* Revaluate code and optimize it
+* Revaluate code and optimize it V
 * Checks the other players list of pieces, see if camp of vision can block the king attack
-* Checks if piece can be captured
+* Checks if piece can be captured V
 * Checks if king can move its way outta the check (double check)

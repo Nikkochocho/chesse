@@ -4,7 +4,7 @@
 #include "bishop_tests.h"
 #include "queen_tests.h"
 #include "king_tests.h"
-#include "gameplay_tests.h"
+#include "test_helper.h"
 
 
 /**
