@@ -42,6 +42,5 @@ int main( int argc, char **argv ) {
         
     } while ( !game.IsCheckmate() );
 
-
     return 0;
 }

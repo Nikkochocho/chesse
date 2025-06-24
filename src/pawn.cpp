@@ -4,8 +4,8 @@
 
 Pawn :: Pawn( Color color, IBoard *boardVision )  {
     
-    this -> m_type = PAWN;
-    this -> m_color = color;
+    this -> m_type        = PAWN;
+    this -> m_color       = color;
     this -> m_BoardVision = boardVision;
 }
 
@@ -13,15 +13,15 @@ Pawn :: ~Pawn( void )  {
     
 }
 
-bool Pawn :: Check( int dst_col, int dst_row )  {
+bool Pawn :: CanMove( int dst_col, int dst_row )  {
     
-    int         row = ( m_color == WHITE ) ? 1 : -1;
+    int         row           = ( m_color == WHITE ) ? 1 : -1;
     int         enpassant_row = ( m_color == WHITE ) ? 4 : 3;
     int         promotion_row = ( m_color == WHITE ) ? 7 : 0;
-    IPiece      *target = m_BoardVision -> GetPiece( dst_col, dst_row );
-    IPiece      *side_piece = m_BoardVision -> GetPiece( dst_col, dst_row + ( row * -1 ) );
-    bool        ret = ( ( target == nullptr ) &&
-                        ( ( dst_col == m_position.col ) && ( dst_row == m_position.row + row ) ) ); //default
+    IPiece      *target       = m_BoardVision -> GetPiece( dst_col, dst_row );
+    IPiece      *side_piece   = m_BoardVision -> GetPiece( dst_col, dst_row + ( row * -1 ) );
+    bool        ret           = ( ( target == nullptr ) &&
+                                  ( ( dst_col == m_position.col ) && ( dst_row == m_position.row + row ) ) ); //default
 
     //first move
     if ( m_MovementCount == 0 )  { 
@@ -57,19 +57,20 @@ bool Pawn :: Check( int dst_col, int dst_row )  {
     return ret; 
 }
 
-bool Pawn :: CheckVision( void )  {
+bool Pawn :: KingCheck( void )  {
 
+    IPiece    *piece;
     int       col_pos;
     int       row_pos;
     int       col;
     int       row = ( m_color == WHITE ) ? 1 : -1;
     bool      ret = false;
-    IPiece    *piece;
 
     for ( int i = 0; i < 2; i++ )  {
 
-        col = ( i == 0 ) ? 1 : -1;
+        col     = ( i == 0 ) ? 1 : -1;
         col_pos = m_position.col + col;
+        
         m_position.row + row;
         
         if ( ( col_pos < 0 || col_pos > 7 ) || ( row_pos < 0 || row_pos > 7 ) )  {

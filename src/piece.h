@@ -10,12 +10,13 @@ class Piece : public IPiece  {
     
     int         m_MovementCount = 0;
     stPosition  m_position;
-    Pieces      m_type;
     Color       m_color;
+    Pieces      m_type;
     Status      m_state = NORMAL;
     IBoard      *m_BoardVision;
 
     void CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal );
+    bool IsFree( int dst_col, int dst_row, bool check = false );
 
     private:
 
@@ -24,20 +25,19 @@ class Piece : public IPiece  {
 
     public:
 
-    void Movement( void );
     int GetMovementCount( void );
-    bool CanMove( IPiece *target );
-    bool IsFree( int dst_col, int dst_row, bool check = false );
-    virtual bool Check( int dst_col, int dst_row );
-    virtual bool CheckVision( void );
+    void SetMovementCount( void );
+    bool CanSet( IPiece *target );
+    virtual bool CanMove( int dst_col, int dst_row );
+    virtual bool KingCheck( void );
 
     virtual void Print( void );
    
-    stPosition& Position( void );
-    Color GetColor( void );
     Pieces GetType( void );
+    Color GetColor( void );
     Status GetStatus( void );
     void SetStatus( Status state );
+    stPosition& Position( void );
 };
 
 #endif // __PIECE_H__

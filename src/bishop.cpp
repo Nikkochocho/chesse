@@ -4,8 +4,8 @@
 
 Bishop :: Bishop( Color color, IBoard *boardVision )  {
 
-    this -> m_type = BISHOP;
-    this -> m_color = color;
+    this -> m_type        = BISHOP;
+    this -> m_color       = color;
     this -> m_BoardVision = boardVision;
 }
 
@@ -13,7 +13,7 @@ Bishop :: ~Bishop( void )  {
 
 }
 
-bool Bishop :: Check( int dst_col, int dst_row )  {
+bool Bishop :: CanMove( int dst_col, int dst_row )  {
 
     if ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) )  {
 
@@ -23,9 +23,10 @@ bool Bishop :: Check( int dst_col, int dst_row )  {
     return false;
 }
 
-bool Bishop :: CheckVision( void )  {
+bool Bishop :: KingCheck( void )  {
 
     stPosition MainposAsc, MainposDesc, SecposAsc, SecposDesc;
+
     MainposAsc =  MainposDesc = SecposAsc = SecposDesc = m_position;
 
     CalcDiagonals( MainposAsc, MainposDesc, true ); //main diagonal

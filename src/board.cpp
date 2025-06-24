@@ -29,7 +29,7 @@ Board :: ~Board( void )  {
 
 IPiece* Board :: GetPromotion( Pieces piece, Color color )  {
 
-    IPiece* promoted_piece;
+    IPiece *promoted_piece;
 
     switch ( piece )  {
 
@@ -90,7 +90,7 @@ void Board :: Init( void )  {
         SetPiece( col, 6, new Pawn( Color :: BLACK, this ) );
     }
 
-    const char* pieceOrder = "RNBQKBNR";
+    const char *pieceOrder = "RNBQKBNR";
 
     for ( int col = 0; col < MAX_COLS; col++ ) {
 

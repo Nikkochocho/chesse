@@ -4,8 +4,8 @@
 
 King :: King( Color color, IBoard *boardVision )  {
 
-    this -> m_type = KING;
-    this -> m_color = color;
+    this -> m_type        = KING;
+    this -> m_color       = color;
     this -> m_BoardVision = boardVision;
 }
 
@@ -13,18 +13,18 @@ King :: ~King( void )  {
     
 }
 
-bool King :: Check( int dst_col, int dst_row )  {
+bool King :: CanMove( int dst_col, int dst_row )  {
 
-    IPiece      *target = m_BoardVision -> GetPiece( dst_col, dst_row );
+    IPiece      *target  = m_BoardVision -> GetPiece( dst_col, dst_row );
     bool        castling = ( abs( dst_col - m_position.col ) == 2 );
-    bool        ret = ( CanMove( target ) && ( ( abs( dst_col - m_position.col ) <= 1 ) && ( abs( dst_row - m_position.row ) <= 1 ) ) &&
-                        ( ( abs( dst_col - m_position.col ) || abs( dst_row - m_position.row ) ) || 
-                          ( dst_col == m_position.col || dst_row == m_position.row ) ) );
+    bool        ret      = ( CanSet( target ) && ( ( abs( dst_col - m_position.col ) <= 1 ) && ( abs( dst_row - m_position.row ) <= 1 ) ) &&
+                             ( ( abs( dst_col - m_position.col ) || abs( dst_row - m_position.row ) ) || 
+                               ( dst_col == m_position.col || dst_row == m_position.row ) ) );
 
     if ( castling && ( m_MovementCount == 0 ) && ( dst_row == m_position.row ) && IsFree( dst_col, dst_row ) )  {
 
-        int      rook_pos = ( dst_col - m_position.col == 2 ) ? 1 : -2;
-        Status   castle_type = ( rook_pos == 1 ) ? SHORTCASTLE : LONGCASTLE;
+        int      rook_pos     = ( dst_col - m_position.col == 2 ) ? 1 : -2;
+        Status   castle_type  = ( rook_pos == 1 ) ? SHORTCASTLE : LONGCASTLE;
         IPiece   *castle_room = m_BoardVision -> GetPiece( ( dst_col + rook_pos ), m_position.row );
 
         if ( ( target == nullptr ) && ( castle_room -> GetType() == ROOK ) )  {
@@ -47,7 +47,7 @@ bool King :: Check( int dst_col, int dst_row )  {
     return ret;
 }
 
-bool King :: CheckVision( void )  {
+bool King :: KingCheck( void )  {
 
     return false;
 }

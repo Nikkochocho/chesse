@@ -4,8 +4,8 @@
 
 Queen :: Queen( Color color, IBoard *boardVision )  {
 
-    this -> m_type = QUEEN;
-    this -> m_color = color;
+    this -> m_type        = QUEEN;
+    this -> m_color       = color;
     this -> m_BoardVision = boardVision;
 }
 
@@ -13,9 +13,10 @@ Queen :: ~Queen( void )  {
 
 }
 
-bool Queen :: Check( int dst_col, int dst_row )  {
+bool Queen :: CanMove( int dst_col, int dst_row )  {
 
-    if ( ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) ) || ( dst_col == m_position.col || dst_row == m_position.row ) )  {
+    if ( ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) ) || 
+         ( dst_col == m_position.col || dst_row == m_position.row ) )  {
 
         return IsFree( dst_col, dst_row );
     }
@@ -23,7 +24,7 @@ bool Queen :: Check( int dst_col, int dst_row )  {
     return false;
 }
 
-bool Queen :: CheckVision( void )  {
+bool Queen :: KingCheck( void )  {
 
     stPosition MainposAsc, MainposDesc, SecposAsc, SecposDesc;
     MainposAsc =  MainposDesc = SecposAsc = SecposDesc = m_position;

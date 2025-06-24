@@ -4,15 +4,15 @@
 #include "iboard.h"
 #include <array>
 
-typedef std :: array<std :: array<IPiece*, MAX_COLS>, MAX_ROWS> ArrayBoard;
+typedef std :: array<std :: array< IPiece*, MAX_COLS>, MAX_ROWS > ArrayBoard;
 
 
 class Board : public IBoard  {
 
-    ArrayBoard        m_board;
+    ArrayBoard    m_board;
 
-    
-    void Clear( void );
+
+    void    Clear( void );
 
     public:
 

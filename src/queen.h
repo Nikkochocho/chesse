@@ -11,8 +11,8 @@ class Queen : public Piece {
     Queen ( Color color, IBoard *boardVision );
     virtual ~Queen ( void );
 
-    bool Check( int dst_col, int dst_row );
-    bool CheckVision( void );
+    bool CanMove( int dst_col, int dst_row );
+    bool KingCheck( void );
     void Print( void );
 };
 

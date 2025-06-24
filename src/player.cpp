@@ -43,7 +43,7 @@ void Player :: SetCheckStatus( bool check )  {
 
 bool Player :: CheckPieces( IPiece *piece )  {
 
-    for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
+    for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
         if ( *it == piece )  {
 
@@ -56,11 +56,11 @@ bool Player :: CheckPieces( IPiece *piece )  {
 
 bool Player :: CanCheck( void ) {
 
-    for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
+    for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
         IPiece *pPiece = *it; 
 
-        if ( pPiece -> CheckVision() )  {
+        if ( pPiece -> KingCheck() )  {
             
             return true;
         }

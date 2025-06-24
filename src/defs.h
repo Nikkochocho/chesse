@@ -5,11 +5,6 @@
 #define MAX_ROWS 8
 
 
-enum Color {
-    WHITE,
-    BLACK
-};
-
 enum PlayerNumber  {
     PLAYER_1,
     PLAYER_2
@@ -23,6 +18,11 @@ enum Pieces  {
     ROOK,
     PAWN,
     UNSET
+};
+
+enum Color {
+    WHITE,
+    BLACK
 };
 
 enum Status  {
