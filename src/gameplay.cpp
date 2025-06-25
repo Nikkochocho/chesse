@@ -55,38 +55,30 @@ bool GamePlay :: ValidMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumbe
 
     m_board -> SetPiece( col, row, nullptr );
 
-    if ( m_players[m_turn] -> GetCheckStatus() )  { //player on check
-
-        if ( captured_piece != nullptr )  {
-
-            SpecialCases( captured_piece, opponent );
-        }
-
-        m_board -> SetPiece( dst_c, dst_r, piece );
-
-        if ( m_players[opponent] -> CanCheck() )  { //if check is not blocked
-
-            m_board -> SetPiece( col, row, piece );
-            m_board -> SetPiece( dst_c, dst_r, captured_piece );
-            m_players[opponent] -> Add( captured_piece );
-            return false;
-        }
-
-        m_players[m_turn] -> GetKing() -> SetStatus( NORMAL );
-        m_players[m_turn] -> SetCheckStatus( false );
-        return true;
-    }
-
-    if ( m_players[opponent] -> CanCheck() )  { //checks if movement can make player check themselves
-
-        m_board -> SetPiece( col, row, piece );
-        m_board -> SetPiece( dst_c, dst_r, captured_piece );
-        return false;
-    }
-
     if ( captured_piece != nullptr )  {
 
         SpecialCases( captured_piece, opponent );
+    }
+
+    m_board -> SetPiece( dst_c, dst_r, piece );
+
+    if ( m_players[opponent] -> CanCheck() )  { //if check is not blocked
+
+        m_board -> SetPiece( col, row, piece );
+        m_board -> SetPiece( dst_c, dst_r, captured_piece );
+
+        if ( captured_piece != nullptr )  {
+
+            m_players[opponent] -> Add( captured_piece );
+        }
+        
+        return false;
+    }
+
+    if ( m_players[m_turn] -> GetCheckStatus() )  {
+
+        m_players[m_turn] -> GetKing() -> SetStatus( NORMAL );
+        m_players[m_turn] -> SetCheckStatus( false );
     }
 
     return true;

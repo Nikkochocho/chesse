@@ -1,10 +1,11 @@
 #ifndef __GAMEPLAY_H__
 #define __GAMEPLAY_H__
 
+#include <map>
 #include "iboard.h"
 #include "ipiece.h"
 #include "player.h"
-#include <map>
+
 
 typedef std :: map< PlayerNumber, Player* > PlayerMap;
 
