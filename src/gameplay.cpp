@@ -57,6 +57,11 @@ bool GamePlay :: ValidMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumbe
 
     if ( captured_piece != nullptr )  {
 
+        if ( captured_piece -> GetColor() == piece -> GetColor() )  {
+
+            return false;
+        }
+
         SpecialCases( captured_piece, opponent );
     }
 
@@ -130,6 +135,43 @@ void GamePlay :: SpecialCases( IPiece *piece, PlayerNumber opponent )  {
     piece -> SetStatus( NORMAL );
 }
 
+bool GamePlay :: KingEscape( PlayerNumber opponent )  {
+
+    IPiece    *king = m_players[opponent] -> GetKing();
+    int       col   = king -> Position().col;
+    int       row   = king -> Position().row;
+
+    for ( int i = -1; i < 2; i++ )  {
+
+        for ( int j = -1; j < 2; j++ )  {
+
+            int      col_pos         = col + j;
+            int      row_pos         = row + i;
+            IPiece   *captured_piece = m_board -> GetPiece( col_pos, row_pos );
+
+            if ( ( col_pos < 0 || col_pos > 7 ) || ( row_pos < 0 || row_pos > 7 ) )  {
+
+                continue;
+            }
+
+            if ( ValidMovement( king, col_pos, row_pos, m_turn ) )  {
+
+                m_board -> SetPiece( col, row, king );
+                m_board -> SetPiece( col_pos, row_pos, captured_piece );
+
+                if ( captured_piece != nullptr )  {
+
+                    m_players[opponent] -> Add( captured_piece );
+                }
+                
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+
 GamePlay :: GamePlay( IBoard *board )  {
 
     this -> m_board = board;
@@ -178,6 +220,11 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
                 if ( m_players[m_turn] -> CanCheck() )  {
 
                     m_players[opponent] -> SetCheckStatus( true );
+
+                    // if ( !KingEscape( opponent ) )  {
+
+                    //     m_checkmate = true;
+                    // }
                 }
 
                 ChangeTurn();

@@ -25,6 +25,7 @@ class GamePlay {
     void ChangeTurn( void );
     bool ValidMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent );
     void SpecialCases( IPiece *piece, PlayerNumber opponent );
+    bool KingEscape( PlayerNumber opponent );
 
     public:
     

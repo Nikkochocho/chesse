@@ -41,7 +41,7 @@ int main( int argc, char **argv ) {
                 while ( piece_type == UNSET )  {
 
                     std :: cin >> promotion;
-                    Conversion( promotion );
+                    piece_type = Conversion( promotion );
                 }
 
                 game.Promote( dst_c, dst_r, piece_type );
@@ -49,6 +49,8 @@ int main( int argc, char **argv ) {
         }
         
     } while ( !game.IsCheckmate() );
+
+    std :: cout << "CHECKMATE"<< std :: endl;
 
     return 0;
 }

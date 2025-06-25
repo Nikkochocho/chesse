@@ -4,7 +4,7 @@
 void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal )  {
 
     bool asc, desc;
-    int direction = diagonal ? 1 : -1; //default main; else secondary diagonal
+    int direction   = diagonal ? 1 : -1; //default main; else secondary diagonal
 
     asc = desc = true;
 
