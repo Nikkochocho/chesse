@@ -80,9 +80,10 @@ bool GamePlay :: ValidMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumbe
         return false;
     }
 
-    if ( m_players[m_turn] -> GetCheckStatus() )  {
+    if ( m_players[m_turn] -> GetCheckStatus() )  { //if check is blocked
 
         m_players[m_turn] -> GetKing() -> SetStatus( NORMAL );
+        m_players[m_turn] -> SetAttacker( nullptr );
         m_players[m_turn] -> SetCheckStatus( false );
     }
 
@@ -172,6 +173,29 @@ bool GamePlay :: KingEscape( PlayerNumber opponent )  {
     return false;
 }
 
+bool GamePlay :: CanBlock( IPiece *piece, PlayerNumber opponent )  {
+
+    int king_col = m_players[opponent] -> GetKing() -> Position().col;
+    int king_row = m_players[opponent] -> GetKing() -> Position().row;
+    int itr_col  = 0;
+    int itr_row  = 0;
+    int dist_col = king_col - ( piece -> Position().col );
+    int dist_row = king_row - ( piece -> Position().row );
+
+    if ( dist_col != 0 )  {
+
+        itr_col = ( dist_col > 0 ) ? 1 : -1;
+    }
+    
+    if ( dist_row != 0 )  { 
+
+        itr_row = ( dist_row > 0 ) ? 1 : -1;
+    }
+    //copied from IsFree(); might revaluate
+
+    return true;
+}
+
 GamePlay :: GamePlay( IBoard *board )  {
 
     this -> m_board = board;
@@ -220,6 +244,7 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
                 if ( m_players[m_turn] -> CanCheck() )  {
 
                     m_players[opponent] -> SetCheckStatus( true );
+                    m_players[opponent] -> SetAttacker( piece ); //might change to m_turn later
 
                     // if ( !KingEscape( opponent ) )  {
 

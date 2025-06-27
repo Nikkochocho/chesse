@@ -31,6 +31,16 @@ void Player :: SetKing( IPiece *piece )  {
     this -> m_king = piece;
 }
 
+IPiece* Player :: GetAttacker( void )  {
+
+    return m_attacker;
+}
+
+void Player :: SetAttacker( IPiece *piece )  {
+
+    this -> m_attacker = piece;
+}
+
 bool Player :: GetCheckStatus( void )  {
 
     return m_oncheck;

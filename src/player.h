@@ -11,6 +11,7 @@ class Player  {
     PieceList    m_pieces;
     Color        m_color;
     IPiece       *m_king;
+    IPiece       *m_attacker = nullptr;
     bool         m_oncheck = false;
     
 
@@ -23,6 +24,8 @@ class Player  {
     void Remove( IPiece *piece );
     IPiece* GetKing( void );
     void SetKing( IPiece *piece );
+    IPiece* GetAttacker( void );
+    void SetAttacker( IPiece *piece );
     bool GetCheckStatus( void );
     void SetCheckStatus( bool check );
     bool CheckPieces( IPiece *piece );

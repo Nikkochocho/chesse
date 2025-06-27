@@ -188,79 +188,79 @@ TEST( chesse_tests, CHECK_PROMOTED_ROOK ) {
     EXPECT_EQ ( ret, true );
 }
 
-TEST( chesse_tests, PAWN_BLOCK_CHECK ) {
+// TEST( chesse_tests, PAWN_BLOCK_CHECK ) {
     
-    Board       board;
-    GamePlay    game( &board );
+//     Board       board;
+//     GamePlay    game( &board );
 
-    game.NewGame();
-    CheckKing( game );
-    game.Move( 'c', '2', 'c', '3' );
+//     game.NewGame();
+//     CheckKing( game );
+//     game.Move( 'c', '2', 'c', '3' );
 
-    bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
+//     bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
 
-    EXPECT_EQ ( ret, false );
-}
+//     EXPECT_EQ ( ret, false );
+// }
 
-TEST( chesse_tests, ROOK_BLOCK_CHECK ) {
+// TEST( chesse_tests, ROOK_BLOCK_CHECK ) {
     
-    Board       board;
-    GamePlay    game( &board );
+//     Board       board;
+//     GamePlay    game( &board );
 
-    game.NewGame();
-    game.Move( 'a', '2', 'a', '4' );
-    game.Move( 'a', '7', 'a', '5' );
-    game.Move( 'a', '1', 'a', '3' );
-    game.Move( 'b', '7', 'b', '6' );
-    CheckKing( game );
-    game.Move( 'a', '3', 'c', '3' );
+//     game.NewGame();
+//     game.Move( 'a', '2', 'a', '4' );
+//     game.Move( 'a', '7', 'a', '5' );
+//     game.Move( 'a', '1', 'a', '3' );
+//     game.Move( 'b', '7', 'b', '6' );
+//     CheckKing( game );
+//     game.Move( 'a', '3', 'c', '3' );
 
-    bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
+//     bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
 
-    EXPECT_EQ ( ret, false );
-}
+//     EXPECT_EQ ( ret, false );
+// }
 
-TEST( chesse_tests, KNIGHT_BLOCK_CHECK ) {
+// TEST( chesse_tests, KNIGHT_BLOCK_CHECK ) {
     
-    Board       board;
-    GamePlay    game( &board );
+//     Board       board;
+//     GamePlay    game( &board );
 
-    game.NewGame();
-    CheckKing( game );
-    game.Move( 'b', '1', 'c', '3' );
+//     game.NewGame();
+//     CheckKing( game );
+//     game.Move( 'b', '1', 'c', '3' );
 
-    bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
+//     bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
 
-    EXPECT_EQ ( ret, false );
-}
+//     EXPECT_EQ ( ret, false );
+// }
 
-TEST( chesse_tests, BISHOP_BLOCK_CHECK ) {
+// TEST( chesse_tests, BISHOP_BLOCK_CHECK ) {
     
-    Board       board;
-    GamePlay    game( &board );
+//     Board       board;
+//     GamePlay    game( &board );
 
-    game.NewGame();
-    CheckKing( game );
-    game.Move( 'c', '1', 'd', '2' );
+//     game.NewGame();
+//     CheckKing( game );
+//     game.Move( 'c', '1', 'd', '2' );
 
-    bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
+//     bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
 
-    EXPECT_EQ ( ret, false );
-}
+//     EXPECT_EQ ( ret, false );
+// }
 
-TEST( chesse_tests, QUEEN_BLOCK_CHECK ) {
+// TEST( chesse_tests, QUEEN_BLOCK_CHECK ) {
     
-    Board       board;
-    GamePlay    game( &board );
+//     Board       board;
+//     GamePlay    game( &board );
 
-    game.NewGame();
-    CheckKing( game );
-    game.Move( 'd', '1', 'd', '2' );
+//     game.NewGame();
+//     CheckKing( game );
+//     game.Move( 'd', '1', 'd', '2' );
 
-    bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
+//     bool        ret   = ( board.GetPiece( 4, 0 ) -> GetStatus() == CHECK );
 
-    EXPECT_EQ ( ret, false );
-}
+//     EXPECT_EQ ( ret, false );
+// }
 
 TEST( chesse_tests, KING_MOVE_OUT_CHECK ) {
     

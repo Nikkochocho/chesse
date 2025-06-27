@@ -1,8 +1,14 @@
 This is a TODO list with improvements and new features;
 
-* change IsFree() from public to protected V
 * Start Checkmate implementation V
-* Revaluate code and optimize it V
+* Revaluate code and optimize it 
+
 * Checks the other players list of pieces, see if camp of vision can block the king attack
-* Checks if piece can be captured 
-* Checks if king can move its way outta the check (double check)
+- create a getter and setter for m_attacker that put king on check
+- get m_attacker pos and king on check pos... subtract one from the other (just like iFree() does for dist_col and dist_row)
+- call CanCheck() on each iteration_col and iteration_row (just like TrespassCheck() does and see if player can hit one of those)
+
+* Checks if piece can be captured
+- piece that checks king also gets status CHECK, player's list of pieces see if it can hit the CHECK piece (isOpponentKing() look alike)
+
+* Checks if king can move its way outta the check (double check) V
