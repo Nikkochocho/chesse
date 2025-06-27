@@ -5,19 +5,23 @@ void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diago
 
     bool asc, desc;
     int direction   = diagonal ? 1 : -1; //default main; else secondary diagonal
+    int minAsc      = diagonal ? -1 : 0;
+    int minDesc     = diagonal ? 0 : -1;
+    int maxAsc      = diagonal ? 7 : 8;
+    int maxDesc     = diagonal ? 8 : 7;
 
     asc = desc = true;
 
     while ( asc || desc )  {
 
-        if ( ( ( posAsc.col < 7 ) && ( posAsc.col > 0 ) ) && ( posAsc.row < 7 ) )  {
+        if ( ( ( posAsc.col < maxAsc ) && ( posAsc.col > minAsc ) ) && ( posAsc.row < 7 ) )  {
 
             posAsc.col += direction;
             posAsc.row++;
         }
         else asc = false;
 
-        if ( ( ( posDesc.col > 0 ) && ( posDesc.col < 7 ) ) && ( posDesc.row > 0 ) )  {
+        if ( ( ( posDesc.col > minDesc ) && ( posDesc.col < maxDesc ) ) && ( posDesc.row > 0 ) )  {
 
             posDesc.col += ( direction * -1 );
             posDesc.row--;
