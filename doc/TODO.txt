@@ -1,20 +1,11 @@
 This is a TODO list with improvements and new features;
 
-* add IPiece* parameter to IsFree in order to add more functions to it
-* Start Checkmate implementation V
+* add KingEscape() tests
+* add Checkmate test
+ 
 * Revaluate code and optimize it 
 * INSTALL LCOV TO README DEPENDECIES DOC
 sudo apt-get install lcov (linux)
 sudo port install lcov (mac)
 sudo apt-get install gcov (linux)
 sudo port install gcov (mac)
-
-* Checks the other players list of pieces, see if camp of vision can block the king attack
-- create a getter and setter for m_attacker that put king on check
-- get m_attacker pos and king on check pos... subtract one from the other (just like iFree() does for dist_col and dist_row)
-- call CanCheck() on each iteration_col and iteration_row (just like TrespassCheck() does and see if player can hit one of those)
-
-* Checks if piece can be captured
-- piece that checks king also gets status CHECK, player's list of pieces see if it can hit the CHECK piece (isOpponentKing() look alike)
-
-* Checks if king can move its way outta the check (double check) V

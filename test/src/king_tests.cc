@@ -271,5 +271,3 @@ TEST( chesse_tests, KING_INVALID_TRESPASS_LONG_CASTLE_MOVE_TEST )  {
     
     EXPECT_EQ ( ret, false );
 }
-
-//add invalid check move later

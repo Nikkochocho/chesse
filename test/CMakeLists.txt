@@ -91,8 +91,8 @@ if (ENABLE_GTEST_LCOV_COVERAGE_REPORT)
       COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/lcoverage
       COMMAND echo "=================== LCOV COVERAGE ===================="
       COMMAND echo "-- Passing lcov tool under code coverage"
-      COMMAND lcov --capture --ignore-errors inconsistent,format,unused,empty --no-external --directory "${CMAKE_BINARY_DIR}/../" --output-file ${CMAKE_BINARY_DIR}/lcoverage/main_coverage.info
-      COMMAND lcov --remove ${CMAKE_BINARY_DIR}/lcoverage/main_coverage.info "build*" "test/gtest*" --ignore-errors inconsistent,format,unused,empty -o ${CMAKE_BINARY_DIR}/lcoverage/main_coverage_filtered.info # remove output for external libraries
+      COMMAND lcov --capture --ignore-errors inconsistent,format,unused,empty,mismatch  --directory "'${CMAKE_BINARY_DIR}/../'" --output-file ${CMAKE_BINARY_DIR}/lcoverage/main_coverage.info
+      COMMAND lcov --remove ${CMAKE_BINARY_DIR}/lcoverage/main_coverage.info "build*" "test/gtest*" "usr*" --ignore-errors inconsistent,format,unused,empty,mismatch -o ${CMAKE_BINARY_DIR}/lcoverage/main_coverage_filtered.info
       COMMAND echo "-- Generating HTML output files"
       COMMAND genhtml ${CMAKE_BINARY_DIR}/lcoverage/main_coverage_filtered.info --ignore-errors inconsistent,category,unused --output-directory ${CMAKE_BINARY_DIR}/lcoverage
   )

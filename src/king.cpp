@@ -18,7 +18,7 @@ bool King :: CanMove( int dst_col, int dst_row )  {
     IPiece      *target  = m_BoardVision -> GetPiece( dst_col, dst_row );
     bool        castling = ( abs( dst_col - m_position.col ) == 2 );
     bool        ret      = ( CanSet( target ) && ( ( abs( dst_col - m_position.col ) <= 1 ) && ( abs( dst_row - m_position.row ) <= 1 ) ) &&
-                             ( ( abs( dst_col - m_position.col ) || abs( dst_row - m_position.row ) ) || 
+                             ( ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) ) || 
                                ( dst_col == m_position.col || dst_row == m_position.row ) ) );
 
     if ( castling && ( m_MovementCount == 0 ) && ( dst_row == m_position.row ) && IsFree( dst_col, dst_row ) )  {

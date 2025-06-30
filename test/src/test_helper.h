@@ -3,6 +3,9 @@
 
 #include "gameplay.h"
 
+
+void LongCastleMove( GamePlay& game );
+void ShortCastleMove( GamePlay& game );
 void PromotionMove( GamePlay& game );
 void CheckKing( GamePlay& game );
 

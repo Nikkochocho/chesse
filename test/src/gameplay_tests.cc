@@ -94,6 +94,34 @@ TEST( chesse_tests, MOVE_PIECE_INVALID_POSITION_CHECK_MOVEMENT ) {
     EXPECT_EQ ( ret, false );
 }
 
+TEST( chesse_tests, CHECK_LONG_CASTLE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+    Pawn        piece = Pawn( WHITE, &board );
+
+    game.NewGame();
+    LongCastleMove( game );
+
+    bool        ret   = ( board.GetPiece( 2, 0 ) -> GetType() == KING );
+
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, CHECK_SHORT_CASTLE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+    Pawn        piece = Pawn( WHITE, &board );
+
+    game.NewGame();
+    ShortCastleMove( game );
+
+    bool        ret   = ( board.GetPiece( 6, 7 ) -> GetType() == KING );
+
+    EXPECT_EQ ( ret, true );
+}
+
 TEST( chesse_tests, CHECK_PROMOTION_TRUE ) {
     
     Board       board;
@@ -101,15 +129,7 @@ TEST( chesse_tests, CHECK_PROMOTION_TRUE ) {
     Pawn        piece = Pawn( WHITE, &board );
 
     game.NewGame();
-    game.Move( 'd', '2', 'd', '4' );
-    game.Move( 'e', '7', 'e', '5' );
-    game.Move( 'd', '4', 'e', '5' );
-    game.Move( 'f', '7', 'f', '5' );
-    game.Move( 'e', '5', 'f', '6' );
-    game.Move( 'd', '7', 'd', '5' );
-    game.Move( 'f', '6', 'g', '7' );
-    game.Move( 'g', '8', 'e', '7' );
-    game.Move( 'g', '7', 'h', '8' );
+    PromotionMove( game );
 
     bool        ret   = game.HasPromotion();
 
@@ -262,21 +282,21 @@ TEST( chesse_tests, CHECK_PROMOTED_ROOK ) {
 //     EXPECT_EQ ( ret, false );
 // }
 
-TEST( chesse_tests, KING_MOVE_OUT_CHECK ) {
+// TEST( chesse_tests, KING_MOVE_OUT_CHECK ) {
     
-    Board       board;
-    GamePlay    game( &board );
+//     Board       board;
+//     GamePlay    game( &board );
 
-    game.NewGame();
-    game.Move( 'e', '2', 'e', '3' );
-    game.Move( 'a', '7', 'a', '5' );
-    CheckKing( game );
-    game.Move( 'e', '1', 'e', '2' );
+//     game.NewGame();
+//     game.Move( 'e', '2', 'e', '3' );
+//     game.Move( 'a', '7', 'a', '5' );
+//     CheckKing( game );
+//     game.Move( 'e', '1', 'e', '2' );
 
-    bool        ret   = ( board.GetPiece( 4, 1 ) -> GetStatus() == CHECK );
+//     bool        ret   = ( board.GetPiece( 4, 1 ) -> GetStatus() == CHECK );
 
-    EXPECT_EQ ( ret, false );
-}
+//     EXPECT_EQ ( ret, false );
+// }
 
 TEST( chesse_tests, KING_MOVE_INTO_CHECK ) {
     

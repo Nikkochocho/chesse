@@ -96,12 +96,17 @@ bool Player :: CanCatch( void )  {
 
 bool Player :: CanBlock( void )  {
 
-    int itr_col        = 0;
-    int itr_row        = 0;
-    int col_iterations = 0;
-    int row_iterations = 0;
-    int dist_col       = ( m_king -> Position().col ) - ( m_attacker -> Position().col );
-    int dist_row       = ( m_king -> Position().row ) - ( m_attacker -> Position().row );
+    int itr_col   = 0;
+    int itr_row   = 0;
+    int col_pos   = m_attacker -> Position().col;
+    int row_pos   = m_attacker -> Position().row;
+    int dist_col  = ( m_king -> Position().col ) - ( m_attacker -> Position().col );
+    int dist_row  = ( m_king -> Position().row ) - ( m_attacker -> Position().row );
+
+    if ( m_attacker -> GetType() == KNIGHT || m_attacker -> GetType() == PAWN )  {
+
+        return false;
+    }
 
     if ( dist_col != 0 )  {
 
@@ -113,18 +118,16 @@ bool Player :: CanBlock( void )  {
         itr_row = ( dist_row > 0 ) ? 1 : -1;
     }
 
-    while ( ( row_iterations !=  dist_row ) || ( col_iterations !=  dist_col ) )  {
+    while ( ( col_pos !=  m_king -> Position().col ) || ( row_pos !=  m_king -> Position().row ) )  {
 
-        row_iterations += itr_row;
-        col_iterations += itr_col;
+        col_pos += itr_col;
+        row_pos += itr_row;
 
         for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
             IPiece    *pPiece = *it; 
-            int       col_pos = pPiece -> Position().col + col_iterations;
-            int       row_pos = pPiece -> Position().row + row_iterations;
 
-            if ( pPiece -> CanMove( col_pos, row_pos ) )  {
+            if ( ( pPiece != m_king ) && pPiece -> CanMove( col_pos, row_pos ) )  {
                 
                 return true;
             }

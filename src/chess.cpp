@@ -50,6 +50,7 @@ int main( int argc, char **argv ) {
         
     } while ( !game.IsCheckmate() );
 
+    game.Print();
     std :: cout << "CHECKMATE"<< std :: endl;
 
     return 0;
