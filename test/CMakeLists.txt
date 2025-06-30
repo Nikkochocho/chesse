@@ -3,11 +3,22 @@ project (chesse_tests)
 
 include(FetchContent)
 include(ExternalProject)
+include(CTest)
+include(GoogleTest)
+
+option(ENABLE_GTEST_LCOV_COVERAGE_REPORT "Enable google test lcov coverage report" OFF)
 
 #
 # Setup CLang to C++17 (minimum for gtest)
 #
 set(CMAKE_CXX_STANDARD 17)
+
+#
+# Setup code coverage
+#
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} --coverage")
+set(CMAKE_EXE_LINKER_FLAGS "--coverage")
+
 
 #
 # Add all chesse app include directories
@@ -53,6 +64,60 @@ add_executable(chesse_tests
                ${CHESSE_APP_SOURCES}
                ${CHESSE_TESTS_SOURCES})
 
+
+#
+# Google test coverage support with lcov.
+#
+if (ENABLE_GTEST_LCOV_COVERAGE_REPORT)
+  #
+  # Run unit tests for coverage purposes (and coverage dependencies)
+  #
+  set(UNIT_TESTS_BINARY "${CMAKE_BINARY_DIR}/test/chesse_tests")
+
+  add_custom_command(
+      POST_BUILD
+      TARGET chesse_tests
+      COMMENT "Run tests ${UNIT_TESTS_BINARY}"
+      POST_BUILD 
+      WORKING_DIRECTORY ${CMAKE_BINARY_DIR}
+      COMMAND echo "=================== RUNNING TESTS ===================="
+      COMMAND ${UNIT_TESTS_BINARY}
+  )
+
+  #
+  # Create coverage report.
+  #
+  add_custom_command(POST_BUILD TARGET chesse_tests
+      COMMAND ${CMAKE_COMMAND} -E make_directory ${CMAKE_BINARY_DIR}/lcoverage
+      COMMAND echo "=================== LCOV COVERAGE ===================="
+      COMMAND echo "-- Passing lcov tool under code coverage"
+      COMMAND lcov --capture --ignore-errors inconsistent,format,unused,empty --no-external --directory "${CMAKE_BINARY_DIR}/../" --output-file ${CMAKE_BINARY_DIR}/lcoverage/main_coverage.info
+      COMMAND lcov --remove ${CMAKE_BINARY_DIR}/lcoverage/main_coverage.info "build*" "test/gtest*" --ignore-errors inconsistent,format,unused,empty -o ${CMAKE_BINARY_DIR}/lcoverage/main_coverage_filtered.info # remove output for external libraries
+      COMMAND echo "-- Generating HTML output files"
+      COMMAND genhtml ${CMAKE_BINARY_DIR}/lcoverage/main_coverage_filtered.info --ignore-errors inconsistent,category,unused --output-directory ${CMAKE_BINARY_DIR}/lcoverage
+  )
+
+  #
+  # Show coverage data with default browser depending on platform
+  #
+  if (WIN32)
+    set(BROWSER_EXEC_CMD "start")
+  elseif (APPLE)
+    set(BROWSER_EXEC_CMD "open")
+  elseif (UNIX)
+    set(BROWSER_EXEC_CMD "xdg-open")
+  else()
+    message(WARNING "Unsupported operating system. Cannot determine browser command.")
+    return()
+  endif()
+
+  add_custom_command(POST_BUILD TARGET chesse_tests
+      COMMAND ${CMAKE_COMMAND} -E echo "Opening documentation..."
+      COMMAND ${BROWSER_EXEC_CMD} "${CMAKE_BINARY_DIR}/lcoverage/index.html"
+      COMMENT "Open project documentation in browser"
+  )
+endif(ENABLE_GTEST_LCOV_COVERAGE_REPORT)
+
 ######################################
 # Configure the test to use GoogleTest
 #
@@ -73,6 +138,9 @@ target_link_libraries(chesse_tests ${BINARY_DIR}/lib/libgtest_main.a)
 # Just make the test runnable with
 #   $ make test
 
-enable_testing()
+#enable_testing()
+
+gtest_discover_tests(chesse_tests)
+
 add_test(NAME    chesse_tests 
          COMMAND chesse_tests)

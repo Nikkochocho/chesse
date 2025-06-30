@@ -78,3 +78,58 @@ bool Player :: CanCheck( void ) {
 
     return false;
 }
+
+bool Player :: CanCatch( void )  {
+
+    for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
+
+        IPiece *pPiece = *it; 
+
+        if ( pPiece -> CanMove( m_attacker -> Position().col, m_attacker -> Position().row ) )  {
+            
+            return true;
+        }
+    }
+
+    return false;
+}
+
+bool Player :: CanBlock( void )  {
+
+    int itr_col        = 0;
+    int itr_row        = 0;
+    int col_iterations = 0;
+    int row_iterations = 0;
+    int dist_col       = ( m_king -> Position().col ) - ( m_attacker -> Position().col );
+    int dist_row       = ( m_king -> Position().row ) - ( m_attacker -> Position().row );
+
+    if ( dist_col != 0 )  {
+
+        itr_col = ( dist_col > 0 ) ? 1 : -1;
+    }
+    
+    if ( dist_row != 0 )  { 
+
+        itr_row = ( dist_row > 0 ) ? 1 : -1;
+    }
+
+    while ( ( row_iterations !=  dist_row ) || ( col_iterations !=  dist_col ) )  {
+
+        row_iterations += itr_row;
+        col_iterations += itr_col;
+
+        for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
+
+            IPiece    *pPiece = *it; 
+            int       col_pos = pPiece -> Position().col + col_iterations;
+            int       row_pos = pPiece -> Position().row + row_iterations;
+
+            if ( pPiece -> CanMove( col_pos, row_pos ) )  {
+                
+                return true;
+            }
+        }
+    }
+
+    return false;
+}

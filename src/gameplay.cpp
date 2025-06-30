@@ -107,14 +107,14 @@ void GamePlay :: SpecialCases( IPiece *piece, PlayerNumber opponent )  {
         case LONGCASTLE:
             castle = m_board -> GetPiece( ( pos.col - 2 ), pos.row );
             m_board -> SetPiece( ( pos.col + 1 ), pos.row, castle );
-            castle -> SetMovementCount();
+            castle -> AddMovementCount();
             m_board -> SetPiece( ( pos.col - 2 ), pos.row, nullptr );
             break;
 
         case SHORTCASTLE:
             castle = m_board -> GetPiece( ( pos.col + 1 ), pos.row );
             m_board -> SetPiece( ( pos.col - 1 ), pos.row, castle );
-            castle -> SetMovementCount();
+            castle -> AddMovementCount();
             m_board -> SetPiece( ( pos.col + 1 ), pos.row, nullptr );
             break;
 
@@ -173,29 +173,6 @@ bool GamePlay :: KingEscape( PlayerNumber opponent )  {
     return false;
 }
 
-bool GamePlay :: CanBlock( IPiece *piece, PlayerNumber opponent )  {
-
-    int king_col = m_players[opponent] -> GetKing() -> Position().col;
-    int king_row = m_players[opponent] -> GetKing() -> Position().row;
-    int itr_col  = 0;
-    int itr_row  = 0;
-    int dist_col = king_col - ( piece -> Position().col );
-    int dist_row = king_row - ( piece -> Position().row );
-
-    if ( dist_col != 0 )  {
-
-        itr_col = ( dist_col > 0 ) ? 1 : -1;
-    }
-    
-    if ( dist_row != 0 )  { 
-
-        itr_row = ( dist_row > 0 ) ? 1 : -1;
-    }
-    //copied from IsFree(); might revaluate
-
-    return true;
-}
-
 GamePlay :: GamePlay( IBoard *board )  {
 
     this -> m_board = board;
@@ -238,7 +215,7 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
             if ( ValidMovement( piece, dst_c, dst_r, opponent ) )  {
 
                 m_board -> SetPiece( dst_c, dst_r, piece );
-                piece -> SetMovementCount();
+                piece -> AddMovementCount();
                 SpecialCases( piece, opponent );
 
                 if ( m_players[m_turn] -> CanCheck() )  {
@@ -246,10 +223,10 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
                     m_players[opponent] -> SetCheckStatus( true );
                     m_players[opponent] -> SetAttacker( piece ); //might change to m_turn later
 
-                    // if ( !KingEscape( opponent ) )  {
+                    if ( ( !KingEscape( opponent ) ) && ( !( m_players[opponent] -> CanCatch() ) && !( m_players[opponent] -> CanBlock() ) ) )  {
 
-                    //     m_checkmate = true;
-                    // }
+                        m_checkmate = true;
+                    }
                 }
 
                 ChangeTurn();

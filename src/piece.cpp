@@ -94,7 +94,7 @@ int Piece :: GetMovementCount( void )  {
     return this -> m_MovementCount;
 }
 
-void Piece :: SetMovementCount( void ) {
+void Piece :: AddMovementCount( void ) {
 
     this -> m_MovementCount++;
 }

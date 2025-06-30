@@ -9,7 +9,7 @@ class IPiece  {
     public:
 
     virtual int GetMovementCount( void ) = 0;
-    virtual void SetMovementCount( void ) = 0;
+    virtual void AddMovementCount( void ) = 0;
     virtual bool CanSet( IPiece *target ) = 0;
     virtual bool CanMove( int dst_col, int dst_row ) = 0;
     virtual bool KingCheck( void ) = 0;

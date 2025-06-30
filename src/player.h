@@ -30,6 +30,8 @@ class Player  {
     void SetCheckStatus( bool check );
     bool CheckPieces( IPiece *piece );
     bool CanCheck( void );
+    bool CanCatch( void );
+    bool CanBlock( void );
 };
 
 #endif // __PLAYER_H__

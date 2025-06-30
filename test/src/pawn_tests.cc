@@ -119,7 +119,7 @@ TEST( chesse_tests, WHITE_PAWN_FAILED_TWO_STEPS_MOVE_TEST )  {
 
     board.SetPiece( 0, 0, &piece );
 
-    piece.SetMovementCount(); //sets movement to 1;
+    piece.AddMovementCount(); //sets movement to 1;
 
     bool        ret   = piece.CanMove( 0, 2 );
     
@@ -267,7 +267,7 @@ TEST( chesse_tests, BLACK_PAWN_FAILED_TWO_STEPS_MOVE_TEST )  {
 
     board.SetPiece( 0, 7, &piece );
 
-    piece.SetMovementCount(); //sets movement to 1;
+    piece.AddMovementCount(); //sets movement to 1;
 
     bool        ret   = piece.CanMove( 0, 5 );
     
@@ -392,7 +392,7 @@ TEST( chesse_tests, PAWN_EN_PASSANT_CAPTURE_RIGHT_MOVE_TEST )  {
 
     board.SetPiece( 0, 4, &piece );
     board.SetPiece( 1, 4, &captured_piece );
-    captured_piece.SetMovementCount();
+    captured_piece.AddMovementCount();
 
     piece.CanMove( 1, 5 );
 
@@ -409,7 +409,7 @@ TEST( chesse_tests, PAWN_EN_PASSANT_CAPTURE_LEFT_MOVE_TEST )  {
 
     board.SetPiece( 1, 3, &piece );
     board.SetPiece( 0, 3, &captured_piece );
-    captured_piece.SetMovementCount();
+    captured_piece.AddMovementCount();
 
     piece.CanMove( 0, 2 );
 
@@ -426,7 +426,7 @@ TEST( chesse_tests, PAWN_INVALID_EN_PASSANT_ROW_MOVE_TEST )  {
 
     board.SetPiece( 1, 5, &piece );
     board.SetPiece( 0, 5, &captured_piece );
-    captured_piece.SetMovementCount();
+    captured_piece.AddMovementCount();
 
     piece.CanMove( 0, 6 );
 

@@ -91,5 +91,8 @@
         "typeinfo": "cpp",
         "valarray": "cpp",
         "variant": "cpp"
-    }
+    },
+    "cmake.configureSettings": {
+        "ENABLE_GTEST_LCOV_COVERAGE_REPORT": true
+    },
 }

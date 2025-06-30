@@ -27,7 +27,7 @@ class Piece : public IPiece  {
     public:
 
     int GetMovementCount( void );
-    void SetMovementCount( void );
+    void AddMovementCount( void );
     bool CanSet( IPiece *target );
 
     virtual bool CanMove( int dst_col, int dst_row );

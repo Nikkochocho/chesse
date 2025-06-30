@@ -5,6 +5,7 @@ project (chess)
 include(CMakePackageConfigHelpers)
 include(CMakeDependentOption)
 include(GNUInstallDirs)
+include(CTest)
 
 if(APPLE)
     #
@@ -27,8 +28,8 @@ add_executable(chess ${CHESSE_APP_SOURCES} ${CHESSE_APP_HEADERS})
 # Unit Tests
 #==================================================
 
-add_subdirectory(test)
+add_subdirectory("./test")
 
-enable_testing ()
-add_test (NAME chesse_tests_step COMMAND chesse_tests)
+# enable_testing ()
+# add_test (NAME test COMMAND chesse_tests)
 

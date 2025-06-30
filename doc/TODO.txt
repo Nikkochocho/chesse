@@ -1,7 +1,13 @@
 This is a TODO list with improvements and new features;
 
+* add IPiece* parameter to IsFree in order to add more functions to it
 * Start Checkmate implementation V
 * Revaluate code and optimize it 
+* INSTALL LCOV TO README DEPENDECIES DOC
+sudo apt-get install lcov (linux)
+sudo port install lcov (mac)
+sudo apt-get install gcov (linux)
+sudo port install gcov (mac)
 
 * Checks the other players list of pieces, see if camp of vision can block the king attack
 - create a getter and setter for m_attacker that put king on check

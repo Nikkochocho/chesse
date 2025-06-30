@@ -26,7 +26,6 @@ class GamePlay {
     bool ValidMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent );
     void SpecialCases( IPiece *piece, PlayerNumber opponent );
     bool KingEscape( PlayerNumber opponent );
-    bool CanBlock( IPiece *piece, PlayerNumber opponent );
 
     public:
     
