@@ -30,7 +30,7 @@ void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diago
     }
 }
 
-bool Piece :: IsFree( int dst_col, int dst_row, bool check )  { //DEFAULT -> TRUE for movement; CHECK -> TRUE for CHECK
+bool Piece :: CanReach( int dst_col, int dst_row, bool check )  { // DEFAULT -> TRUE for movement; CHECK -> TRUE if opponent king
 
     int itr_col  = 0;
     int itr_row  = 0;
@@ -39,22 +39,22 @@ bool Piece :: IsFree( int dst_col, int dst_row, bool check )  { //DEFAULT -> TRU
 
     if ( dist_col != 0 )  {
 
-        itr_col = ( dst_col - m_position.col > 0 ) ? 1 : -1;
+        itr_col = ( dist_col > 0 ) ? 1 : -1;
     }
     
     if ( dist_row != 0 )  { 
 
-        itr_row = ( dst_row - m_position.row > 0 ) ? 1 : -1;
+        itr_row = ( dist_row > 0 ) ? 1 : -1;
     }
 
-    return TrespassCheck( dist_col, dist_row, itr_col, itr_row, check );
+    return IterationCheck( dist_col, dist_row, itr_col, itr_row, check );
 }
 
-bool Piece :: TrespassCheck( int dist_col, int dist_row, int itr_col, int itr_row, bool check )  {
+bool Piece :: IterationCheck( int dist_col, int dist_row, int itr_col, int itr_row, bool check )  {
 
     int    col_iterations = 0;
     int    row_iterations = 0;
-    bool   ret            = ( check ) ? false : true; //default return
+    bool   ret            = ( check ) ? false : true; // default return
 
     while ( ( row_iterations !=  dist_row ) || ( col_iterations !=  dist_col ) )  {
 
@@ -71,7 +71,7 @@ bool Piece :: TrespassCheck( int dist_col, int dist_row, int itr_col, int itr_ro
         
         if ( !check && ( row_iterations ==  dist_row ) && ( col_iterations ==  dist_col ) )  {
 
-                return CanSet( target );
+            return CanSet( target );
         }
         
         if ( target != nullptr )  {
@@ -101,14 +101,10 @@ void Piece :: AddMovementCount( void ) {
 
 bool Piece :: CanSet( IPiece* target )  {
 
-    if ( ( target != nullptr ) && ( target -> GetColor() != m_color ) )  {
-
-        target -> SetStatus ( CAPTURED );
-    }
-
-    return ( ( target == nullptr ) || ( target -> GetColor() != m_color ) );
+    return ( ( target == nullptr ) || ( ( target != nullptr ) && ( target -> GetColor() != m_color ) ) );
 }  
 
+// LCOV_EXCL_START
 bool Piece :: CanMove( int dst_col, int dst_row )  {
 
     return false;
@@ -122,6 +118,7 @@ bool Piece :: KingCheck( void )  {
 void Piece :: Print( void ) {
 
 }
+// LCOV_EXCL_STOP
 
 Pieces Piece :: GetType( void )  { 
 

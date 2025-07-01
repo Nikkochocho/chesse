@@ -75,7 +75,6 @@ void Board :: RemovePiece( int col, int row )  {
 
     if ( piece != nullptr )  {
 
-        delete piece;
         m_board[col][row] = nullptr;
     }
 }

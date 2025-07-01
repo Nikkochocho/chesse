@@ -62,7 +62,9 @@ bool Knight :: KingCheck( void )  {
     return ret;
 }
 
+// LCOV_EXCL_START
 void Knight :: Print( void )  {
 
     std :: cout << 'N';
 }
+// LCOV_EXCL_STOP

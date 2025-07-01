@@ -18,7 +18,7 @@ bool Queen :: CanMove( int dst_col, int dst_row )  {
     if ( ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) ) || 
          ( dst_col == m_position.col || dst_row == m_position.row ) )  {
 
-        return IsFree( dst_col, dst_row );
+        return CanReach( dst_col, dst_row );
     }
 
     return false;
@@ -32,13 +32,15 @@ bool Queen :: KingCheck( void )  {
     CalcDiagonals( MainposAsc, MainposDesc, true ); //main diagonal
     CalcDiagonals( SecposAsc, SecposDesc, false ); //secondary diagonal
 
-    return ( ( IsFree( 7, m_position.row, true ) || IsFree( 0, m_position.row, true ) ) ||
-             ( IsFree( m_position.col, 7, true ) || IsFree( m_position.col, 0, true ) ) ||
-             ( IsFree( MainposAsc.col, MainposAsc.row, true ) || IsFree( MainposDesc.col, MainposDesc.row, true ) ) ||
-             ( IsFree( SecposAsc.col, SecposAsc.row, true ) || IsFree( SecposDesc.col, SecposDesc.row, true ) ) );
+    return ( ( CanReach( 7, m_position.row, true ) || CanReach( 0, m_position.row, true ) ) ||
+             ( CanReach( m_position.col, 7, true ) || CanReach( m_position.col, 0, true ) ) ||
+             ( CanReach( MainposAsc.col, MainposAsc.row, true ) || CanReach( MainposDesc.col, MainposDesc.row, true ) ) ||
+             ( CanReach( SecposAsc.col, SecposAsc.row, true ) || CanReach( SecposDesc.col, SecposDesc.row, true ) ) );
 }
 
+// LCOV_EXCL_START
 void Queen :: Print( void )  {
 
     std :: cout << 'Q';
 }
+// LCOV_EXCL_STOP

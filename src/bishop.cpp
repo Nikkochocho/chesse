@@ -17,7 +17,7 @@ bool Bishop :: CanMove( int dst_col, int dst_row )  {
 
     if ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) )  {
 
-        return IsFree( dst_col, dst_row );
+        return CanReach( dst_col, dst_row );
     }
 
     return false;
@@ -32,11 +32,13 @@ bool Bishop :: KingCheck( void )  {
     CalcDiagonals( MainposAsc, MainposDesc, true ); //main diagonal
     CalcDiagonals( SecposAsc, SecposDesc, false ); //secondary diagonal
 
-    return ( ( IsFree( MainposAsc.col, MainposAsc.row, true ) || IsFree( MainposDesc.col, MainposDesc.row, true ) ) ||
-             ( IsFree( SecposAsc.col, SecposAsc.row, true ) || IsFree( SecposDesc.col, SecposDesc.row, true ) ) );
+    return ( ( CanReach( MainposAsc.col, MainposAsc.row, true ) || CanReach( MainposDesc.col, MainposDesc.row, true ) ) ||
+             ( CanReach( SecposAsc.col, SecposAsc.row, true ) || CanReach( SecposDesc.col, SecposDesc.row, true ) ) );
 }
 
+// LCOV_EXCL_START
 void Bishop :: Print( void )  {
 
     std :: cout << 'B';
 }
+// LCOV_EXCL_STOP

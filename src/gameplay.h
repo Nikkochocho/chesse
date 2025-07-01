@@ -7,7 +7,7 @@
 #include "player.h"
 
 
-typedef std :: map< PlayerNumber, Player* > PlayerMap;
+typedef std :: map<PlayerNumber, Player*> PlayerMap;
 
 class GamePlay {
 
@@ -17,15 +17,15 @@ class GamePlay {
     bool         m_promotion = false;
     PlayerNumber m_turn      = PLAYER_1;
 
-
-    bool IsValid( int src_c, int src_r, int dst_c, int dst_r );
     int GetColIndex( char ch );
     int GetRowIndex( char ch );
     void InitPieces( void );
     void ChangeTurn( void );
-    bool ValidMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent );
-    void SpecialCases( IPiece *piece, PlayerNumber opponent );
-    bool KingEscape( PlayerNumber opponent );
+    void SpecialCases( IPiece *piece );
+    void InsertChanges( stPosition pos, IPiece *piece, PlayerNumber opponent, bool IsReverse );
+    bool IsValid( int src_c, int src_r, int dst_c, int dst_r );
+    bool VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent );
+    bool KingEscape( void );
 
     public:
     

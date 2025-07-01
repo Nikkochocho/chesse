@@ -1,5 +1,6 @@
 #include "helper.h"
 
+// LCOV_EXCL_START
 Pieces Conversion( char promotion )  {
 
     Pieces piece_type;
@@ -29,3 +30,4 @@ Pieces Conversion( char promotion )  {
 
     return piece_type;
 }
+// LCOV_EXCL_STOP

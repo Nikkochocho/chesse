@@ -57,36 +57,6 @@ TEST( chesse_tests, PAWN_INVALID_DOUBLE_TRESPASS_MOVE ) {
     EXPECT_EQ ( ret, false );
 }
 
-TEST( chesse_tests, CAPTURED_PAWN_STATUS_CHECK ) {
-
-    Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
-    Pawn        captured_piece = Pawn( BLACK, &board );
-
-    board.SetPiece( 0, 0, &piece );
-    board.SetPiece( 1, 1, &captured_piece );
-    piece.CanMove( 1, 1 );
-
-    bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, INVALID_CAPTURED_PAWN_STATUS_CHECK ) {
-
-    Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
-    Pawn        captured_piece = Pawn( WHITE, &board ); //same color
-
-    board.SetPiece( 0, 0, &piece );
-    board.SetPiece( 1, 1, &captured_piece );
-    piece.CanMove( 1, 1 );
-
-    bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
-
-    EXPECT_EQ ( ret, false );
-}
-
 //WHITE PAWN TESTS
 TEST( chesse_tests, WHITE_PAWN_ONE_STEP_MOVE_TEST )  {
     

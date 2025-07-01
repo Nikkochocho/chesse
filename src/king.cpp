@@ -17,11 +17,12 @@ bool King :: CanMove( int dst_col, int dst_row )  {
 
     IPiece      *target  = m_BoardVision -> GetPiece( dst_col, dst_row );
     bool        castling = ( abs( dst_col - m_position.col ) == 2 );
-    bool        ret      = ( CanSet( target ) && ( ( abs( dst_col - m_position.col ) <= 1 ) && ( abs( dst_row - m_position.row ) <= 1 ) ) &&
-                             ( ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) ) || 
-                               ( dst_col == m_position.col || dst_row == m_position.row ) ) );
+    bool        ret      =  ( ( ( abs( dst_col - m_position.col ) <= 1 ) && ( abs( dst_row - m_position.row ) <= 1 ) ) &&
+                              ( ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) ) || 
+                                ( dst_col == m_position.col || dst_row == m_position.row ) ) &&
+                                ( CanSet( target ) ) );
 
-    if ( castling && ( m_MovementCount == 0 ) && ( dst_row == m_position.row ) && IsFree( dst_col, dst_row ) )  {
+    if ( castling && ( m_MovementCount == 0 ) && ( dst_row == m_position.row ) && CanReach( dst_col, dst_row ) )  {
 
         int      rook_pos     = ( dst_col - m_position.col == 2 ) ? 1 : -2;
         Status   castle_type  = ( rook_pos == 1 ) ? SHORTCASTLE : LONGCASTLE;
@@ -52,7 +53,9 @@ bool King :: KingCheck( void )  {
     return false;
 }
 
+// LCOV_EXCL_START
 void King :: Print( void )  {
 
     std :: cout << 'K';
 }
+// LCOV_EXCL_STOP

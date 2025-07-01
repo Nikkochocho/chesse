@@ -17,11 +17,11 @@ class Piece : public IPiece  {
 
     
     void CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal );
-    bool IsFree( int dst_col, int dst_row, bool check = false );
+    bool CanReach( int dst_col, int dst_row, bool check = false );
 
     private:
 
-    bool TrespassCheck( int dist_col, int dist_row, int itr_col, int itr_row, bool check );
+    bool IterationCheck( int dist_col, int dist_row, int itr_col, int itr_row, bool check );
     bool IsOpponentKing( IPiece *target ) ;
 
     public:

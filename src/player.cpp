@@ -53,7 +53,7 @@ void Player :: SetCheckStatus( bool check )  {
 
 bool Player :: CheckPieces( IPiece *piece )  {
 
-    for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
+    for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
         if ( *it == piece )  {
 
@@ -81,9 +81,14 @@ bool Player :: CanCheck( void ) {
 
 bool Player :: CanCatch( void )  {
 
-    for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
+    for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
         IPiece *pPiece = *it; 
+
+        if ( pPiece == m_king )  {
+
+            continue;
+        }
 
         if ( pPiece -> CanMove( m_attacker -> Position().col, m_attacker -> Position().row ) )  {
             
@@ -103,7 +108,7 @@ bool Player :: CanBlock( void )  {
     int dist_col  = ( m_king -> Position().col ) - ( m_attacker -> Position().col );
     int dist_row  = ( m_king -> Position().row ) - ( m_attacker -> Position().row );
 
-    if ( m_attacker -> GetType() == KNIGHT || m_attacker -> GetType() == PAWN )  {
+    if ( m_attacker -> GetType() == KNIGHT )  {
 
         return false;
     }
@@ -123,7 +128,7 @@ bool Player :: CanBlock( void )  {
         col_pos += itr_col;
         row_pos += itr_row;
 
-        for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
+        for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
             IPiece    *pPiece = *it; 
 

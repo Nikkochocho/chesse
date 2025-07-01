@@ -17,7 +17,7 @@ bool Rook :: CanMove( int dst_col, int dst_row )  {
 
     if ( dst_col == m_position.col || dst_row == m_position.row )  {
 
-        return IsFree( dst_col, dst_row );
+        return CanReach( dst_col, dst_row );
     } 
 
     return false;
@@ -25,11 +25,13 @@ bool Rook :: CanMove( int dst_col, int dst_row )  {
 
 bool Rook :: KingCheck( void )  {
 
-    return ( ( IsFree( 7, m_position.row, true ) || IsFree( 0, m_position.row, true ) ) ||
-             ( IsFree( m_position.col, 7, true ) || IsFree( m_position.col, 0, true ) ) );
+    return ( ( CanReach( 7, m_position.row, true ) || CanReach( 0, m_position.row, true ) ) ||
+             ( CanReach( m_position.col, 7, true ) || CanReach( m_position.col, 0, true ) ) );
 }
 
+// LCOV_EXCL_START
 void Rook :: Print( void )  {
 
     std :: cout << 'R';
 }
+// LCOV_EXCL_STOP

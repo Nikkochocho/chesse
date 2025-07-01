@@ -140,36 +140,6 @@ TEST( chesse_tests, KING_FAILED_CAPTURE_MOVE_TEST )  {
     EXPECT_EQ ( ret, false );
 }
 
-TEST( chesse_tests, CAPTURED_KING_STATUS_CHECK ) {
-
-    Board       board;
-    King        piece = King( WHITE, &board );
-    King        captured_piece = King( BLACK, &board );
-
-    board.SetPiece( 0, 0, &piece );
-    board.SetPiece( 1, 1, &captured_piece );
-    piece.CanMove( 1, 1 );
-
-    bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, INVALID_CAPTURED_KING_STATUS_CHECK ) {
-
-    Board       board;
-    King        piece = King( WHITE, &board );
-    King        captured_piece = King( WHITE, &board ); //same color
-
-    board.SetPiece( 0, 0, &piece );
-    board.SetPiece( 1, 1, &captured_piece );
-    piece.CanMove( 1, 1 );
-
-    bool        ret   = ( captured_piece.GetStatus() == CAPTURED ) ;
-
-    EXPECT_EQ ( ret, false );
-}
-
 TEST( chesse_tests, KING_INVALID_CASTLE_CAPTURE_MOVE_TEST )  {
     
     Board       board;

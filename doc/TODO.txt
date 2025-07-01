@@ -2,6 +2,8 @@ This is a TODO list with improvements and new features;
 
 * add KingEscape() tests
 * add Checkmate test
+* add DRAW (in case o piece can move and king is not on check)
+* fix the bug in which pieces sometimes disappear (may be related to KingEscape())
  
 * Revaluate code and optimize it 
 * INSTALL LCOV TO README DEPENDECIES DOC

@@ -2,18 +2,6 @@
 #include "gameplay.h"
 
 
-bool GamePlay :: IsValid( int src_c, int src_r, int dst_c, int dst_r )  {
-
-    if ( src_r >= 0 && src_r < MAX_ROWS && src_c >= 0 && src_c < MAX_COLS &&
-         dst_r >= 0 && dst_r < MAX_ROWS && dst_c >= 0 && dst_c < MAX_COLS &&
-         dst_r != src_r || dst_c != src_c )  {
-
-            return true;
-        }
-
-    return false;
-}
-
 int GamePlay :: GetColIndex( char ch )  {
 
     return ch - 'a';
@@ -47,62 +35,15 @@ void GamePlay :: ChangeTurn( void )  {
     m_turn = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
 }
 
-bool GamePlay :: ValidMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent )  {
-
-    IPiece *captured_piece = m_board -> GetPiece( dst_c, dst_r );
-    int    col             = piece -> Position().col;
-    int    row             = piece -> Position().row;
-
-    m_board -> SetPiece( col, row, nullptr );
-
-    if ( captured_piece != nullptr )  {
-
-        if ( captured_piece -> GetColor() == piece -> GetColor() )  {
-
-            return false;
-        }
-
-        SpecialCases( captured_piece, opponent );
-    }
-
-    m_board -> SetPiece( dst_c, dst_r, piece );
-
-    if ( m_players[opponent] -> CanCheck() )  { //if check is not blocked
-
-        m_board -> SetPiece( col, row, piece );
-        m_board -> SetPiece( dst_c, dst_r, captured_piece );
-
-        if ( captured_piece != nullptr )  {
-
-            m_players[opponent] -> Add( captured_piece );
-        }
-        
-        return false;
-    }
-
-    if ( m_players[m_turn] -> GetCheckStatus() )  { //if check is blocked
-
-        m_players[m_turn] -> GetKing() -> SetStatus( NORMAL );
-        m_players[m_turn] -> SetAttacker( nullptr );
-        m_players[m_turn] -> SetCheckStatus( false );
-    }
-
-    return true;
-}
-
-void GamePlay :: SpecialCases( IPiece *piece, PlayerNumber opponent )  {
+void GamePlay :: SpecialCases( IPiece *piece )  {
 
     int          direction;
     IPiece       *castle    = nullptr;
     IPiece       *remove    = nullptr;
     stPosition   pos        = piece -> Position();
+    PlayerNumber opponent   = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
 
     switch ( piece -> GetStatus() )  {
-
-        case CAPTURED:
-            m_players[opponent] -> Remove( piece );
-            m_board -> RemovePiece( pos.col, pos.row );
-            return;
 
         case LONGCASTLE:
             castle = m_board -> GetPiece( ( pos.col - 2 ), pos.row );
@@ -136,11 +77,82 @@ void GamePlay :: SpecialCases( IPiece *piece, PlayerNumber opponent )  {
     piece -> SetStatus( NORMAL );
 }
 
-bool GamePlay :: KingEscape( PlayerNumber opponent )  {
+void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, PlayerNumber opponent, bool IsReverse )  {
 
-    IPiece    *king = m_players[opponent] -> GetKing();
-    int       col   = king -> Position().col;
-    int       row   = king -> Position().row;
+    IPiece     *target    = m_board -> GetPiece( pos.col, pos.row );
+    stPosition piece_pos  = piece -> Position();
+
+    if ( !IsReverse )  {
+
+        m_board -> SetPiece( piece_pos.col, piece_pos.row, nullptr );
+
+        if ( target != nullptr )  {
+
+            m_board -> SetPiece( pos.col, pos.row, nullptr );
+            m_players[opponent] -> Remove( target );
+        }
+
+        m_board -> SetPiece( pos.col, pos.row, piece );
+    }
+    else  {
+
+        m_board -> SetPiece( pos.col, pos.row, piece );
+        m_board -> SetPiece( piece_pos.col, piece_pos.row, target );
+
+        if ( target != nullptr )  {
+
+            m_players[opponent] -> Add( target );
+        }
+    }
+}
+
+bool GamePlay :: IsValid( int src_c, int src_r, int dst_c, int dst_r )  {
+
+    if ( src_r >= 0 && src_r < MAX_ROWS && src_c >= 0 && src_c < MAX_COLS &&
+         dst_r >= 0 && dst_r < MAX_ROWS && dst_c >= 0 && dst_c < MAX_COLS &&
+         dst_r != src_r || dst_c != src_c )  {
+
+            return true;
+        }
+
+    return false;
+}
+
+bool GamePlay :: VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent )  {
+
+    stPosition   dst_pos;
+    stPosition   src_pos  = piece -> Position();
+
+    dst_pos.col = dst_c;
+    dst_pos.row = dst_r;
+
+    InsertChanges( dst_pos, piece, opponent, false );
+
+    if ( m_players[opponent] -> CanCheck() )  { //if check is not blocked
+
+        InsertChanges( src_pos, piece, opponent, true );
+
+        return false;
+    }
+
+    if ( m_players[m_turn] -> GetCheckStatus() )  { //if check is blocked
+
+        m_players[m_turn] -> GetKing() -> SetStatus( NORMAL );
+        m_players[m_turn] -> SetAttacker( nullptr );
+        m_players[m_turn] -> SetCheckStatus( false );
+    }
+
+    InsertChanges( src_pos, piece, opponent, true );
+
+    return true;
+}
+
+bool GamePlay :: KingEscape( void )  {
+
+    PlayerNumber opponent   = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
+    IPiece       *king      = m_players[opponent] -> GetKing();
+    int          col        = king -> Position().col;
+    int          row        = king -> Position().row;
 
     for ( int i = -1; i < 2; i++ )  {
 
@@ -155,15 +167,7 @@ bool GamePlay :: KingEscape( PlayerNumber opponent )  {
                 continue;
             }
 
-            if ( ValidMovement( king, col_pos, row_pos, m_turn ) )  {
-
-                m_board -> SetPiece( col, row, king );
-                m_board -> SetPiece( col_pos, row_pos, captured_piece );
-
-                if ( captured_piece != nullptr )  {
-
-                    m_players[opponent] -> Add( captured_piece );
-                }
+            if ( king -> CanMove( col_pos, row_pos ) && VirtualMovement( king, col_pos, row_pos, m_turn ) )  {
                 
                 return true;
             }
@@ -206,24 +210,31 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
 
     if ( IsValid( src_c, src_r, dst_c, dst_r ) )  {
         
-        PlayerNumber   opponent = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
-        IPiece         *piece   = m_board -> GetPiece( src_c, src_r );
+        PlayerNumber   opponent        = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
+        IPiece         *piece          = m_board -> GetPiece( src_c, src_r );
+        IPiece         *captured_piece = m_board -> GetPiece( dst_c, dst_r );
 
-        if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && 
-               piece -> CanMove( dst_c, dst_r ) )  {
+        if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && ( piece -> CanMove( dst_c, dst_r ) ) )  {
             
-            if ( ValidMovement( piece, dst_c, dst_r, opponent ) )  {
+            if ( VirtualMovement( piece, dst_c, dst_r, opponent ) )  {
 
+                if ( captured_piece != nullptr )  {
+                    
+                    m_players[opponent] -> Remove( captured_piece ); 
+                    m_board -> RemovePiece( dst_c, dst_r );
+                }
+
+                m_board -> SetPiece( src_c, src_r, nullptr );
                 m_board -> SetPiece( dst_c, dst_r, piece );
                 piece -> AddMovementCount();
-                SpecialCases( piece, opponent );
+                SpecialCases( piece );
 
                 if ( m_players[m_turn] -> CanCheck() )  {
 
                     m_players[opponent] -> SetCheckStatus( true );
-                    m_players[opponent] -> SetAttacker( piece ); //might change to m_turn later
+                    m_players[opponent] -> SetAttacker( piece ); 
 
-                    if ( ( !KingEscape( opponent ) ) && ( !( m_players[opponent] -> CanCatch() ) && !( m_players[opponent] -> CanBlock() ) ) )  {
+                    if ( ( !KingEscape() ) && ( !( m_players[opponent] -> CanCatch() ) && !( m_players[opponent] -> CanBlock() ) ) )  {
 
                         m_checkmate = true;
                     }
@@ -274,6 +285,7 @@ PlayerNumber GamePlay :: GetTurn( void )  {
     return m_turn;
 }
 
+// LCOV_EXCL_START
 void GamePlay :: Print( void )  {
    
     int count_col = 0;
@@ -335,3 +347,4 @@ void GamePlay :: Print( void )  {
         std :: cout << std :: endl;
     }
 }
+// LCOV_EXCL_STOP

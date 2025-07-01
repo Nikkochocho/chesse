@@ -31,7 +31,6 @@ enum Color  {
 enum Status  {
 
     NORMAL,
-    CAPTURED,
     LONGCASTLE,
     SHORTCASTLE,
     ENPASSANT,

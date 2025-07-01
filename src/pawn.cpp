@@ -43,7 +43,6 @@ bool Pawn :: CanMove( int dst_col, int dst_row )  {
         if ( ( target != nullptr ) && ( target -> GetColor() != m_color ) && 
             ( abs( dst_col -  m_position.col ) == 1 ) && ( dst_row == m_position.row + row ) )  {
 
-            target -> SetStatus( CAPTURED );
             ret = true; //capture
         }
 
@@ -92,7 +91,9 @@ bool Pawn :: KingCheck( void )  {
     return ret;
 }
 
+// LCOV_EXCL_START
 void Pawn :: Print( void )  {
 
     std :: cout << 'P';
 }
+// LCOV_EXCL_STOP
