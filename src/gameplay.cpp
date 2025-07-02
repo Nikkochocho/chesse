@@ -77,9 +77,8 @@ void GamePlay :: SpecialCases( IPiece *piece )  {
     piece -> SetStatus( NORMAL );
 }
 
-void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, PlayerNumber opponent, bool IsReverse )  {
+void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, IPiece *target, PlayerNumber opponent, bool IsReverse )  {
 
-    IPiece     *target    = m_board -> GetPiece( pos.col, pos.row );
     stPosition piece_pos  = piece -> Position();
 
     if ( !IsReverse )  {
@@ -118,31 +117,32 @@ bool GamePlay :: IsValid( int src_c, int src_r, int dst_c, int dst_r )  {
     return false;
 }
 
-bool GamePlay :: VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent )  {
+bool GamePlay :: VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent, bool IsEscape )  {
 
     stPosition   dst_pos;
     stPosition   src_pos  = piece -> Position();
+    IPiece       *target  = m_board -> GetPiece( dst_c, dst_r );
 
     dst_pos.col = dst_c;
     dst_pos.row = dst_r;
 
-    InsertChanges( dst_pos, piece, opponent, false );
+    InsertChanges( dst_pos, piece, target, opponent, false );
 
     if ( m_players[opponent] -> CanCheck() )  { //if check is not blocked
 
-        InsertChanges( src_pos, piece, opponent, true );
+        InsertChanges( src_pos, piece, target, opponent, true );
 
         return false;
     }
 
-    if ( m_players[m_turn] -> GetCheckStatus() )  { //if check is blocked
+    if ( ( !IsEscape ) && ( m_players[m_turn] -> GetCheckStatus() ) )  { //if check is blocked
 
         m_players[m_turn] -> GetKing() -> SetStatus( NORMAL );
         m_players[m_turn] -> SetAttacker( nullptr );
         m_players[m_turn] -> SetCheckStatus( false );
     }
 
-    InsertChanges( src_pos, piece, opponent, true );
+    InsertChanges( src_pos, piece, target, opponent, true );
 
     return true;
 }
@@ -167,7 +167,7 @@ bool GamePlay :: KingEscape( void )  {
                 continue;
             }
 
-            if ( king -> CanMove( col_pos, row_pos ) && VirtualMovement( king, col_pos, row_pos, m_turn ) )  {
+            if ( ( king -> CanMove( col_pos, row_pos ) ) && ( VirtualMovement( king, col_pos, row_pos, m_turn, true ) ) )  {
                 
                 return true;
             }
@@ -216,7 +216,7 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
 
         if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && ( piece -> CanMove( dst_c, dst_r ) ) )  {
             
-            if ( VirtualMovement( piece, dst_c, dst_r, opponent ) )  {
+            if ( VirtualMovement( piece, dst_c, dst_r, opponent, false ) )  {
 
                 if ( captured_piece != nullptr )  {
                     

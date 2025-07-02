@@ -93,6 +93,6 @@
         "variant": "cpp"
     },
     "cmake.configureSettings": {
-        "ENABLE_GTEST_LCOV_COVERAGE_REPORT": true
+        "ENABLE_GTEST_LCOV_COVERAGE_REPORT": false
     },
 }

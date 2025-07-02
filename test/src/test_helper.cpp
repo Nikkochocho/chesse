@@ -41,10 +41,70 @@ void PromotionMove( GamePlay& game )  {
     game.Move( 'g', '7', 'h', '8' );
 }
 
-void CheckKing( GamePlay& game )  {
+void PawnCheck( GamePlay& game )  {
+
+    game.Move( 'd', '2', 'd', '4' );
+    game.Move( 'e', '7', 'e', '5' );
+    game.Move( 'd', '4', 'e', '5' );
+    game.Move( 'f', '7', 'f', '6' );
+    game.Move( 'e', '5', 'f', '6' );
+    game.Move( 'a', '7', 'a', '6' );
+    game.Move( 'f', '6', 'f', '7' );
+}
+
+void RookCheck( GamePlay& game )  {
+
+    game.Move( 'd', '2', 'd', '4' );
+    game.Move( 'e', '7', 'e', '5' );
+    game.Move( 'd', '4', 'e', '5' );
+    game.Move( 'f', '7', 'f', '6' );
+    game.Move( 'a', '2', 'a', '4' );
+    game.Move( 'f', '6', 'e', '5' );
+    game.Move( 'a', '1', 'a', '3' );
+    game.Move( 'a', '7', 'a', '6' );
+    game.Move( 'a', '3', 'e', '3' );
+    game.Move( 'e', '5', 'e', '4' );
+    game.Move( 'e', '3', 'e', '4' );
+}
+
+void KnightCheck( GamePlay& game )  {
+
+    game.Move( 'b', '1', 'c', '3' );
+    game.Move( 'e', '7', 'e', '5' );
+    game.Move( 'c', '3', 'e', '4' );
+    game.Move( 'd', '7', 'd', '6' );
+    game.Move( 'e', '4', 'f', '6' );
+}
+
+void BishopCheck( GamePlay& game )  {
 
     game.Move( 'd', '2', 'd', '4' );
     game.Move( 'e', '7', 'e', '5' );
     game.Move( 'd', '4', 'e', '5' );
     game.Move( 'f', '8', 'b', '4' );
+}
+
+void QueenCheck( GamePlay& game )  {
+
+    game.Move( 'f', '2', 'f', '4' );
+    game.Move( 'e', '7', 'e', '5' );
+    game.Move( 'e', '2', 'e', '4' );
+    game.Move( 'd', '8', 'h', '4' );
+}
+
+void Checkmate( GamePlay& game )  {
+
+    game.Move( 'e', '2', 'e', '4' );
+    game.Move( 'e', '7', 'e', '5' );
+    game.Move( 'g', '1', 'f', '3' );
+    game.Move( 'b', '8', 'c', '6' );
+    game.Move( 'f', '1', 'c', '4' );
+    game.Move( 'd', '7', 'd', '6' );
+    game.Move( 'b', '1', 'c', '3' );
+    game.Move( 'c', '8', 'g', '4' );
+    game.Move( 'f', '3', 'e', '5' );
+    game.Move( 'g', '4', 'd', '1' );
+    game.Move( 'c', '4', 'f', '7' );
+    game.Move( 'e', '8', 'e', '7' );
+    game.Move( 'c', '3', 'd', '5' );
 }

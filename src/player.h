@@ -24,7 +24,6 @@ class Player  {
     void Remove( IPiece *piece );
     IPiece* GetKing( void );
     void SetKing( IPiece *piece );
-    IPiece* GetAttacker( void );
     void SetAttacker( IPiece *piece );
     bool GetCheckStatus( void );
     void SetCheckStatus( bool check );

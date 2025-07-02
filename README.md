@@ -1,8 +1,9 @@
 # chesse
 
-`chesse` is a chessboard implementation, which features two players and all the pieces a traditional chess game has to offer. It also includes coverage tests to check all its functionality.
+`chesse` is a chessboard implementation, which features two players and all the pieces a traditional chess game has to offer. It also includes coverage tests to verify if all its functionality has to offer is working accordingly.
 
 ## Table of Contents :pushpin:
+
 * [Dependencies](#dependencies-memo)
     - [C.Make 3.24](#cmake-324)
     - [LCOV](#lcov)
@@ -64,5 +65,9 @@ If gcov is not already installed on your machine, you may use the commands below
     ```
     sudo port install gcov
     ```
+
 ## HowTo :rocket:
 
+**By default, `chesse` doesn't build its lcov tests**. 
+
+If you would like to check the coverage tests report, it is necessary to change your **settings.json** (you may find the sample on the .vscode.sample/ directory) from **false** to **true**.
