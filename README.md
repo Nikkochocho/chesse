@@ -9,6 +9,8 @@
     - [LCOV](#lcov)
     - [GCOV](#gcov)
 * [HowTo](#howto-rocket)
+    -[Configuring VSCode IDE](#Configuring-vscode-ide)
+    -[Enabling LCOV tests](#enabling-lcov-tests)
 
 ## Dependecies :memo:
 
@@ -68,6 +70,28 @@ If gcov is not already installed on your machine, you may use the commands below
 
 ## HowTo :rocket:
 
+### Configuring VSCode IDE
+
+At first, create a folder named **.vscode** to `chesse` root path. 
+
+```shell
+cd sunlight
+md .vscode
+```
+
+Copy whole folder content **chesse/doc/vscode_sample** into the created **.vscode** folder.
+
+```shell
+cp doc/.vscode_sample/* ./vscode
+```
+
+The **launch.json** file already has configurations for all supported `chesse` operating systems (Mac, Windows and Linux).
+
+### Enabling LCOV tests
+
 **By default, `chesse` doesn't build its lcov tests**. 
 
-If you would like to check the coverage tests report, it is necessary to change your **settings.json** (you may find the sample on the .vscode.sample/ directory) from **false** to **true**.
+If you would like to check the coverage tests report, it is necessary to change the **settings.json** file on your **.vscode** folder from **false** to **true**.
+
+>[!IMPORTANT]
+>For now, `chesse` does **NOT** have coverage tests support for Windows.
