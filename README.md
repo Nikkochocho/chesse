@@ -1,7 +1,9 @@
 # chesse
 
 <div align="center">
+
 `chesse` is a chessboard implementation, which features two players and all the pieces a traditional chess game has to offer. It also includes unit and coverage tests to verify if all its functionality has to offer is working accordingly.
+
 </div>
 
 ## Table of Contents :pushpin:
@@ -11,8 +13,8 @@
     - [LCOV](#lcov)
     - [GCOV](#gcov)
 * [HowTo](#howto-rocket)
-    -[Configuring VSCode IDE](#configuring-vscode-ide)
-    -[Enabling LCOV tests](#enabling-lcov-tests)
+    - [Configuring VSCode IDE](#configuring-vscode-ide)
+    - [Enabling LCOV tests](#enabling-lcov-tests)
 
 ## Dependecies :memo:
 
