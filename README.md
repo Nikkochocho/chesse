@@ -1,6 +1,8 @@
 # chesse
 
-`chesse` is a chessboard implementation, which features two players and all the pieces a traditional chess game has to offer. It also includes coverage tests to verify if all its functionality has to offer is working accordingly.
+<div align="center">
+`chesse` is a chessboard implementation, which features two players and all the pieces a traditional chess game has to offer. It also includes unit and coverage tests to verify if all its functionality has to offer is working accordingly.
+</div>
 
 ## Table of Contents :pushpin:
 
@@ -9,7 +11,7 @@
     - [LCOV](#lcov)
     - [GCOV](#gcov)
 * [HowTo](#howto-rocket)
-    -[Configuring VSCode IDE](#Configuring-vscode-ide)
+    -[Configuring VSCode IDE](#configuring-vscode-ide)
     -[Enabling LCOV tests](#enabling-lcov-tests)
 
 ## Dependecies :memo:
@@ -22,7 +24,7 @@ You may install the package on its official [page](https://cmake.org/). Higher v
 
 - For **Linux**
 
-    Ubuntu/Debian users can install the package by using the command `apt-get` on their Linux shell.
+    Ubuntu/Debian users can install the package by using the command **apt-get** on their Linux shell.
 
     It is also recommended to install by using the standard package manager offered by your prefered distro.
 
@@ -75,7 +77,7 @@ If gcov is not already installed on your machine, you may use the commands below
 At first, create a folder named **.vscode** to `chesse` root path. 
 
 ```shell
-cd sunlight
+cd chesse
 md .vscode
 ```
 
