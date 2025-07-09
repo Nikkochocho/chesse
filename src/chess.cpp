@@ -48,10 +48,13 @@ int main( int argc, char **argv ) {
             }
         }
         
-    } while ( !game.IsCheckmate() );
+    } while ( ( !game.IsCheckmate() ) || ( !game.IsStalemate() ) );
 
     game.Print();
-    std :: cout << "CHECKMATE"<< std :: endl;
+
+    const char* res = ( game.IsCheckmate() ) ? "CHECKMATE" : "STALEMATE";
+
+    std :: cout << res << std :: endl;
 
     return 0;
 }

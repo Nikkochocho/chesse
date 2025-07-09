@@ -12,7 +12,7 @@ class King : public Piece {
     virtual ~King ( void );
 
     bool CanMove( int dst_col, int dst_row );
-    bool KingCheck( void );
+    bool MovementCheck( bool king_check );
     void Print( void );
 };
 

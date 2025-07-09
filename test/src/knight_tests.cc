@@ -116,7 +116,7 @@ TEST( chesse_tests, KNIGHT_CHECK_KING ) {
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 1, 2, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -131,7 +131,7 @@ TEST( chesse_tests, INVALID_KNIGHT_CHECK_KING ) {
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 1, 2, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, false );
 }

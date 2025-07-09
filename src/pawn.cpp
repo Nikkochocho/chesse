@@ -56,14 +56,17 @@ bool Pawn :: CanMove( int dst_col, int dst_row )  {
     return ret; 
 }
 
-bool Pawn :: KingCheck( void )  {
+bool Pawn :: MovementCheck( bool king_check )  {
 
     IPiece    *piece;
-    int       col_pos;
-    int       row_pos;
-    int       col;
+    int       col_pos, row_pos, col;
     int       row      = ( m_color == WHITE ) ? 1 : -1;
     bool      ret      = false;
+
+    if ( !king_check )  {
+
+        ret = ( ( m_BoardVision -> GetPiece( m_position.col, m_position.row + row ) ) == nullptr ); 
+    }
 
     for ( int i = 0; i < 2; i++ )  {
 
@@ -79,11 +82,21 @@ bool Pawn :: KingCheck( void )  {
 
         piece = m_BoardVision -> GetPiece( ( col_pos ), ( row_pos ) );
 
-        if ( ( piece != nullptr ) && 
-             ( piece -> GetType() == KING ) && ( piece -> GetColor() != m_color ) )  {
+        if ( ( piece != nullptr ) && ( piece -> GetColor() != m_color ) )  {
 
-            piece -> SetStatus( CHECK );
-            ret = true;
+            if ( !king_check )  {
+
+                ret = true;
+            }
+            else if ( piece -> GetType() == KING )  {
+
+                piece -> SetStatus( CHECK );
+                ret = true;
+            }
+        }
+
+        if ( ret )  {
+
             break;
         }
     }

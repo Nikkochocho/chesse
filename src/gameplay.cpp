@@ -84,6 +84,7 @@ void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, IPiece *target, P
     if ( !IsReverse )  {
 
         m_board -> SetPiece( piece_pos.col, piece_pos.row, nullptr );
+        
 
         if ( target != nullptr )  {
 
@@ -239,7 +240,14 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
                         m_checkmate = true;
                     }
                 }
+                else  {
 
+                    if ( ( !m_players[opponent] -> MovePieces() ) && ( !KingEscape() ) )  {
+
+                        m_stalemate = true;
+                    }
+                }  
+                      
                 ChangeTurn();
 
                 return true;
@@ -278,6 +286,11 @@ bool GamePlay :: Promote( char dst_col, char dst_row, Pieces piece_type )  {
 bool GamePlay :: IsCheckmate( void )  {
 
     return m_checkmate;
+}
+
+bool GamePlay :: IsStalemate( void )  {
+
+    return m_stalemate;
 }
 
 PlayerNumber GamePlay :: GetTurn( void )  {

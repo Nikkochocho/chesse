@@ -14,6 +14,7 @@ class GamePlay {
     IBoard       *m_board;
     PlayerMap    m_players;
     bool         m_checkmate = false;
+    bool         m_stalemate = false;
     bool         m_promotion = false;
     PlayerNumber m_turn      = PLAYER_1;
 
@@ -37,6 +38,7 @@ class GamePlay {
     bool HasPromotion( void );
     bool Promote( char dst_col, char dst_row, Pieces piece_type );
     bool IsCheckmate( void );
+    bool IsStalemate( void );
     PlayerNumber GetTurn( void );
     void Print( void );
 };

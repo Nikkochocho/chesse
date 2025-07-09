@@ -172,7 +172,7 @@ TEST( chesse_tests, WHITE_PAWN_CHECK_KING_RIGHT ) {
     board.SetPiece( 1, 0, &piece );
     board.SetPiece( 2, 1, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -186,7 +186,7 @@ TEST( chesse_tests, WHITE_PAWN_CHECK_KING_LEFT ) {
     board.SetPiece( 1, 0, &piece );
     board.SetPiece( 0, 1, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -200,7 +200,7 @@ TEST( chesse_tests, INVALID_WHITE_PAWN_CHECK_KING ) {
     board.SetPiece( 1, 0, &piece );
     board.SetPiece( 2, 1, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, false );
 }
@@ -320,7 +320,7 @@ TEST( chesse_tests, BLACK_PAWN_CHECK_KING_RIGHT ) {
     board.SetPiece( 1, 1, &piece );
     board.SetPiece( 0, 0, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -334,7 +334,7 @@ TEST( chesse_tests, BLACK_PAWN_CHECK_KING_LEFT ) {
     board.SetPiece( 1, 1, &piece );
     board.SetPiece( 2, 0, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -348,7 +348,7 @@ TEST( chesse_tests, INVALID_BLACK_PAWN_CHECK_KING ) {
     board.SetPiece( 1, 1, &piece );
     board.SetPiece( 0, 0, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, false );
 }

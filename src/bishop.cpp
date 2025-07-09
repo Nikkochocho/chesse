@@ -23,17 +23,17 @@ bool Bishop :: CanMove( int dst_col, int dst_row )  {
     return false;
 }
 
-bool Bishop :: KingCheck( void )  {
+bool Bishop :: MovementCheck( bool king_check )  {
 
     stPosition MainposAsc, MainposDesc, SecposAsc, SecposDesc;
 
     MainposAsc =  MainposDesc = SecposAsc = SecposDesc = m_position;
 
-    CalcDiagonals( MainposAsc, MainposDesc, true ); //main diagonal
-    CalcDiagonals( SecposAsc, SecposDesc, false ); //secondary diagonal
+    CalcDiagonals( MainposAsc, MainposDesc, true, king_check ); //main diagonal
+    CalcDiagonals( SecposAsc, SecposDesc, false, king_check ); //secondary diagonal
 
-    return ( ( CanReach( MainposAsc.col, MainposAsc.row, true ) || CanReach( MainposDesc.col, MainposDesc.row, true ) ) ||
-             ( CanReach( SecposAsc.col, SecposAsc.row, true ) || CanReach( SecposDesc.col, SecposDesc.row, true ) ) );
+    return ( ( CanReach( MainposAsc.col, MainposAsc.row, king_check ) || CanReach( MainposDesc.col, MainposDesc.row, king_check ) ) ||
+             ( CanReach( SecposAsc.col, SecposAsc.row, king_check ) || CanReach( SecposDesc.col, SecposDesc.row, king_check ) ) );
 }
 
 // LCOV_EXCL_START

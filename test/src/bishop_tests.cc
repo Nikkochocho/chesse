@@ -115,7 +115,7 @@ TEST( chesse_tests, BISHOP_CHECK_KING_PRIMARY_DIAGONAL_ASC ) {
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 4, 4, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -129,7 +129,7 @@ TEST( chesse_tests, BISHOP_CHECK_KING_PRIMARY_DIAGONAL_DESC ) {
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 0, 0, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -143,7 +143,7 @@ TEST( chesse_tests, BISHOP_CHECK_KING_SECONDARY_DIAGONAL_ASC ) {
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 0, 4, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -157,7 +157,7 @@ TEST( chesse_tests, BISHOP_CHECK_KING_SECONDARY_DIAGONAL_DESC ) {
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 4, 0, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -171,7 +171,7 @@ TEST( chesse_tests, INVALID_BISHOP_CHECK_KING ) {
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 0, 4, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, false );
 }
@@ -187,7 +187,7 @@ TEST( chesse_tests, FAILED_BISHOP_CHECK_KING ) {
     board.SetPiece( 3, 3, &block_piece );
     board.SetPiece( 4, 4, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, false );
 }

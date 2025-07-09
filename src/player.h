@@ -28,6 +28,7 @@ class Player  {
     bool GetCheckStatus( void );
     void SetCheckStatus( bool check );
     bool CheckPieces( IPiece *piece );
+    bool MovePieces( void );
     bool CanCheck( void );
     bool CanCatch( void );
     bool CanBlock( void );

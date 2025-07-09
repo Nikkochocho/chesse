@@ -23,10 +23,10 @@ bool Rook :: CanMove( int dst_col, int dst_row )  {
     return false;
 }
 
-bool Rook :: KingCheck( void )  {
+bool Rook :: MovementCheck( bool king_check )  {
 
-    return ( ( CanReach( 7, m_position.row, true ) || CanReach( 0, m_position.row, true ) ) ||
-             ( CanReach( m_position.col, 7, true ) || CanReach( m_position.col, 0, true ) ) );
+    return ( ( CanReach( 7, m_position.row, king_check ) || CanReach( 0, m_position.row, king_check ) ) ||
+             ( CanReach( m_position.col, 7, king_check ) || CanReach( m_position.col, 0, king_check ) ) );
 }
 
 // LCOV_EXCL_START

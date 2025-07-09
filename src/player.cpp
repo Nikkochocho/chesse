@@ -59,13 +59,28 @@ bool Player :: CheckPieces( IPiece *piece )  {
     return false;
 }
 
+bool Player :: MovePieces( void )  {
+
+    for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
+
+        IPiece *pPiece = *it; 
+
+        if ( pPiece -> MovementCheck( false ) )  {
+            
+            return true;
+        }
+    }
+
+    return false;
+}
+
 bool Player :: CanCheck( void ) {
 
     for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
         IPiece *pPiece = *it; 
 
-        if ( pPiece -> KingCheck() )  {
+        if ( pPiece -> MovementCheck( true ) )  {
             
             return true;
         }

@@ -1,6 +1,6 @@
 # chesse
 
-<div align="center">
+<div align = "center">
 
 `chesse` is a chessboard implementation, which features two players and all the pieces a traditional chess game has to offer. It also includes unit and coverage tests to verify if all its functionality has to offer is working accordingly.
 

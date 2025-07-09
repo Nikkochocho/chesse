@@ -12,7 +12,7 @@ class Bishop : public Piece {
     virtual ~Bishop ( void );
 
     bool CanMove( int dst_col, int dst_row );
-    bool KingCheck( void );
+    bool MovementCheck( bool king_check );
     void Print( void );
 };
 

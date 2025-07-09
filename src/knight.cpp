@@ -28,11 +28,10 @@ bool Knight :: CanMove( int dst_col, int dst_row )  {
     return ret;
 }
 
-bool Knight :: KingCheck( void )  {
+bool Knight :: MovementCheck( bool king_check )  {
 
     IPiece        *piece;
-    int           col;
-    int           row;
+    int           col, row;
     const int     col_number[8] = { 2, 1, -1, -2, -2, -1, 1, 2 };
     const int     row_number[8] = { 1, 2, 2, 1, -1, -2, -2, -1 };
     bool          ret           = false;
@@ -50,10 +49,18 @@ bool Knight :: KingCheck( void )  {
 
             piece = m_BoardVision -> GetPiece( col, row );
 
-            if ( ( piece != nullptr ) && ( ( piece -> GetType() == KING ) && ( piece -> GetColor() != m_color ) ) )  {
+            if ( !king_check )  {
+
+                ret = CanSet( piece );
+            }
+            else if ( ( piece != nullptr ) && ( ( piece -> GetType() == KING ) && ( piece -> GetColor() != m_color ) ) )  {
 
                 piece -> SetStatus( CHECK );
                 ret = true;
+            }
+
+            if ( ret )  {
+
                 break;
             }
         }

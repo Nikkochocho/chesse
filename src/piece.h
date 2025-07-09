@@ -16,7 +16,7 @@ class Piece : public IPiece  {
     IBoard      *m_BoardVision;
 
     
-    void CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal );
+    void CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal, bool check );
     bool CanReach( int dst_col, int dst_row, bool check = false );
 
     private:
@@ -29,9 +29,9 @@ class Piece : public IPiece  {
     int GetMovementCount( void );
     void AddMovementCount( void );
     bool CanSet( IPiece *target );
-
+    
     virtual bool CanMove( int dst_col, int dst_row );
-    virtual bool KingCheck( void );
+    virtual bool MovementCheck( bool king_check );
     virtual void Print( void );
    
     Pieces GetType( void );

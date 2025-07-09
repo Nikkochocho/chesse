@@ -48,7 +48,7 @@ bool King :: CanMove( int dst_col, int dst_row )  {
     return ret;
 }
 
-bool King :: KingCheck( void )  {
+bool King :: MovementCheck( bool king_check )  {
 
     return false;
 }

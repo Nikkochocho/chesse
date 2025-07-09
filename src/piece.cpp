@@ -1,7 +1,7 @@
 #include "piece.h"
 
 
-void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal )  {
+void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal, bool check )  {
 
     bool asc, desc;
     int direction   = diagonal ? 1 : -1; //default main; else secondary diagonal
@@ -27,6 +27,11 @@ void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diago
             posDesc.row--;
         }
         else desc = false;
+
+        if ( !check )  {
+
+            break;
+        }
     }
 }
 
@@ -110,7 +115,7 @@ bool Piece :: CanMove( int dst_col, int dst_row )  {
     return false;
 }
 
-bool Piece :: KingCheck( void )  {
+bool Piece :: MovementCheck( bool king_check )  {
 
     return false;
 }

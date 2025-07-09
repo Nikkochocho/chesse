@@ -115,7 +115,7 @@ TEST( chesse_tests, ROOK_HORIZONTAL_CHECK_KING ) {
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 2, 0, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -129,7 +129,7 @@ TEST( chesse_tests, ROOK_VERTICAL_CHECK_KING ) {
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 0, 2, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, true );
 }
@@ -143,7 +143,7 @@ TEST( chesse_tests, INVALID_ROOK_CHECK_KING ) {
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 2, 0, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, false );
 }
@@ -159,7 +159,7 @@ TEST( chesse_tests, FAILED_ROOK_CHECK_KING ) {
     board.SetPiece( 1, 0, &block_piece );
     board.SetPiece( 2, 0, &king );
 
-    bool        ret   = ( piece.KingCheck() && ( king.GetStatus() == CHECK ) );
+    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
 
     EXPECT_EQ ( ret, false );
 }
