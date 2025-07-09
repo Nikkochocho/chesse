@@ -42,6 +42,11 @@ bool Piece :: CanReach( int dst_col, int dst_row, bool check )  { // DEFAULT -> 
     int dist_col = dst_col - m_position.col;
     int dist_row = dst_row - m_position.row;
 
+    if ( ( dist_col == 0 ) && ( dist_row == 0 ) )  {
+
+        return false;
+    }
+
     if ( dist_col != 0 )  {
 
         itr_col = ( dist_col > 0 ) ? 1 : -1;
@@ -57,9 +62,9 @@ bool Piece :: CanReach( int dst_col, int dst_row, bool check )  { // DEFAULT -> 
 
 bool Piece :: IterationCheck( int dist_col, int dist_row, int itr_col, int itr_row, bool check )  {
 
-    int    col_iterations = 0;
-    int    row_iterations = 0;
-    bool   ret            = ( check ) ? false : true; // default return
+    int        col_iterations = 0;
+    int        row_iterations = 0;
+    bool       ret            = ( check ) ? false : true; // default return
 
     while ( ( row_iterations !=  dist_row ) || ( col_iterations !=  dist_col ) )  {
 
@@ -76,6 +81,8 @@ bool Piece :: IterationCheck( int dist_col, int dist_row, int itr_col, int itr_r
         
         if ( !check && ( row_iterations ==  dist_row ) && ( col_iterations ==  dist_col ) )  {
 
+            this -> m_availablePos.col = m_position.col + col_iterations;
+            this -> m_availablePos.row = m_position.row + row_iterations;
             return CanSet( target );
         }
         
@@ -148,4 +155,9 @@ void Piece :: SetStatus( Status state )  {
 stPosition& Piece :: Position( void )  {
 
     return m_position;
+}
+
+stPosition& Piece :: AvailablePosition( void )  {
+
+    return m_availablePos;
 }

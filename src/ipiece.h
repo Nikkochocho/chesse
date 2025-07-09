@@ -21,6 +21,7 @@ class IPiece  {
     virtual Status GetStatus( void ) = 0;
     virtual void SetStatus( Status state ) = 0;
     virtual stPosition& Position( void ) = 0;
+    virtual stPosition& AvailablePosition( void ) = 0;
 };
 
 #endif // __IPIECE_H__

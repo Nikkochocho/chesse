@@ -2,7 +2,7 @@
 
 <div align = "center">
 
-`chesse` is a chessboard implementation, which features two players and all the pieces a traditional chess game has to offer. It also includes unit and coverage tests to verify if all its functionality has to offer is working accordingly.
+`chesse` is a chessboard implementation, which features two players and all the pieces and logic a traditional chess game contains. It also includes unit and coverage tests to verify if all its functionality has to offer is working accordingly.
 
 </div>
 
@@ -15,6 +15,7 @@
 * [HowTo](#howto-rocket)
     - [Configuring VSCode IDE](#configuring-vscode-ide)
     - [Enabling LCOV tests](#enabling-lcov-tests)
+* [Chessboard and Commands](#chessboard-and-commands-space_invader)
 
 ## Dependecies :memo:
 
@@ -40,7 +41,7 @@ You may install the package on its official [page](https://cmake.org/). Higher v
 
     Ubuntu/Debian users can install the package by using the command below on their Linux Shell:
 
-    ```
+    ```shell
     sudo apt-get install lcov
     ``` 
 
@@ -48,7 +49,7 @@ You may install the package on its official [page](https://cmake.org/). Higher v
 
     Mac users may obtain the package by using the following:
 
-    ```
+    ```shell
     sudo port install lcov
     ```
 
@@ -60,15 +61,15 @@ If gcov is not already installed on your machine, you may use the commands below
 
     Ubuntu/Debian users can install the package by using the command below on their Linux Shell:
 
-    ```
+    ```shell
     sudo apt-get install gcov
-    ``` 
+    ```
 
 - For **MacOS**
 
     Mac users may obtain the package by using the following:
 
-    ```
+    ```shell
     sudo port install gcov
     ```
 
@@ -99,3 +100,15 @@ If you would like to check the coverage tests report, it is necessary to change 
 
 >[!IMPORTANT]
 >For now, `chesse` does **NOT** have coverage tests support for Windows.
+
+## Chessboard and Commands :space_invader:
+
+`chesse` commands follow what you may find on a typical chess notation: the column and row value of your piece's current position, followed by the desired position, as shown bellow:
+
+```
+d2
+d4
+```
+If it's still your turn and your piece's current position didn´t change, you might have used an invalid move, thus making it necessary to enter your coordinates again.
+
+As soon as one of the players get a checkmate or a stalemate, `chesse` ends the game.

@@ -48,7 +48,7 @@ int main( int argc, char **argv ) {
             }
         }
         
-    } while ( ( !game.IsCheckmate() ) || ( !game.IsStalemate() ) );
+    } while ( ( !game.IsCheckmate() ) && ( !game.IsStalemate() ) );
 
     game.Print();
 

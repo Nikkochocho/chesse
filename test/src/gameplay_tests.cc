@@ -499,4 +499,27 @@ TEST( chesse_tests, CHECKMATE_FALSE ) {
     EXPECT_EQ ( ret, false );
 }
 
-//GetAttacker() idk
+TEST( chesse_tests, STALEMATE_TRUE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    Stalemate( game );
+
+    bool        ret   = ( game.IsStalemate() );
+
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, STALEMATE_FALSE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+
+    bool        ret   = ( game.IsStalemate() );
+
+    EXPECT_EQ ( ret, false );
+}

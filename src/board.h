@@ -19,6 +19,7 @@ class Board : public IBoard  {
     Board( void );
     virtual ~Board( void );
 
+    bool IsValid( int col, int row );
     IPiece* GetPromotion( Pieces piece, Color color );
     IPiece* GetPiece( int dst_c, int dst_r );
     void SetPiece( int col, int row, IPiece *piece );

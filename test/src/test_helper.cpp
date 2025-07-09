@@ -108,3 +108,26 @@ void Checkmate( GamePlay& game )  {
     game.Move( 'e', '8', 'e', '7' );
     game.Move( 'c', '3', 'd', '5' );
 }
+
+void Stalemate( GamePlay& game )  {
+
+    game.Move( 'c', '2', 'c', '4' );
+    game.Move( 'h', '7', 'h', '5' );
+    game.Move( 'h', '2', 'h', '4' );
+    game.Move( 'a', '7', 'a', '5' );
+    game.Move( 'd', '1', 'a', '4' );
+    game.Move( 'a', '8', 'a', '6' );
+    game.Move( 'a', '4', 'a', '5' );
+    game.Move( 'a', '6', 'h', '6' );
+    game.Move( 'a', '5', 'c', '7' );
+    game.Move( 'f', '7', 'f', '6' );
+    game.Move( 'c', '7', 'd', '7' );
+    game.Move( 'e', '8', 'f', '7' );
+    game.Move( 'd', '7', 'b', '7' );
+    game.Move( 'd', '8', 'd', '3' );
+    game.Move( 'b', '7', 'b', '8' );
+    game.Move( 'd', '3', 'h', '7' );
+    game.Move( 'b', '8', 'c', '8' );
+    game.Move( 'f', '7', 'g', '6' );
+    game.Move( 'c', '8', 'e', '6' );
+}

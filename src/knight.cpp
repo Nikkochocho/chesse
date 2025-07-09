@@ -51,6 +51,8 @@ bool Knight :: MovementCheck( bool king_check )  {
 
             if ( !king_check )  {
 
+                this -> m_availablePos.col = col;
+                this -> m_availablePos.row = row;
                 ret = CanSet( piece );
             }
             else if ( ( piece != nullptr ) && ( ( piece -> GetType() == KING ) && ( piece -> GetColor() != m_color ) ) )  {

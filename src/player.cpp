@@ -13,7 +13,10 @@ Player :: ~Player( void )  {
 
 void Player :: Add( IPiece *piece )  {
 
-    m_pieces.push_back( piece );
+    if ( piece -> GetColor() == m_color )  {
+
+        m_pieces.push_back( piece ); //TODO: fix this smh
+    }
 }
 
 void Player :: Remove( IPiece *piece )  {
@@ -59,7 +62,9 @@ bool Player :: CheckPieces( IPiece *piece )  {
     return false;
 }
 
-bool Player :: MovePieces( void )  {
+std :: list<IPiece*> Player :: MovePieces( void )  {
+
+    std :: list<IPiece*> available_pieces;
 
     for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
@@ -67,11 +72,11 @@ bool Player :: MovePieces( void )  {
 
         if ( pPiece -> MovementCheck( false ) )  {
             
-            return true;
+            available_pieces.push_back( pPiece );
         }
     }
 
-    return false;
+    return available_pieces;
 }
 
 bool Player :: CanCheck( void ) {
@@ -80,7 +85,7 @@ bool Player :: CanCheck( void ) {
 
         IPiece *pPiece = *it; 
 
-        if ( pPiece -> MovementCheck( true ) )  {
+        if ( pPiece -> MovementCheck( true ) )  {  
             
             return true;
         }

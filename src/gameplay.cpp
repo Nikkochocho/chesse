@@ -106,18 +106,6 @@ void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, IPiece *target, P
     }
 }
 
-bool GamePlay :: IsValid( int src_c, int src_r, int dst_c, int dst_r )  {
-
-    if ( src_r >= 0 && src_r < MAX_ROWS && src_c >= 0 && src_c < MAX_COLS &&
-         dst_r >= 0 && dst_r < MAX_ROWS && dst_c >= 0 && dst_c < MAX_COLS &&
-         dst_r != src_r || dst_c != src_c )  {
-
-            return true;
-        }
-
-    return false;
-}
-
 bool GamePlay :: VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent, bool IsEscape )  {
 
     stPosition   dst_pos;
@@ -178,6 +166,30 @@ bool GamePlay :: KingEscape( void )  {
     return false;
 }
 
+bool GamePlay :: HasAvailableMove( std :: list<IPiece*> available_pieces )  {
+
+    int          count    = 0;
+
+    for ( std :: list<IPiece*> :: iterator it = available_pieces.begin(); it != available_pieces.end(); it++ )  {
+
+        IPiece *pPiece = *it; 
+        int    col_pos = pPiece -> AvailablePosition().col;
+        int    row_pos = pPiece -> AvailablePosition().row;
+
+        if ( !VirtualMovement( pPiece, col_pos, row_pos, m_turn, false ) )  {
+
+            count++;
+        }
+    }
+
+    if ( count == available_pieces.size() )  {
+
+        return false;
+    }
+
+    return true;
+}
+
 GamePlay :: GamePlay( IBoard *board )  {
 
     this -> m_board = board;
@@ -209,7 +221,8 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
     int  dst_c = GetColIndex( dst_col );
     int  dst_r = GetRowIndex( dst_row );
 
-    if ( IsValid( src_c, src_r, dst_c, dst_r ) )  {
+    if ( ( m_board -> IsValid( src_c, src_r ) ) && ( m_board -> IsValid( dst_c, dst_r ) ) &&
+         ( dst_r != src_r || dst_c != src_c ) )  {
         
         PlayerNumber   opponent        = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
         IPiece         *piece          = m_board -> GetPiece( src_c, src_r );
@@ -242,7 +255,9 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
                 }
                 else  {
 
-                    if ( ( !m_players[opponent] -> MovePieces() ) && ( !KingEscape() ) )  {
+                    std :: list<IPiece*> available_pieces = m_players[opponent] -> MovePieces();
+
+                    if ( ( !HasAvailableMove( available_pieces ) ) && ( !KingEscape() ) )  {
 
                         m_stalemate = true;
                     }

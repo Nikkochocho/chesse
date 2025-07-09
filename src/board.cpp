@@ -27,6 +27,16 @@ Board :: ~Board( void )  {
 
 }
 
+bool Board :: IsValid( int col, int row )  {
+
+    if ( col >= 0 && col < MAX_COLS && row >= 0 && row < MAX_ROWS )  {
+
+        return true;
+    }
+
+    return false;
+}
+
 IPiece* Board :: GetPromotion( Pieces piece, Color color )  {
 
     IPiece *promoted_piece;
@@ -55,7 +65,12 @@ IPiece* Board :: GetPromotion( Pieces piece, Color color )  {
 
 IPiece* Board :: GetPiece( int dst_c, int dst_r )  {
 
-    return m_board[dst_c][dst_r];
+    if ( IsValid( dst_c, dst_r ) )  {
+
+        return m_board[dst_c][dst_r];
+    }
+
+    return nullptr;
 }
 
 void Board :: SetPiece( int col, int row, IPiece *piece )  {

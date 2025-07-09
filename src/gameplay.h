@@ -24,9 +24,9 @@ class GamePlay {
     void ChangeTurn( void );
     void SpecialCases( IPiece *piece );
     void InsertChanges( stPosition pos, IPiece *piece, IPiece *target, PlayerNumber opponent, bool IsReverse );
-    bool IsValid( int src_c, int src_r, int dst_c, int dst_r );
     bool VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent, bool IsEscape );
     bool KingEscape( void );
+    bool HasAvailableMove( std :: list<IPiece*> available_pieces );
 
     public:
     

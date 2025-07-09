@@ -10,6 +10,7 @@ class Piece : public IPiece  {
     
     int         m_MovementCount = 0;
     stPosition  m_position;
+    stPosition  m_availablePos;
     Color       m_color;
     Pieces      m_type;
     Status      m_state = NORMAL;
@@ -39,6 +40,7 @@ class Piece : public IPiece  {
     Status GetStatus( void );
     void SetStatus( Status state );
     stPosition& Position( void );
+    stPosition& AvailablePosition( void );
 };
 
 #endif // __PIECE_H__

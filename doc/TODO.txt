@@ -1,8 +1,6 @@
 This is a TODO list with improvements and new features;
 
-* add DRAW (in case o piece can move and king is not on check)
-* STALEMATE
-* DEAD POSITION (have no idea idk)
+- optimize MovementCheck() from knight and pawn
 
 license:
 /*
