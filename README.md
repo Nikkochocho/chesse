@@ -2,6 +2,8 @@
 
 <div align = "center">
 
+<img src = "/resources/mice_logo.png" alt = "chesse logo" title = "mice">
+
 `chesse` is a chessboard implementation, which features two players and all the pieces and logic a traditional chess game contains. It also includes unit and coverage tests to verify if all its functionality has to offer is working accordingly.
 
 </div>
