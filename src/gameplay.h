@@ -43,7 +43,7 @@ class GamePlay {
     void InsertChanges( stPosition pos, IPiece *piece, IPiece *target, PlayerNumber opponent, bool IsReverse );
     bool VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent, bool IsEscape );
     bool KingEscape( void );
-    bool HasAvailableMove( std :: list<IPiece*> available_pieces );
+    bool HasAvailableMove( const std :: list<IPiece*>& available_pieces );
 
     public:
     

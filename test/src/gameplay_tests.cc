@@ -504,6 +504,19 @@ TEST( chesse_tests, CHECKMATE_TRUE ) {
     EXPECT_EQ ( ret, true );
 }
 
+TEST( chesse_tests, KNIGHT_CHECKMATE_TRUE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    KnightCheckmate( game );
+
+    bool        ret   = ( game.IsCheckmate() );
+
+    EXPECT_EQ ( ret, true );
+}
+
 TEST( chesse_tests, CHECKMATE_FALSE ) {
     
     Board       board;

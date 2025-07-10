@@ -30,6 +30,7 @@ void KnightCheck( GamePlay& game );
 void BishopCheck( GamePlay& game );
 void QueenCheck( GamePlay& game );
 void Checkmate( GamePlay& game );
+void KnightCheckmate( GamePlay& game );
 void Stalemate( GamePlay& game );
 
 #endif // __TEST_HELPER_H__

@@ -101,7 +101,6 @@ void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, IPiece *target, P
     if ( !IsReverse )  {
 
         m_board -> SetPiece( piece_pos.col, piece_pos.row, nullptr );
-        
 
         if ( target != nullptr )  {
 
@@ -188,11 +187,11 @@ bool GamePlay :: KingEscape( void )  {
     return false;
 }
 
-bool GamePlay :: HasAvailableMove( std :: list<IPiece*> available_pieces )  {
+bool GamePlay :: HasAvailableMove( const std :: list<IPiece*>& available_pieces )  {
 
-    int          count    = 0;
+    int          count = 0;
 
-    for ( std :: list<IPiece*> :: iterator it = available_pieces.begin(); it != available_pieces.end(); it++ )  {
+    for ( std :: list<IPiece*> :: const_iterator it = available_pieces.begin(); it != available_pieces.end(); it++ )  {
 
         IPiece *pPiece = *it; 
         int    col_pos = pPiece -> AvailablePosition().col;

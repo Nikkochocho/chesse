@@ -111,6 +111,14 @@ void QueenCheck( GamePlay& game )  {
 
 void Checkmate( GamePlay& game )  {
 
+    game.Move( 'f', '2', 'f', '4' );
+    game.Move( 'e', '7', 'e', '5' );
+    game.Move( 'g', '2', 'g', '4' );
+    game.Move( 'd', '8', 'h', '4' );
+}
+
+void KnightCheckmate( GamePlay& game )  {
+
     game.Move( 'e', '2', 'e', '4' );
     game.Move( 'e', '7', 'e', '5' );
     game.Move( 'g', '1', 'f', '3' );
