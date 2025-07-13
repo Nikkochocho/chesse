@@ -19,25 +19,38 @@
 #include "gameplay.h"
 
 
+/**
+ * @brief Gets Column Index value.
+ * @param ch Column char representation.
+ * @return X axis value.
+ */
 int GamePlay :: GetColIndex( char ch )  {
 
-    return ch - 'a';
+    return ( ch - 'a' );
 }
 
+/**
+ * @brief Gets Row Index value.
+ * @param ch Row char representation.
+ * @return Y axis value.
+ */
 int GamePlay :: GetRowIndex( char ch )  {
 
-    return ch - '0' - 1;
+    return ( ch - '0' - 1 );
 }
 
+/**
+ * @brief Initializes players's pieces default configuration.
+ */
 void GamePlay :: InitPieces( void )  {
 
-    for ( int col = 0; col < MAX_COLS; col++ ) {
+    for ( int col = MIN_SIZE; col < MAX_SIZE; col++ ) {
 
         m_players[PLAYER_1] -> Add( m_board -> GetPiece( col, 1 ) );
         m_players[PLAYER_2] -> Add( m_board -> GetPiece( col, 6 ) );
     }
 
-    for ( int col = 0; col < MAX_COLS; col++ ) {
+    for ( int col = MIN_SIZE; col < MAX_SIZE; col++ ) {
 
         m_players[PLAYER_1] -> Add( m_board -> GetPiece( col, 0 ) ); 
         m_players[PLAYER_2] -> Add( m_board -> GetPiece( col, 7 ) );
@@ -47,11 +60,19 @@ void GamePlay :: InitPieces( void )  {
     m_players[PLAYER_2] -> SetKing( m_board -> GetPiece( 4, 7 ) );
 }
 
+/**
+ * @brief Changes current turn.
+ */
 void GamePlay :: ChangeTurn( void )  {
 
     m_turn = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
 }
 
+/**
+ * @brief Deals with piece's status condition
+ * and sets it back to NORMAL.
+ * @param piece IPiece object.
+ */
 void GamePlay :: SpecialCases( IPiece *piece )  {
 
     int          direction;
@@ -94,6 +115,16 @@ void GamePlay :: SpecialCases( IPiece *piece )  {
     piece -> SetStatus( NORMAL );
 }
 
+/**
+ * @brief Creates a temporary state where a piece is 
+ * removed from the board and its player's list of pieces.
+ * @param pos Destiny position, if not reverse;
+ * Current position, if reverse.
+ * @param piece Piece that is being moved.
+ * @param target Target IPiece object.
+ * @param opponent Opponent player.
+ * @param IsReverse Type of change required.
+ */
 void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, IPiece *target, PlayerNumber opponent, bool IsReverse )  {
 
     stPosition piece_pos  = piece -> Position();
@@ -122,6 +153,15 @@ void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, IPiece *target, P
     }
 }
 
+/**
+ * @brief Sets a virtual state for check verification
+ * and movement validation.
+ * @param piece IPiece object being moved.
+ * @param dst_c New X axis position.
+ * @param dst_r New Y axis position.
+ * @param opponent Opponent player.
+ * @param isEscape Validation Type.
+ */
 bool GamePlay :: VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent, bool IsEscape )  {
 
     stPosition   dst_pos;
@@ -138,14 +178,14 @@ bool GamePlay :: VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNum
 
     InsertChanges( dst_pos, piece, target, opponent, false );
 
-    if ( m_players[opponent] -> CanCheck() )  { //if check is not blocked
+    if ( m_players[opponent] -> CanCheck() )  { // if check is not blocked
 
         InsertChanges( src_pos, piece, target, opponent, true );
 
         return false;
     }
 
-    if ( ( !IsEscape ) && ( m_players[m_turn] -> GetCheckStatus() ) )  { //if check is blocked
+    if ( ( !IsEscape ) && ( m_players[m_turn] -> GetCheckStatus() ) )  { // if check is blocked
 
         m_players[m_turn] -> GetKing() -> SetStatus( NORMAL );
         m_players[m_turn] -> SetAttacker( nullptr );
@@ -157,6 +197,9 @@ bool GamePlay :: VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNum
     return true;
 }
 
+/**
+ * @brief Returns if king on check can escape on its own. 
+ */
 bool GamePlay :: KingEscape( void )  {
 
     PlayerNumber opponent   = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
@@ -187,6 +230,11 @@ bool GamePlay :: KingEscape( void )  {
     return false;
 }
 
+/**
+ * @brief Checks if pieces with available movements
+ * can set on new position without Check.
+ * @param available_pieces List of pieces with available moves.
+ */
 bool GamePlay :: HasAvailableMove( const std :: list<IPiece*>& available_pieces )  {
 
     int          count = 0;
@@ -211,6 +259,9 @@ bool GamePlay :: HasAvailableMove( const std :: list<IPiece*>& available_pieces 
     return true;
 }
 
+/**
+ * @brief Constructor. Initialize all class data.
+ */
 GamePlay :: GamePlay( IBoard *board )  {
 
     this -> m_board = board;
@@ -219,6 +270,9 @@ GamePlay :: GamePlay( IBoard *board )  {
     this -> m_players.insert( std :: make_pair< PlayerNumber, Player* >( PLAYER_2, new Player( BLACK ) ) );
 }
 
+/**
+ * @brief Destructor. Finalize all class data.
+ */
 GamePlay :: ~GamePlay( void )  {
 
     for ( auto item : m_players ) {
@@ -229,12 +283,22 @@ GamePlay :: ~GamePlay( void )  {
     m_players.clear();
 }
 
+/**
+ * @brief Starts a new game setup.
+ */
 void GamePlay :: NewGame( void )  {
 
     m_board -> Init();
     InitPieces();
 }
 
+/**
+ * @brief Returns if the player's move is valid.
+ * @param src_col Current X axis position.
+ * @param src_row Current Y axis position.
+ * @param dst_col Next X axis position.
+ * @param dst_row Next Y axis position.
+ */
 bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row )  {
 
     int  src_c = GetColIndex( src_col );
@@ -294,11 +358,20 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
     return false;
 }
 
+/**
+ * @brief Returns if game has any promotion available.
+ */
 bool GamePlay :: HasPromotion( void )  {
 
     return m_promotion;
 }
 
+/**
+ * @brief Deals with pawn promotion.
+ * @param dst_col Next X axis position.
+ * @param dst_row Next Y axis position.
+ * @param piece_type promoted pawn's new type.
+ */
 bool GamePlay :: Promote( char dst_col, char dst_row, Pieces piece_type )  {
 
     int            dst_c  = GetColIndex( dst_col );
@@ -319,28 +392,40 @@ bool GamePlay :: Promote( char dst_col, char dst_row, Pieces piece_type )  {
     return true;
 }
 
+/**
+ * @brief Returns game's checkmate status.
+ */
 bool GamePlay :: IsCheckmate( void )  {
 
     return m_checkmate;
 }
 
+/**
+ * @brief Returns game's stalemate status.
+ */
 bool GamePlay :: IsStalemate( void )  {
 
     return m_stalemate;
 }
 
+/**
+ * @brief Returns game's current turn.
+ */
 PlayerNumber GamePlay :: GetTurn( void )  {
 
     return m_turn;
 }
 
 // LCOV_EXCL_START
+/**
+ * @brief Prints the Chessboard.
+ */
 void GamePlay :: Print( void )  {
    
-    int count_col = 0;
-    int count_row = MAX_ROWS;
+    int count_col = MIN_SIZE;
+    int count_row = MAX_SIZE;
 
-    for ( int i = 0; i < ( MAX_COLS * 2 ) + 1; i++ )  {
+    for ( int i = MIN_SIZE; i < ( ( MAX_SIZE * 2 ) + 1 ); i++ )  {
 
         if ( i % 2 != 0 )  {
 
@@ -355,18 +440,18 @@ void GamePlay :: Print( void )  {
 
     std :: cout << std :: endl;
 
-    for ( int cc = 0; cc < ( MAX_COLS * 2 ) + 1; cc++ )  {
+    for ( int cc = MIN_SIZE; cc < ( ( MAX_SIZE * 2 ) + 1 ); cc++ )  {
 
         std :: cout << "-";
     }
     
     std :: cout << std :: endl;
     
-    for ( int row = ( MAX_ROWS - 1 ); row >= 0; row-- )  {
+    for ( int row = ( MAX_SIZE - 1 ); row >= MIN_SIZE; row-- )  {
 
         std :: cout << "|";
 
-        for ( int col = 0; col < MAX_COLS; col++ )  {
+        for ( int col = MIN_SIZE; col < MAX_SIZE; col++ )  {
 
             IPiece *piece = m_board -> GetPiece( col, row );
 
@@ -381,14 +466,14 @@ void GamePlay :: Print( void )  {
 
             std :: cout << "|";
 
-            if ( col == MAX_COLS - 1 )  {
+            if ( col == ( MAX_SIZE - 1 ) )  {
                 
                 std :: cout << count_row << std :: endl;
                 count_row--;
             }
         }
 
-        for ( int cc = 0; cc < ( MAX_COLS * 2 ) + 1; cc++ )  {
+        for ( int cc = MIN_SIZE; cc < ( ( MAX_SIZE * 2 ) + 1 ); cc++ )  {
 
             std :: cout << "-";
         }

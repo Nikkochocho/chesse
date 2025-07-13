@@ -19,6 +19,9 @@
 #include "rook.h"
 
 
+/**
+ * @brief Constructor. Initialize all class data.
+ */
 Rook :: Rook( Color color, IBoard *boardVision )  {
 
     this -> m_type        = ROOK;
@@ -26,10 +29,18 @@ Rook :: Rook( Color color, IBoard *boardVision )  {
     this -> m_BoardVision = boardVision;
 }
 
+/**
+ * @brief Destructor. Finalize all class data.
+ */
 Rook :: ~Rook( void )  {
 
 }
 
+/**
+ * @brief Checks if new position is valid under the piece's moveset.
+ * @param dst_col New X axis position.
+ * @param dst_row New Y axis position.
+ */
 bool Rook :: CanMove( int dst_col, int dst_row )  {
 
     if ( dst_col == m_position.col || dst_row == m_position.row )  {
@@ -40,13 +51,21 @@ bool Rook :: CanMove( int dst_col, int dst_row )  {
     return false;
 }
 
+/**
+ * @brief By default, checks if piece has any possible movement available. 
+ * If king_check is true, inspects if piece can check the opponents' king.
+ * @param king_check Verification type. Optional parameter, false by default. 
+ */
 bool Rook :: MovementCheck( bool king_check )  {
 
-    return ( ( CanReach( 7, m_position.row, king_check ) || CanReach( 0, m_position.row, king_check ) ) ||
-             ( CanReach( m_position.col, 7, king_check ) || CanReach( m_position.col, 0, king_check ) ) );
+    return ( ( CanReach( ( MAX_SIZE - 1 ), m_position.row, king_check ) || CanReach( MIN_SIZE, m_position.row, king_check ) ) ||
+             ( CanReach( m_position.col, ( MAX_SIZE - 1 ), king_check ) || CanReach( m_position.col, MIN_SIZE, king_check ) ) );
 }
 
 // LCOV_EXCL_START
+/**
+ * @brief Prints piece's text representation.
+ */
 void Rook :: Print( void )  {
 
     std :: cout << 'R';

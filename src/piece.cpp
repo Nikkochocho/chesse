@@ -18,10 +18,17 @@
 #include "piece.h"
 
 
+/**
+ * @brief Calculates Main and Secondary diagonal max positions.
+ * @param posAsc Diagonal crescent position.
+ * @param posDesc Diagonal decrescent position.
+ * @param diagonal Diagonal type. true for Main and false for Secondary.
+ * @param check returns on first iteration if true.
+ */
 void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal, bool check )  {
 
     bool asc, desc;
-    int direction   = diagonal ? 1 : -1; //default main; else secondary diagonal
+    int direction   = diagonal ? 1 : -1; // default main diagonal; else secondary diagonal
     int minAsc      = diagonal ? -1 : 0;
     int minDesc     = diagonal ? 0 : -1;
     int maxAsc      = diagonal ? 7 : 8;
@@ -31,14 +38,14 @@ void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diago
 
     while ( asc || desc )  {
 
-        if ( ( ( posAsc.col < maxAsc ) && ( posAsc.col > minAsc ) ) && ( posAsc.row < 7 ) )  {
+        if ( ( ( posAsc.col < maxAsc ) && ( posAsc.col > minAsc ) ) && ( posAsc.row < ( MAX_SIZE - 1 ) ) )  {
 
             posAsc.col += direction;
             posAsc.row++;
         }
         else asc = false;
 
-        if ( ( ( posDesc.col > minDesc ) && ( posDesc.col < maxDesc ) ) && ( posDesc.row > 0 ) )  {
+        if ( ( ( posDesc.col > minDesc ) && ( posDesc.col < maxDesc ) ) && ( posDesc.row > MIN_SIZE ) )  {
 
             posDesc.col += ( direction * -1 );
             posDesc.row--;
@@ -52,7 +59,14 @@ void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diago
     }
 }
 
-bool Piece :: CanReach( int dst_col, int dst_row, bool check )  { // DEFAULT -> TRUE for movement; CHECK -> TRUE if opponent king
+/**
+ * @brief Returns if piece can reach next position or check opponent's king.
+ * @param dst_col New X axis position.
+ * @param dst_row New Y axis position.
+ * @param check Validation type. If true inspects if piece can check opponent's king;
+ * if false checks if piece can reach new position.
+ */
+bool Piece :: CanReach( int dst_col, int dst_row, bool check )  { 
 
     int itr_col  = 0;
     int itr_row  = 0;
@@ -77,6 +91,16 @@ bool Piece :: CanReach( int dst_col, int dst_row, bool check )  { // DEFAULT -> 
     return IterationCheck( dist_col, dist_row, itr_col, itr_row, check );
 }
 
+/**
+ * @brief Inspects on each iteration if piece's move is trespassing or
+ * if it can check opponent's king.
+ * @param dist_col distance between current and next position on X axis.
+ * @param dist_row distance between current and next position on Y axis.
+ * @param itr_col column iterator; Value of 1 or -1.
+ * @param itr_row row iterator; Value of 1 or -1.
+ * @param check Validation type. If true inspects if piece can check opponent's king;
+ * if false checks if piece can reach new position.
+ */
 bool Piece :: IterationCheck( int dist_col, int dist_row, int itr_col, int itr_row, bool check )  {
 
     int        col_iterations = 0;
@@ -112,22 +136,38 @@ bool Piece :: IterationCheck( int dist_col, int dist_row, int itr_col, int itr_r
     return ret;
 }
 
+/**
+ * @brief Checks if target is the opponent player's king.
+ * @param target IPiece object.
+ */
 bool Piece :: IsOpponentKing( IPiece *target )  {
 
     return ( ( target != nullptr ) && 
              ( target -> GetType() == KING && target -> GetColor() != m_color ) );
 }
 
+/**
+ * @brief Returns piece's current movement count.
+ * @return Movement count.
+ */
 int Piece :: GetMovementCount( void )  {
 
     return this -> m_MovementCount;
 }
 
+/**
+ * @brief Adds to piece's movement count. 
+ */
 void Piece :: AddMovementCount( void ) {
 
     this -> m_MovementCount++;
 }
 
+/**
+ * @brief Returns if piece can set on a target position.
+ * @param pawn_capture Optional, false by default.
+ * Used for pawn capture pattern.
+ */
 bool Piece :: CanSet( IPiece* target, bool pawn_capture )  {
 
     if ( pawn_capture )  {
@@ -139,46 +179,82 @@ bool Piece :: CanSet( IPiece* target, bool pawn_capture )  {
 } 
 
 // LCOV_EXCL_START
+/**
+ * @brief Checks if new position is valid under the piece's moveset.
+ * @param dst_col New X axis position.
+ * @param dst_row New Y axis position.
+ */
 bool Piece :: CanMove( int dst_col, int dst_row )  {
 
     return false;
 }
 
+/**
+ * @brief By default, checks if piece has any possible movement available. 
+ * If king_check is true, inspects if piece can check the opponents' king.
+ * @param king_check Verification type. Optional parameter, false by default. 
+ */
 bool Piece :: MovementCheck( bool king_check )  {
 
     return false;
 }
 
+/**
+ * @brief Prints piece's text representation.
+ */
 void Piece :: Print( void ) {
 
 }
 // LCOV_EXCL_STOP
-
+/**
+ * @brief Returns piece's type.
+ * @return Piece's type.
+ */
 Pieces Piece :: GetType( void )  { 
 
     return m_type;
 }
 
+/**
+ * @brief Returns piece's color.
+ * @return Piece's color.
+ */
 Color Piece :: GetColor( void )  {
 
     return m_color;
 }
 
+/**
+ * @brief Returns piece's status.
+ * @return Piece's status.
+ */
 Status Piece :: GetStatus( void )  {
 
     return m_state;
 }
 
+/**
+ * @brief Sets piece's status change.
+ * @param state status.
+ */
 void Piece :: SetStatus( Status state )  {
 
     m_state = state;
 }
 
+/**
+ * @brief Gets and Sets piece's position.
+ * @return Piece's position.
+ */
 stPosition& Piece :: Position( void )  {
 
     return m_position;
 }
 
+/**
+ * @brief Gets and Sets piece's available position.
+ * @return Piece's available position.
+ */
 stPosition& Piece :: AvailablePosition( void )  {
 
     return m_availablePos;

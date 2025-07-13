@@ -5,3 +5,10 @@ This is a TODO list with improvements and new features;
 - overall code optimization
 - add commentary (brief, parameter) throught code
 - repetition draw implementation
+- InsertChanges() gigantic param count...
+- VirtualMovement() params too, might check them later
+- There might be a bug on HasAvailableMovement() logic... here: !VirtualMovement( pPiece, col_pos, row_pos, m_turn, false ), change to true. 
+- Change dst_c, dst_r to stPosition...? idk
+- Change Promote to void
+- Fix delete from RemovePiece() from Board class
+- Read and fix documentation

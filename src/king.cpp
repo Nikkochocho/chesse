@@ -19,6 +19,9 @@
 #include "king.h"
 
 
+/**
+ * @brief Constructor. Initialize all class data.
+ */
 King :: King( Color color, IBoard *boardVision )  {
 
     this -> m_type        = KING;
@@ -26,51 +29,62 @@ King :: King( Color color, IBoard *boardVision )  {
     this -> m_BoardVision = boardVision;
 }
 
+/**
+ * @brief Destructor. Finalize all class data.
+ */
 King :: ~King( void )  {
     
 }
 
+/**
+ * @brief Checks if new position is valid under the piece's moveset.
+ * @param dst_col New X axis position.
+ * @param dst_row New Y axis position.
+ */
 bool King :: CanMove( int dst_col, int dst_row )  {
 
-    IPiece      *target  = m_BoardVision -> GetPiece( dst_col, dst_row );
-    bool        castling = ( abs( dst_col - m_position.col ) == 2 );
-    bool        ret      =  ( ( ( abs( dst_col - m_position.col ) <= 1 ) && ( abs( dst_row - m_position.row ) <= 1 ) ) &&
-                              ( ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) ) || 
-                                ( dst_col == m_position.col || dst_row == m_position.row ) ) &&
-                                ( CanSet( target ) ) );
+    IPiece    *target      = m_BoardVision -> GetPiece( dst_col, dst_row );
+    bool      castling     = ( ( abs( dst_col - m_position.col ) == 2 ) && ( dst_row == m_position.row ) );
+    bool      is_default   = ( ( m_MovementCount == 0 ) && ( this -> GetStatus() == NORMAL ) );
+    bool      default_move = ( ( abs( dst_col - m_position.col ) <= 1 ) && ( abs( dst_row - m_position.row ) <= 1 ) );
 
-    if ( castling && ( m_MovementCount == 0 ) && ( dst_row == m_position.row ) && CanReach( dst_col, dst_row ) && ( this -> GetStatus() != CHECK ) )  {
+    if ( ( castling ) && ( is_default ) && ( CanReach( dst_col, dst_row ) ) )  {
 
-        int      rook_pos     = ( dst_col - m_position.col == 2 ) ? 1 : -2;
-        Status   castle_type  = ( rook_pos == 1 ) ? SHORTCASTLE : LONGCASTLE;
-        IPiece   *castle_room = m_BoardVision -> GetPiece( ( dst_col + rook_pos ), m_position.row );
+        int      col_pos       = ( dst_col - m_position.col == 2 ) ? 1 : -2;
+        Status   castle_type   = ( col_pos == 1 ) ? SHORTCASTLE : LONGCASTLE;
+        IPiece   *piece        = m_BoardVision -> GetPiece( ( dst_col + col_pos ), m_position.row );
 
-        if ( ( target == nullptr ) && ( castle_room -> GetType() == ROOK ) )  {
+        if ( ( target == nullptr ) && ( piece != nullptr ) && ( piece -> GetType() == ROOK ) )  {
 
-            if ( castle_type == LONGCASTLE )  {
+            bool valid_rook = ( ( piece -> GetMovementCount() == 0 ) && ( m_color == piece -> GetColor() ) );
 
-                IPiece   *between_castle = m_BoardVision -> GetPiece( ( dst_col - 1 ), m_position.row );
+            if ( ( m_BoardVision -> GetPiece( ( dst_col - 1 ), m_position.row ) != nullptr ) || ( !valid_rook ) )  {
 
-                if ( between_castle != nullptr )  {
-
-                    return false;
-                }
+                return false;
             }
 
             this -> SetStatus( castle_type );
-            return ( ( m_color == castle_room -> GetColor() ) && ( castle_room -> GetMovementCount() == 0 ) );
+            return true;
         }
     }
 
-    return ret;
+    return ( ( default_move ) && ( CanSet( target ) ) );
 }
 
+/**
+ * @brief By default, checks if piece has any possible movement available. 
+ * If king_check is true, inspects if piece can check the opponents' king.
+ * @param king_check Verification type. Optional parameter, false by default. 
+ */
 bool King :: MovementCheck( bool king_check )  {
 
     return false;
 }
 
 // LCOV_EXCL_START
+/**
+ * @brief Prints piece's text representation.
+ */
 void King :: Print( void )  {
 
     std :: cout << 'K';

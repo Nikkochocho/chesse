@@ -19,12 +19,20 @@
 #include "helper.h"
 
 // LCOV_EXCL_START
-
+/**
+ * @brief Returns if input follows correct format.
+ * @param pos array of column and row char value.
+ */
 bool ValidInput( char pos[2] )  {
 
     return ( isalpha( pos[0] ) && ( isdigit( pos[1] ) ) );
 }
 
+/**
+ * @brief Pawn promotion validation.
+ * @param promotion Indicates pawn's new type.
+ * @return Promoted piece's new type.
+ */
 Pieces Conversion( char promotion )  {
 
     Pieces piece_type;

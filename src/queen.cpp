@@ -19,6 +19,9 @@
 #include "queen.h"
 
 
+/**
+ * @brief Constructor. Initialize all class data.
+ */
 Queen :: Queen( Color color, IBoard *boardVision )  {
 
     this -> m_type        = QUEEN;
@@ -26,10 +29,18 @@ Queen :: Queen( Color color, IBoard *boardVision )  {
     this -> m_BoardVision = boardVision;
 }
 
+/**
+ * @brief Destructor. Finalize all class data.
+ */
 Queen :: ~Queen( void )  {
 
 }
 
+/**
+ * @brief Checks if new position is valid under the piece's moveset.
+ * @param dst_col New X axis position.
+ * @param dst_row New Y axis position.
+ */
 bool Queen :: CanMove( int dst_col, int dst_row )  {
 
     if ( ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) ) || 
@@ -41,6 +52,11 @@ bool Queen :: CanMove( int dst_col, int dst_row )  {
     return false;
 }
 
+/**
+ * @brief By default, checks if piece has any possible movement available. 
+ * If king_check is true, inspects if piece can check the opponents' king.
+ * @param king_check Verification type. Optional parameter, false by default. 
+ */
 bool Queen :: MovementCheck( bool king_check )  {
 
     stPosition MainposAsc, MainposDesc, SecposAsc, SecposDesc;
@@ -49,13 +65,16 @@ bool Queen :: MovementCheck( bool king_check )  {
     CalcDiagonals( MainposAsc, MainposDesc, true, king_check ); //main diagonal
     CalcDiagonals( SecposAsc, SecposDesc, false, king_check ); //secondary diagonal
 
-    return ( ( CanReach( 7, m_position.row, king_check ) || CanReach( 0, m_position.row, king_check ) ) ||
-             ( CanReach( m_position.col, 7, king_check ) || CanReach( m_position.col, 0, king_check ) ) ||
+    return ( ( CanReach( ( MAX_SIZE - 1 ), m_position.row, king_check ) || CanReach( MIN_SIZE, m_position.row, king_check ) ) ||
+             ( CanReach( m_position.col, ( MAX_SIZE - 1 ), king_check ) || CanReach( m_position.col, MIN_SIZE, king_check ) ) ||
              ( CanReach( MainposAsc.col, MainposAsc.row, king_check ) || CanReach( MainposDesc.col, MainposDesc.row, king_check ) ) ||
              ( CanReach( SecposAsc.col, SecposAsc.row, king_check ) || CanReach( SecposDesc.col, SecposDesc.row, king_check ) ) );
 }
 
 // LCOV_EXCL_START
+/**
+ * @brief Prints piece's text representation.
+ */
 void Queen :: Print( void )  {
 
     std :: cout << 'Q';

@@ -21,7 +21,7 @@
 #include "iboard.h"
 #include <array>
 
-typedef std :: array< std :: array<IPiece*, MAX_COLS>, MAX_ROWS> ArrayBoard;
+typedef std :: array< std :: array<IPiece*, MAX_SIZE>, MAX_SIZE> ArrayBoard;
 
 
 class Board : public IBoard  {
@@ -38,7 +38,7 @@ class Board : public IBoard  {
 
     bool IsValid( int col, int row );
     IPiece* GetPromotion( Pieces piece, Color color );
-    IPiece* GetPiece( int dst_c, int dst_r );
+    IPiece* GetPiece( int col, int row );
     void SetPiece( int col, int row, IPiece *piece );
     void RemovePiece( int col, int row );
     void Init( void );

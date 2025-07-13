@@ -24,29 +24,43 @@
 #include "pawn.h"
 
 
+/**
+ * @brief Sets all board positions to null.
+ */
 void Board :: Clear( void )  {
 
-    for ( int col = 0; col < m_board.size(); col++ )   {
+    for ( int col = MIN_SIZE; col < m_board.size(); col++ )   {
 
-        for ( int row = 0; row < m_board[col].size(); row++ )  {
+        for ( int row = MIN_SIZE; row < m_board[col].size(); row++ )  {
             
             m_board[col][row] = nullptr;
         }
     }   
 }
 
+/**
+ * @brief Constructor. Initialize all class data.
+ */
 Board :: Board( void )  {
 
     Clear();
 }
 
+/**
+ * @brief Destructor. Finalize all class data.
+ */
 Board :: ~Board( void )  {
 
 }
 
+/**
+ * @brief Column and Row values viability verification.
+ * @param col X axis position.
+ * @param row Y axis position.
+ */
 bool Board :: IsValid( int col, int row )  {
 
-    if ( ( col >= 0 ) && ( col < MAX_COLS ) && ( row >= 0 ) && ( row < MAX_ROWS ) )  {
+    if ( ( col >= MIN_SIZE ) && ( col < MAX_SIZE ) && ( row >= MIN_SIZE ) && ( row < MAX_SIZE ) )  {
 
         return true;
     }
@@ -54,6 +68,12 @@ bool Board :: IsValid( int col, int row )  {
     return false;
 }
 
+/**
+ * @brief Sets the new promoted piece on board.
+ * @param piece Promoted piece's type.
+ * @param color Promoted piece's color.
+ * @return Promoted piece's IPiece object.
+ */
 IPiece* Board :: GetPromotion( Pieces piece, Color color )  {
 
     IPiece *promoted_piece;
@@ -80,16 +100,28 @@ IPiece* Board :: GetPromotion( Pieces piece, Color color )  {
     return promoted_piece;
 }
 
-IPiece* Board :: GetPiece( int dst_c, int dst_r )  {
+/** 
+ * @brief Gets an IPiece object based on coordenates.
+ * @param col X axis position.
+ * @param row Y axis position.
+ * @return IPiece object.
+ */
+IPiece* Board :: GetPiece( int col, int row )  {
 
-    if ( IsValid( dst_c, dst_r ) )  {
+    if ( IsValid( col, row ) )  {
 
-        return m_board[dst_c][dst_r];
+        return m_board[col][row];
     }
 
     return nullptr;
 }
 
+/**
+ * @brief Sets IPiece object on board.
+ * @param col X axis position.
+ * @param row Y axis position.
+ * @param piece IPiece object.
+ */
 void Board :: SetPiece( int col, int row, IPiece *piece )  {
 
     if ( piece != nullptr )  {
@@ -101,6 +133,11 @@ void Board :: SetPiece( int col, int row, IPiece *piece )  {
     m_board[col][row] = piece;
 }
 
+/**
+ * @brief Removes and deletes piece from board.
+ * @param col X axis position.
+ * @param row Y axis position.
+ */
 void Board :: RemovePiece( int col, int row )  {
 
     IPiece *piece = m_board[col][row];
@@ -108,14 +145,18 @@ void Board :: RemovePiece( int col, int row )  {
     if ( piece != nullptr )  {
 
         m_board[col][row] = nullptr;
+        //delete piece;
     }
 }
 
+/**
+ * @brief Initializes board default configuration.
+ */
 void Board :: Init( void )  {
 
     Clear();
 
-    for ( int col = 0; col < MAX_COLS; col++ ) {
+    for ( int col = MIN_SIZE; col < MAX_SIZE; col++ ) {
 
         SetPiece( col, 1, new Pawn( Color :: WHITE, this ) );
         SetPiece( col, 6, new Pawn( Color :: BLACK, this ) );
@@ -123,7 +164,7 @@ void Board :: Init( void )  {
 
     const char *pieceOrder = "RNBQKBNR";
 
-    for ( int col = 0; col < MAX_COLS; col++ ) {
+    for ( int col = MIN_SIZE; col < MAX_SIZE; col++ ) {
 
         switch ( pieceOrder[col] ) {
 

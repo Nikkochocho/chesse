@@ -19,6 +19,9 @@
 #include "knight.h"
 
 
+/**
+ * @brief Constructor. Initialize all class data.
+ */
 Knight :: Knight( Color color, IBoard *boardVision )  {
 
     this -> m_type        = KNIGHT;
@@ -26,10 +29,18 @@ Knight :: Knight( Color color, IBoard *boardVision )  {
     this -> m_BoardVision = boardVision;
 }
 
+/**
+ * @brief Destructor. Finalize all class data.
+ */
 Knight :: ~Knight( void )  {
 
 }
 
+/**
+ * @brief Checks if new position is valid under the piece's moveset.
+ * @param dst_col New X axis position.
+ * @param dst_row New Y axis position.
+ */
 bool Knight :: CanMove( int dst_col, int dst_row )  {
     
     IPiece      *target = m_BoardVision -> GetPiece( dst_col, dst_row );
@@ -45,6 +56,11 @@ bool Knight :: CanMove( int dst_col, int dst_row )  {
     return ret;
 }
 
+/**
+ * @brief By default, checks if piece has any possible movement available. 
+ * If king_check is true, inspects if piece can check the opponents' king.
+ * @param king_check Verification type. Optional parameter, false by default. 
+ */
 bool Knight :: MovementCheck( bool king_check )  {
 
     IPiece        *piece;
@@ -53,12 +69,12 @@ bool Knight :: MovementCheck( bool king_check )  {
     const int     row_number[8] = { 1, 2, 2, 1, -1, -2, -2, -1 };
     bool          ret           = false;
 
-    for ( int i = 0; i < 8; i++ ) {
+    for ( int i = MIN_SIZE; i < MAX_SIZE; i++ ) {
 
         col = m_position.col + col_number[i];
         row = m_position.row + row_number[i];
 
-        if ( ( col < 0 || col > 7 ) || ( row < 0 || row > 7 ) )  {
+        if ( ( col < MIN_SIZE || col >= MAX_SIZE ) || ( row < MIN_SIZE || row >= MAX_SIZE ) )  {
 
             continue;
         }
@@ -89,6 +105,9 @@ bool Knight :: MovementCheck( bool king_check )  {
 }
 
 // LCOV_EXCL_START
+/**
+ * @brief Prints piece's text representation.
+ */
 void Knight :: Print( void )  {
 
     std :: cout << 'N';

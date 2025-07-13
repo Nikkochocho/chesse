@@ -18,7 +18,9 @@
 #include <iostream>
 #include "bishop.h"
 
-
+/**
+ * @brief Constructor. Initialize all class data.
+ */
 Bishop :: Bishop( Color color, IBoard *boardVision )  {
 
     this -> m_type        = BISHOP;
@@ -26,10 +28,18 @@ Bishop :: Bishop( Color color, IBoard *boardVision )  {
     this -> m_BoardVision = boardVision;
 }
 
+/**
+ * @brief Destructor. Finalize all class data.
+ */
 Bishop :: ~Bishop( void )  {
 
 }
 
+/**
+ * @brief Checks if new position is valid under the piece's moveset.
+ * @param dst_col New X axis position.
+ * @param dst_row New Y axis position.
+ */
 bool Bishop :: CanMove( int dst_col, int dst_row )  {
 
     if ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) )  {
@@ -40,20 +50,28 @@ bool Bishop :: CanMove( int dst_col, int dst_row )  {
     return false;
 }
 
+/**
+ * @brief By default, checks if piece has any possible movement available. 
+ * If king_check is true, inspects if piece can check the opponents' king.
+ * @param king_check Verification type. Optional parameter, false by default. 
+ */
 bool Bishop :: MovementCheck( bool king_check )  {
 
     stPosition MainposAsc, MainposDesc, SecposAsc, SecposDesc;
 
     MainposAsc =  MainposDesc = SecposAsc = SecposDesc = m_position;
 
-    CalcDiagonals( MainposAsc, MainposDesc, true, king_check ); //main diagonal
-    CalcDiagonals( SecposAsc, SecposDesc, false, king_check ); //secondary diagonal
+    CalcDiagonals( MainposAsc, MainposDesc, true, king_check ); // Main diagonal
+    CalcDiagonals( SecposAsc, SecposDesc, false, king_check ); // Secondary diagonal
 
     return ( ( CanReach( MainposAsc.col, MainposAsc.row, king_check ) || CanReach( MainposDesc.col, MainposDesc.row, king_check ) ) ||
              ( CanReach( SecposAsc.col, SecposAsc.row, king_check ) || CanReach( SecposDesc.col, SecposDesc.row, king_check ) ) );
 }
 
 // LCOV_EXCL_START
+/**
+ * @brief Prints piece's text representation.
+ */
 void Bishop :: Print( void )  {
 
     std :: cout << 'B';

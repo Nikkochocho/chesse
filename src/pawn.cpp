@@ -19,6 +19,9 @@
 #include "pawn.h"
 
 
+/**
+ * @brief Constructor. Initialize all class data.
+ */
 Pawn :: Pawn( Color color, IBoard *boardVision )  {
     
     this -> m_type        = PAWN;
@@ -26,15 +29,23 @@ Pawn :: Pawn( Color color, IBoard *boardVision )  {
     this -> m_BoardVision = boardVision;
 }
 
+/**
+ * @brief Destructor. Finalize all class data.
+ */
 Pawn :: ~Pawn( void )  {
     
 }
 
+/**
+ * @brief Checks if new position is valid under the piece's moveset.
+ * @param dst_col New X axis position.
+ * @param dst_row New Y axis position.
+ */
 bool Pawn :: CanMove( int dst_col, int dst_row )  {
     
     int         direction     = ( m_color == WHITE ) ? 1 : -1;
     int         enpassant_row = ( m_color == WHITE ) ? 4 : 3;
-    int         promotion_row = ( m_color == WHITE ) ? 7 : 0;
+    int         promotion_row = ( m_color == WHITE ) ? ( MAX_SIZE - 1 ) : MIN_SIZE;
     int         dist_row      = ( m_MovementCount == 0 ) ? 2 : 1;
     IPiece      *target       = m_BoardVision -> GetPiece( dst_col, dst_row );
     IPiece      *side_piece   = m_BoardVision -> GetPiece( dst_col, dst_row + ( direction * -1 ) );
@@ -73,12 +84,17 @@ bool Pawn :: CanMove( int dst_col, int dst_row )  {
     return ret; 
 }
 
+/**
+ * @brief By default, checks if piece has any possible movement available. 
+ * If king_check is true, inspects if piece can check the opponents' king.
+ * @param king_check Verification type. Optional parameter, false by default. 
+ */
 bool Pawn :: MovementCheck( bool king_check )  {
 
     int       col_pos;
     int       row      = ( m_color == WHITE ) ? 1 : -1;
     int       row_pos  = m_position.row + row;
-    bool      limit    = ( ( row_pos < 0 ) || ( row_pos > 7 ) ); 
+    bool      limit    = ( ( row_pos < MIN_SIZE ) || ( row_pos >= MAX_SIZE ) ); 
     bool      ret      = false;
 
     if ( !limit )  {
@@ -87,12 +103,12 @@ bool Pawn :: MovementCheck( bool king_check )  {
 
             col_pos = m_position.col + col;
             
-            if ( ( col_pos < 0 || col_pos > 7 ) )  {
+            if ( ( col_pos < MIN_SIZE || col_pos >= MAX_SIZE ) )  {
 
                 continue;
             }
             
-            if ( col == 0 )  {
+            if ( col == 0 )  { // should be skipped if king_check is true
 
                 if ( !king_check )  {
 
@@ -130,6 +146,9 @@ bool Pawn :: MovementCheck( bool king_check )  {
 }
 
 // LCOV_EXCL_START
+/**
+ * @brief Prints piece's text representation.
+ */
 void Pawn :: Print( void )  {
 
     std :: cout << 'P';
