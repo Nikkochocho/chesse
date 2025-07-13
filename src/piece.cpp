@@ -128,10 +128,15 @@ void Piece :: AddMovementCount( void ) {
     this -> m_MovementCount++;
 }
 
-bool Piece :: CanSet( IPiece* target )  {
+bool Piece :: CanSet( IPiece* target, bool pawn_capture )  {
+
+    if ( pawn_capture )  {
+
+        return ( target != nullptr ) && ( target -> GetColor() != m_color );
+    }
 
     return ( ( target == nullptr ) || ( ( target != nullptr ) && ( target -> GetColor() != m_color ) ) );
-}  
+} 
 
 // LCOV_EXCL_START
 bool Piece :: CanMove( int dst_col, int dst_row )  {

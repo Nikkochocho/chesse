@@ -20,6 +20,8 @@
 
 #include "defs.h"
 
+
+bool ValidInput( char pos[2] );
 Pieces Conversion( char promotion );
 
 #endif // __HELPER_H__

@@ -46,7 +46,7 @@ class Piece : public IPiece  {
 
     int GetMovementCount( void );
     void AddMovementCount( void );
-    bool CanSet( IPiece *target );
+    bool CanSet( IPiece *target, bool pawn_capture = false );
     
     virtual bool CanMove( int dst_col, int dst_row );
     virtual bool MovementCheck( bool king_check );

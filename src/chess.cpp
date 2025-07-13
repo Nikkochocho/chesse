@@ -26,46 +26,45 @@ int main( int argc, char **argv ) {
     Board         board;
     GamePlay      game( &board );
     char          promotion;
+    Pieces        piece_type;
 
     game.NewGame();
 
     do  {
     
-        const char *color = ( game.GetTurn() == PLAYER_1 ) ? "white" : "black";
+        const char *color = ( game.GetTurn() == PLAYER_1 ) ? "WHITE" : "BLACK";
         game.Print();
         std :: cout << std :: endl;
-        std :: cout << color << " turn:" << std :: endl;
+        std :: cout << color << " TURN" << std :: endl;
         
-        char src_input[2];
-        char dst_input[2];
+        char src_input[2] = {0};
+        char dst_input[2] = {0};
 
-        std :: cin >> src_input;
-        std :: cin >> dst_input;
+        do  {
 
-        char src_c = src_input[0];
-        char src_r = src_input[1];
-        char dst_c = dst_input[0];
-        char dst_r = dst_input[1];
+            std :: cout << "enter the piece's current coordinate:" << std :: endl;
+            std :: cin >> src_input;
+            std :: cout << "enter the piece's desired coordinate:" << std :: endl;
+            std :: cin >> dst_input;
 
-        if ( game.Move( src_c , src_r, dst_c, dst_r ) )  {
+        }  while ( !ValidInput( src_input ) && ( !ValidInput( dst_input ) ) );
+
+        if ( game.Move( tolower( src_input[0] ), src_input[1], tolower( dst_input[0] ), dst_input[1] ) )  {
 
             if ( game.HasPromotion() )  {
 
-                std :: cin >> promotion;
+                do  {
 
-                Pieces piece_type = Conversion( promotion );
-
-                while ( piece_type == UNSET )  {
-
+                    std :: cout << "Promote pawn to ( Q, B, N, R ):" << std :: endl;
                     std :: cin >> promotion;
                     piece_type = Conversion( promotion );
-                }
 
-                game.Promote( dst_c, dst_r, piece_type );
+                }  while ( piece_type == UNSET );
+
+                game.Promote( dst_input[0], dst_input[1], piece_type );
             }
         }
-        
-    } while ( ( !game.IsCheckmate() ) && ( !game.IsStalemate() ) );
+    }  while ( ( !game.IsCheckmate() ) && ( !game.IsStalemate() ) );
 
     game.Print();
 

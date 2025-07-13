@@ -32,37 +32,37 @@ Pawn :: ~Pawn( void )  {
 
 bool Pawn :: CanMove( int dst_col, int dst_row )  {
     
-    int         row           = ( m_color == WHITE ) ? 1 : -1;
+    int         direction     = ( m_color == WHITE ) ? 1 : -1;
     int         enpassant_row = ( m_color == WHITE ) ? 4 : 3;
     int         promotion_row = ( m_color == WHITE ) ? 7 : 0;
+    int         dist_row      = ( m_MovementCount == 0 ) ? 2 : 1;
     IPiece      *target       = m_BoardVision -> GetPiece( dst_col, dst_row );
-    IPiece      *side_piece   = m_BoardVision -> GetPiece( dst_col, dst_row + ( row * -1 ) );
-    bool        ret           = ( ( target == nullptr ) &&
-                                  ( ( dst_col == m_position.col ) && ( dst_row == m_position.row + row ) ) ); //default
+    IPiece      *side_piece   = m_BoardVision -> GetPiece( dst_col, dst_row + ( direction * -1 ) );
+    bool        ret           = false;
 
-    //first move
-    if ( m_MovementCount == 0 )  { 
+    if ( ( abs( dst_col - m_position.col ) == 1 ) && ( dst_row == m_position.row + direction ) )  { 
 
-        ret = ( ( target == nullptr ) &&   
-                ( ( dst_col == m_position.col && dst_row == m_position.row + row ) ||
-                  ( dst_col == m_position.col && dst_row == m_position.row + 2 * row ) && ( side_piece == nullptr ) ) );
-    }
-    
-    if ( dst_col != m_position.col )  { 
-
-        if ( ( side_piece != nullptr ) && ( ( side_piece -> GetType() == PAWN ) && ( side_piece -> GetColor() != m_color ) ) && 
-             ( target == nullptr ) && ( m_position.row == enpassant_row ) && ( side_piece -> GetMovementCount() == 1 ) )  {
+        if ( ( ( CanSet( side_piece, true ) ) && ( side_piece -> GetType() == PAWN ) && ( side_piece -> GetMovementCount() == 1 ) ) &&
+             ( ( target == nullptr ) && ( m_position.row == enpassant_row ) ) ) {
 
             this -> SetStatus( ENPASSANT );
-            return true; //en passant capture
+            return true; // en passant capture
         }  
 
-        if ( ( target != nullptr ) && ( target -> GetColor() != m_color ) && 
-            ( abs( dst_col -  m_position.col ) == 1 ) && ( dst_row == m_position.row + row ) )  {
+        if ( CanSet( target, true ) )  {
 
-            ret = true; //capture
+            ret = true; // default capture
+        }
+    }
+    else  {
+
+        if ( ( target != nullptr ) || ( ( ( dst_row - m_position.row ) == 2 ) && ( side_piece != nullptr ) ) )  {
+
+            return false;
         }
 
+        ret = ( ( dst_col == m_position.col ) && 
+                ( ( dst_row == m_position.row + direction ) || ( dst_row == m_position.row + ( dist_row * direction ) ) ) );
     }
 
     if ( ( ret == true ) && ( dst_row == promotion_row ) )  {
@@ -75,47 +75,54 @@ bool Pawn :: CanMove( int dst_col, int dst_row )  {
 
 bool Pawn :: MovementCheck( bool king_check )  {
 
-    int       col_pos, row_pos, col;
+    int       col_pos;
     int       row      = ( m_color == WHITE ) ? 1 : -1;
+    int       row_pos  = m_position.row + row;
+    bool      limit    = ( ( row_pos < 0 ) || ( row_pos > 7 ) ); 
     bool      ret      = false;
 
-    if ( !king_check )  {
-
-        ret = ( ( m_BoardVision -> GetPiece( m_position.col, m_position.row + row ) ) == nullptr ); 
-    }
-
-    for ( int i = 0; i < 2; i++ )  {
-
-        col     = ( i == 0 ) ? 1 : -1;
-        col_pos = m_position.col + col;
+    if ( !limit )  {
         
-        row_pos = m_position.row + row;
-        
-        if ( ( col_pos < 0 || col_pos > 7 ) || ( row_pos < 0 || row_pos > 7 ) )  {
+        for ( int col = -1; col < 2; col++ )  {
 
-            continue;
-        }
+            col_pos = m_position.col + col;
+            
+            if ( ( col_pos < 0 || col_pos > 7 ) )  {
 
-        IPiece *target = m_BoardVision -> GetPiece( ( col_pos ), ( row_pos ) );
-
-        if ( ( target != nullptr ) && ( target -> GetColor() != m_color ) )  {
-
-            if ( !king_check )  {
-
-                this -> m_availablePos.col = col;
-                this -> m_availablePos.row = row;
-                ret = true;
+                continue;
             }
-            else if ( target -> GetType() == KING )  {
+            
+            if ( col == 0 )  {
 
-                target -> SetStatus( CHECK );
-                ret = true;
+                if ( !king_check )  {
+
+                    ret = ( ( m_BoardVision -> GetPiece( m_position.col, m_position.row + row ) ) == nullptr );
+                }
+
+                continue;
             }
-        }
 
-        if ( ret )  {
+            IPiece *target = m_BoardVision -> GetPiece( ( col_pos ), ( row_pos ) );
 
-            break;
+            if ( CanSet( target, true ) )  {
+
+                if ( !king_check )  {
+
+                    this -> m_availablePos.col = col_pos;
+                    this -> m_availablePos.row = row_pos;
+                    ret = true;
+                }
+                else if ( target -> GetType() == KING )  {
+
+                    target -> SetStatus( CHECK );
+                    ret = true;
+                }
+            }
+
+            if ( ret )  {
+
+                break;
+            }
         }
     }
 

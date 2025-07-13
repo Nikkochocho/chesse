@@ -15,9 +15,16 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <cctype>
 #include "helper.h"
 
 // LCOV_EXCL_START
+
+bool ValidInput( char pos[2] )  {
+
+    return ( isalpha( pos[0] ) && ( isdigit( pos[1] ) ) );
+}
+
 Pieces Conversion( char promotion )  {
 
     Pieces piece_type;

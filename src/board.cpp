@@ -46,7 +46,7 @@ Board :: ~Board( void )  {
 
 bool Board :: IsValid( int col, int row )  {
 
-    if ( col >= 0 && col < MAX_COLS && row >= 0 && row < MAX_ROWS )  {
+    if ( ( col >= 0 ) && ( col < MAX_COLS ) && ( row >= 0 ) && ( row < MAX_ROWS ) )  {
 
         return true;
     }
