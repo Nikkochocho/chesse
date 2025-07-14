@@ -165,15 +165,9 @@ void Piece :: AddMovementCount( void ) {
 
 /**
  * @brief Returns if piece can set on a target position.
- * @param pawn_capture Optional, false by default.
- * Used for pawn capture pattern.
+ * @param target IPiece object.
  */
-bool Piece :: CanSet( IPiece* target, bool pawn_capture )  {
-
-    if ( pawn_capture )  {
-
-        return ( target != nullptr ) && ( target -> GetColor() != m_color );
-    }
+bool Piece :: CanSet( IPiece* target )  {
 
     return ( ( target == nullptr ) || ( ( target != nullptr ) && ( target -> GetColor() != m_color ) ) );
 } 

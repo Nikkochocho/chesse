@@ -40,6 +40,22 @@ int GamePlay :: GetRowIndex( char ch )  {
 }
 
 /**
+ * @brief Returns stPosition equivalent.
+ * @param col X axis position.
+ * @param row Y axis position.
+ * @return stPosition data.
+ */
+stPosition GamePlay :: GetPiecePosition( int col, int row )  {
+
+    stPosition piece_pos;
+
+    piece_pos.col = col;
+    piece_pos.row = row;
+
+    return piece_pos;
+}
+
+/**
  * @brief Initializes players's pieces default configuration.
  */
 void GamePlay :: InitPieces( void )  {
@@ -162,14 +178,10 @@ void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, IPiece *target, P
  * @param opponent Opponent player.
  * @param isEscape Validation Type.
  */
-bool GamePlay :: VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent, bool IsEscape )  {
+bool GamePlay :: VirtualMovement( IPiece *piece, stPosition dst_pos, PlayerNumber opponent, bool IsEscape )  {
 
-    stPosition   dst_pos;
     stPosition   src_pos  = piece -> Position();
-    IPiece       *target  = m_board -> GetPiece( dst_c, dst_r );
-
-    dst_pos.col = dst_c;
-    dst_pos.row = dst_r;
+    IPiece       *target  = m_board -> GetPiece( dst_pos.col, dst_pos.row );
 
     if ( ( target != nullptr ) && ( ( target -> GetColor() ) == ( piece -> GetColor() ) ) )  {
 
@@ -202,6 +214,7 @@ bool GamePlay :: VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNum
  */
 bool GamePlay :: KingEscape( void )  {
 
+    stPosition   dst_pos;
     PlayerNumber opponent   = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
     IPiece       *king      = m_players[opponent] -> GetKing();
     int          col        = king -> Position().col;
@@ -211,16 +224,17 @@ bool GamePlay :: KingEscape( void )  {
 
         for ( int j = -1; j < 2; j++ )  {
 
-            int      col_pos         = col + j;
-            int      row_pos         = row + i;
-            IPiece   *captured_piece = m_board -> GetPiece( col_pos, row_pos );
+            dst_pos.col = col + j;
+            dst_pos.row = row + i;
 
-            if ( ( col_pos < 0 || col_pos > 7 ) || ( row_pos < 0 || row_pos > 7 ) )  {
+            IPiece *captured_piece = m_board -> GetPiece( dst_pos.col, dst_pos.row );
+
+            if ( ( dst_pos.col < MIN_SIZE || dst_pos.col >= MAX_SIZE ) || ( dst_pos.row < MIN_SIZE || dst_pos.row >= MAX_SIZE ) )  {
 
                 continue;
             }
 
-            if ( ( king -> CanMove( col_pos, row_pos ) ) && ( VirtualMovement( king, col_pos, row_pos, m_turn, true ) ) )  {
+            if ( ( king -> CanMove( dst_pos.col, dst_pos.row ) ) && ( VirtualMovement( king, dst_pos, m_turn, true ) ) )  {
                 
                 return true;
             }
@@ -242,10 +256,8 @@ bool GamePlay :: HasAvailableMove( const std :: list<IPiece*>& available_pieces 
     for ( std :: list<IPiece*> :: const_iterator it = available_pieces.begin(); it != available_pieces.end(); it++ )  {
 
         IPiece *pPiece = *it; 
-        int    col_pos = pPiece -> AvailablePosition().col;
-        int    row_pos = pPiece -> AvailablePosition().row;
 
-        if ( !VirtualMovement( pPiece, col_pos, row_pos, m_turn, false ) )  {
+        if ( !VirtualMovement( pPiece, ( pPiece -> AvailablePosition() ), m_turn, false ) )  {
 
             count++;
         }
@@ -293,6 +305,30 @@ void GamePlay :: NewGame( void )  {
 }
 
 /**
+ * @brief Deals with pawn promotion.
+ * @param dst_col Next X axis position.
+ * @param dst_row Next Y axis position.
+ * @param piece_type promoted pawn's new type.
+ */
+void GamePlay :: Promote( char dst_col, char dst_row, Pieces piece_type )  {
+
+    int            dst_c  = GetColIndex( dst_col );
+    int            dst_r  = GetRowIndex( dst_row );
+    IPiece         *piece = m_board -> GetPiece( dst_c, dst_r );
+    Color          color  = piece -> GetColor();
+    PlayerNumber   player = ( color == WHITE ) ? PLAYER_1 : PLAYER_2;
+
+    IPiece *promoted_piece = m_board -> GetPromotion( piece_type, color );
+
+    m_players[player] -> Remove( m_board -> GetPiece( dst_c, dst_r ) );
+    m_board -> RemovePiece( dst_c, dst_r );
+    m_board -> SetPiece( dst_c, dst_r, promoted_piece ) ;
+    m_players[player] -> Add( m_board -> GetPiece( dst_c, dst_r ) );
+
+    m_promotion = false;
+}
+
+/**
  * @brief Returns if the player's move is valid.
  * @param src_col Current X axis position.
  * @param src_row Current Y axis position.
@@ -312,10 +348,11 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
         PlayerNumber   opponent        = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
         IPiece         *piece          = m_board -> GetPiece( src_c, src_r );
         IPiece         *captured_piece = m_board -> GetPiece( dst_c, dst_r );
+        stPosition     dst_pos         = GetPiecePosition( dst_c, dst_r );
 
         if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && ( piece -> CanMove( dst_c, dst_r ) ) )  {
             
-            if ( VirtualMovement( piece, dst_c, dst_r, opponent, false ) )  {
+            if ( VirtualMovement( piece, dst_pos, opponent, false ) )  {
 
                 if ( captured_piece != nullptr )  {
                     
@@ -364,32 +401,6 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
 bool GamePlay :: HasPromotion( void )  {
 
     return m_promotion;
-}
-
-/**
- * @brief Deals with pawn promotion.
- * @param dst_col Next X axis position.
- * @param dst_row Next Y axis position.
- * @param piece_type promoted pawn's new type.
- */
-bool GamePlay :: Promote( char dst_col, char dst_row, Pieces piece_type )  {
-
-    int            dst_c  = GetColIndex( dst_col );
-    int            dst_r  = GetRowIndex( dst_row );
-    IPiece         *piece = m_board -> GetPiece( dst_c, dst_r );
-    Color          color  = piece -> GetColor();
-    PlayerNumber   player = ( color == WHITE ) ? PLAYER_1 : PLAYER_2;
-
-    IPiece *promoted_piece = m_board -> GetPromotion( piece_type, color );
-
-    m_board -> RemovePiece( dst_c, dst_r );
-    this -> m_players[player] -> Remove( m_board -> GetPiece( dst_c, dst_r ) );
-    m_board -> SetPiece( dst_c, dst_r, promoted_piece ) ;
-    this -> m_players[player] -> Add( m_board -> GetPiece( dst_c, dst_r ) );
-
-    m_promotion = false;
-
-    return true;
 }
 
 /**

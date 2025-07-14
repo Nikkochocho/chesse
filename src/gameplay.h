@@ -24,8 +24,14 @@
 #include "player.h"
 
 
+/**
+ * @brief PlayerMap sequence map definition.
+ */
 typedef std :: map<PlayerNumber, Player*> PlayerMap;
 
+/**
+ * @brief Chesse gameplay class implementation.
+ */
 class GamePlay {
 
     IBoard       *m_board;
@@ -37,11 +43,12 @@ class GamePlay {
 
     int GetColIndex( char ch );
     int GetRowIndex( char ch );
+    stPosition GetPiecePosition( int col, int row );
     void InitPieces( void );
     void ChangeTurn( void );
     void SpecialCases( IPiece *piece );
     void InsertChanges( stPosition pos, IPiece *piece, IPiece *target, PlayerNumber opponent, bool IsReverse );
-    bool VirtualMovement( IPiece *piece, int dst_c, int dst_r, PlayerNumber opponent, bool IsEscape );
+    bool VirtualMovement( IPiece *piece, stPosition dst_pos, PlayerNumber opponent, bool IsEscape );
     bool KingEscape( void );
     bool HasAvailableMove( const std :: list<IPiece*>& available_pieces );
 
@@ -51,9 +58,9 @@ class GamePlay {
     ~GamePlay( void );
 
     void NewGame( void );
+    void Promote( char dst_col, char dst_row, Pieces piece_type );
     bool Move( char src_col, char src_row, char dst_col, char dst_row );
     bool HasPromotion( void );
-    bool Promote( char dst_col, char dst_row, Pieces piece_type );
     bool IsCheckmate( void );
     bool IsStalemate( void );
     PlayerNumber GetTurn( void );

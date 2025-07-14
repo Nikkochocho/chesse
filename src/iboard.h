@@ -21,6 +21,9 @@
 #include "ipiece.h"
 
 
+/**
+ * @brief Chesse board interface implementation.
+ */
 class IBoard  {
 
     public:

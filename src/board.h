@@ -21,9 +21,14 @@
 #include "iboard.h"
 #include <array>
 
+/**
+ * @brief Arrayboard sequence array definition.
+ */
 typedef std :: array< std :: array<IPiece*, MAX_SIZE>, MAX_SIZE> ArrayBoard;
 
-
+/**
+ * @brief Chesse board class implementation.
+ */
 class Board : public IBoard  {
 
     ArrayBoard    m_board;

@@ -36,6 +36,11 @@ Pawn :: ~Pawn( void )  {
     
 }
 
+bool Pawn :: CanSet( IPiece* target )  {
+ 
+    return ( target != nullptr ) && ( target -> GetColor() != m_color );
+} 
+
 /**
  * @brief Checks if new position is valid under the piece's moveset.
  * @param dst_col New X axis position.
@@ -53,14 +58,14 @@ bool Pawn :: CanMove( int dst_col, int dst_row )  {
 
     if ( ( abs( dst_col - m_position.col ) == 1 ) && ( dst_row == m_position.row + direction ) )  { 
 
-        if ( ( ( CanSet( side_piece, true ) ) && ( side_piece -> GetType() == PAWN ) && ( side_piece -> GetMovementCount() == 1 ) ) &&
+        if ( ( ( CanSet( side_piece ) ) && ( side_piece -> GetType() == PAWN ) && ( side_piece -> GetMovementCount() == 1 ) ) &&
              ( ( target == nullptr ) && ( m_position.row == enpassant_row ) ) ) {
 
             this -> SetStatus( ENPASSANT );
             return true; // en passant capture
         }  
 
-        if ( CanSet( target, true ) )  {
+        if ( CanSet( target ) )  {
 
             ret = true; // default capture
         }
@@ -120,7 +125,7 @@ bool Pawn :: MovementCheck( bool king_check )  {
 
             IPiece *target = m_BoardVision -> GetPiece( ( col_pos ), ( row_pos ) );
 
-            if ( CanSet( target, true ) )  {
+            if ( CanSet( target ) )  {
 
                 if ( !king_check )  {
 

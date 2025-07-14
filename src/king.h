@@ -21,6 +21,9 @@
 #include "piece.h"
 
 
+/**
+ * @brief Chesse king class implementation.
+ */
 class King : public Piece {
 
     public :

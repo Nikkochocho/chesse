@@ -25,8 +25,8 @@ int main( int argc, char **argv ) {
 
     Board         board;
     GamePlay      game( &board );
-    char          promotion;
     Pieces        piece_type;
+    char          promotion;
 
     game.NewGame();
 
@@ -42,9 +42,9 @@ int main( int argc, char **argv ) {
 
         do  {
 
-            std :: cout << "enter the piece's current coordinate:" << std :: endl;
+            std :: cout << "Enter the piece's current coordinate:" << std :: endl;
             std :: cin >> src_input;
-            std :: cout << "enter the piece's desired coordinate:" << std :: endl;
+            std :: cout << "Enter the piece's desired coordinate:" << std :: endl;
             std :: cin >> dst_input;
 
         }  while ( !ValidInput( src_input ) && ( !ValidInput( dst_input ) ) );

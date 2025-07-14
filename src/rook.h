@@ -21,6 +21,9 @@
 #include "piece.h"
 
 
+/**
+ * @brief Chesse rook class implementation.
+ */
 class Rook : public Piece {
 
     public :

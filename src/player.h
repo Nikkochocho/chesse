@@ -21,8 +21,15 @@
 #include "ipiece.h"
 #include <list>
 
+
+/**
+ * @brief PieceList sequence list definition.
+ */
 typedef std :: list<IPiece*> PieceList;
 
+/**
+ * @brief Chesse player class implementation.
+ */
 class Player  {
 
     PieceList    m_pieces;

@@ -21,6 +21,9 @@
 #include "iboard.h"
 
 
+/**
+ * @brief Chesse piece class implementation.
+ */
 class Piece : public IPiece  {
 
     protected:
@@ -46,7 +49,7 @@ class Piece : public IPiece  {
 
     int GetMovementCount( void );
     void AddMovementCount( void );
-    bool CanSet( IPiece *target, bool pawn_capture = false );
+    bool CanSet( IPiece *target );
     
     virtual bool CanMove( int dst_col, int dst_row );
     virtual bool MovementCheck( bool king_check );

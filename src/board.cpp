@@ -145,7 +145,7 @@ void Board :: RemovePiece( int col, int row )  {
     if ( piece != nullptr )  {
 
         m_board[col][row] = nullptr;
-        //delete piece;
+//        delete piece;
     }
 }
 

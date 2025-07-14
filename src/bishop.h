@@ -21,6 +21,9 @@
 #include "piece.h"
 
 
+/**
+ * @brief Chesse bishop class implementation.
+ */
 class Bishop : public Piece {
 
     public :

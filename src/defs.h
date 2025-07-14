@@ -22,12 +22,18 @@
 #define MIN_SIZE 0
 
 
+/**
+ * @brief Player number enumerator definition.
+ */
 enum PlayerNumber  {
 
     PLAYER_1,
     PLAYER_2
 };
 
+/**
+ * @brief Piece type enumerator definition.
+ */
 enum Pieces  {
 
     KING,
@@ -39,12 +45,18 @@ enum Pieces  {
     UNSET
 };
 
+/**
+ * @brief Color enumerator definition.
+ */
 enum Color  {
 
     WHITE,
     BLACK
 };
 
+/**
+ * @brief Status enumerator definition.
+ */
 enum Status  {
 
     NORMAL,
@@ -55,6 +67,9 @@ enum Status  {
     CHECK
 };
 
+/**
+ * @brief Position structure definition.
+ */
 struct stPosition  {
 
     int         col;

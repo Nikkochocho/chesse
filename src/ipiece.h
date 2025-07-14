@@ -21,13 +21,16 @@
 #include "defs.h"
 
 
+/**
+ * @brief Chesse piece interface implementation.
+ */
 class IPiece  {
 
     public:
 
     virtual int GetMovementCount( void ) = 0;
     virtual void AddMovementCount( void ) = 0;
-    virtual bool CanSet( IPiece *target, bool pawn_capture = false ) = 0;
+    virtual bool CanSet( IPiece *target ) = 0;
     virtual bool CanMove( int dst_col, int dst_row ) = 0;
     virtual bool MovementCheck( bool check_king ) = 0;
 

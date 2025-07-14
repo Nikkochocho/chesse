@@ -21,6 +21,9 @@
 #include "piece.h"
 
 
+/**
+ * @brief Chesse pawn class implementation.
+ */
 class Pawn : public Piece  {
 
     public:
@@ -28,6 +31,7 @@ class Pawn : public Piece  {
     Pawn( Color color, IBoard *boardVision );
     virtual ~Pawn( void );
     
+    bool CanSet( IPiece *target );
     bool CanMove( int dst_col, int dst_row );
     bool MovementCheck( bool king_check );
     void Print( void );
