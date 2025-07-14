@@ -175,10 +175,9 @@ bool Piece :: CanSet( IPiece* target )  {
 // LCOV_EXCL_START
 /**
  * @brief Checks if new position is valid under the piece's moveset.
- * @param dst_col New X axis position.
- * @param dst_row New Y axis position.
+ * @param dst_pos New position.
  */
-bool Piece :: CanMove( int dst_col, int dst_row )  {
+bool Piece :: CanMove( stPosition dst_pos )  {
 
     return false;
 }

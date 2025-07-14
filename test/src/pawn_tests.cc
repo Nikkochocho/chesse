@@ -19,17 +19,19 @@
 #include "board.h"
 #include "pawn.h"
 #include "king.h"
+#include "test_helper.h"
 
 
-//GENERAL TESTS
+// GENERAL TESTS
 TEST( chesse_tests, PAWN_INVALID_ROW_MOVE ) {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece   = Pawn( WHITE, &board );
+    stPosition  dst_pos = GetstPosition( 0, 0 );
 
     board.SetPiece( 0, 1, &piece );
 
-    bool        ret   = piece.CanMove( 0, 0 );
+    bool        ret   = piece.CanMove( dst_pos );
 
     EXPECT_EQ ( ret, false );
 }
@@ -37,11 +39,12 @@ TEST( chesse_tests, PAWN_INVALID_ROW_MOVE ) {
 TEST( chesse_tests, PAWN_INVALID_COLUMN_MOVE ) {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
+    Pawn        piece   = Pawn( BLACK, &board );
+    stPosition  dst_pos = GetstPosition( 1, 0 );
 
     board.SetPiece( 0, 0, &piece );
 
-    bool        ret   = piece.CanMove( 1, 0 );
+    bool        ret   = piece.CanMove( dst_pos );
 
     EXPECT_EQ ( ret, false );
 }
@@ -49,13 +52,14 @@ TEST( chesse_tests, PAWN_INVALID_COLUMN_MOVE ) {
 TEST( chesse_tests, PAWN_INVALID_TRESPASS_MOVE ) {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece       = Pawn( WHITE, &board );
     Pawn        block_piece = Pawn( BLACK, &board );
+    stPosition  dst_pos     = GetstPosition( 0, 1 );
 
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 0, 1, &block_piece);
 
-    bool        ret   = piece.CanMove( 0, 1 );
+    bool        ret   = piece.CanMove( dst_pos );
 
     EXPECT_EQ ( ret, false );
 }
@@ -63,26 +67,28 @@ TEST( chesse_tests, PAWN_INVALID_TRESPASS_MOVE ) {
 TEST( chesse_tests, PAWN_INVALID_DOUBLE_TRESPASS_MOVE ) {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece       = Pawn( WHITE, &board );
     Pawn        block_piece = Pawn( BLACK, &board );
+    stPosition  dst_pos     = GetstPosition( 0, 2 );
 
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 0, 1, &block_piece);
 
-    bool        ret   = piece.CanMove( 0, 2 );
+    bool        ret   = piece.CanMove( dst_pos );
 
     EXPECT_EQ ( ret, false );
 }
 
-//WHITE PAWN TESTS
+// WHITE PAWN TESTS
 TEST( chesse_tests, WHITE_PAWN_ONE_STEP_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece   = Pawn( WHITE, &board );
+    stPosition  dst_pos = GetstPosition( 0, 1 );
 
     board.SetPiece( 0, 0, &piece );
 
-    bool        ret   = piece.CanMove( 0, 1 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -90,11 +96,12 @@ TEST( chesse_tests, WHITE_PAWN_ONE_STEP_MOVE_TEST )  {
 TEST( chesse_tests, WHITE_PAWN_TWO_STEPS_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece   = Pawn( WHITE, &board );
+    stPosition  dst_pos = GetstPosition( 0, 2 );
 
     board.SetPiece( 0, 0, &piece );
 
-    bool        ret   = piece.CanMove( 0, 2 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -102,13 +109,14 @@ TEST( chesse_tests, WHITE_PAWN_TWO_STEPS_MOVE_TEST )  {
 TEST( chesse_tests, WHITE_PAWN_FAILED_TWO_STEPS_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece   = Pawn( WHITE, &board );
+    stPosition  dst_pos = GetstPosition( 0, 2 );
 
     board.SetPiece( 0, 0, &piece );
 
-    piece.AddMovementCount(); //sets movement to 1;
+    piece.AddMovementCount(); // sets movement to 1;
 
-    bool        ret   = piece.CanMove( 0, 2 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, false );
 }
@@ -116,13 +124,14 @@ TEST( chesse_tests, WHITE_PAWN_FAILED_TWO_STEPS_MOVE_TEST )  {
 TEST( chesse_tests, WHITE_PAWN_CAPTURE_RIGHT_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece          = Pawn( WHITE, &board );
     Pawn        captured_piece = Pawn( BLACK, &board );
+    stPosition  dst_pos        = GetstPosition( 1, 1 );
 
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 1, 1, &captured_piece);
 
-    bool        ret   = piece.CanMove( 1, 1 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -130,13 +139,14 @@ TEST( chesse_tests, WHITE_PAWN_CAPTURE_RIGHT_MOVE_TEST )  {
 TEST( chesse_tests, WHITE_PAWN_CAPTURE_LEFT_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece          = Pawn( WHITE, &board );
     Pawn        captured_piece = Pawn( BLACK, &board );
+    stPosition  dst_pos        = GetstPosition( 0, 1 );
 
     board.SetPiece( 1, 0, &piece );
     board.SetPiece( 0, 1, &captured_piece);
 
-    bool        ret   = piece.CanMove( 0, 1 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -144,13 +154,14 @@ TEST( chesse_tests, WHITE_PAWN_CAPTURE_LEFT_MOVE_TEST )  {
 TEST( chesse_tests, WHITE_PAWN_INVALID_CAPTURE_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
-    Pawn        captured_piece = Pawn( WHITE, &board ); //same color
+    Pawn        piece          = Pawn( WHITE, &board );
+    Pawn        captured_piece = Pawn( WHITE, &board ); // same color
+    stPosition  dst_pos        = GetstPosition( 1, 1 );
 
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 1, 1, &captured_piece);
 
-    bool        ret   = piece.CanMove( 1, 1 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, false );
 }
@@ -158,11 +169,12 @@ TEST( chesse_tests, WHITE_PAWN_INVALID_CAPTURE_MOVE_TEST )  {
 TEST( chesse_tests, WHITE_PAWN_FAILED_CAPTURE_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece   = Pawn( WHITE, &board );
+    stPosition  dst_pos = GetstPosition( 0, 1 );
 
     board.SetPiece( 1, 0, &piece );
 
-    bool        ret   = piece.CanMove( 0, 1 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, false );
 }
@@ -170,10 +182,11 @@ TEST( chesse_tests, WHITE_PAWN_FAILED_CAPTURE_MOVE_TEST )  {
 TEST( chesse_tests, WHITE_PAWN_PROMOTION_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece   = Pawn( WHITE, &board );
+    stPosition  dst_pos = GetstPosition( 0, 7 );
 
     board.SetPiece( 0, 6, &piece );
-    piece.CanMove( 0, 7 );
+    piece.CanMove( dst_pos );
 
     bool        ret   = ( piece.GetStatus() == PROMOTION );
     
@@ -184,7 +197,7 @@ TEST( chesse_tests, WHITE_PAWN_CHECK_KING_RIGHT ) {
     
     Board       board;
     Pawn        piece = Pawn( WHITE, &board );
-    King        king = King( BLACK, &board ); //same color
+    King        king  = King( BLACK, &board ); // same color
 
     board.SetPiece( 1, 0, &piece );
     board.SetPiece( 2, 1, &king );
@@ -198,7 +211,7 @@ TEST( chesse_tests, WHITE_PAWN_CHECK_KING_LEFT ) {
     
     Board       board;
     Pawn        piece = Pawn( WHITE, &board );
-    King        king = King( BLACK, &board ); //same color
+    King        king  = King( BLACK, &board ); //same color
 
     board.SetPiece( 1, 0, &piece );
     board.SetPiece( 0, 1, &king );
@@ -212,7 +225,7 @@ TEST( chesse_tests, INVALID_WHITE_PAWN_CHECK_KING ) {
     
     Board       board;
     Pawn        piece = Pawn( WHITE, &board );
-    King        king = King( WHITE, &board ); //same color
+    King        king  = King( WHITE, &board ); //same color
 
     board.SetPiece( 1, 0, &piece );
     board.SetPiece( 2, 1, &king );
@@ -222,15 +235,16 @@ TEST( chesse_tests, INVALID_WHITE_PAWN_CHECK_KING ) {
     EXPECT_EQ ( ret, false );
 }
 
-//BLACK PAWN TESTS
+// BLACK PAWN TESTS
 TEST( chesse_tests, BLACK_PAWN_ONE_STEP_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
+    Pawn        piece   = Pawn( BLACK, &board );
+    stPosition  dst_pos = GetstPosition( 0, 6 );
 
     board.SetPiece( 0, 7, &piece );
 
-    bool        ret   = piece.CanMove( 0, 6 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -238,11 +252,12 @@ TEST( chesse_tests, BLACK_PAWN_ONE_STEP_MOVE_TEST )  {
 TEST( chesse_tests, BLACK_PAWN_TWO_STEPS_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
+    Pawn        piece   = Pawn( BLACK, &board );
+    stPosition  dst_pos = GetstPosition( 0, 5 );
 
     board.SetPiece( 0, 7, &piece );
 
-    bool        ret   = piece.CanMove( 0, 5 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -250,13 +265,14 @@ TEST( chesse_tests, BLACK_PAWN_TWO_STEPS_MOVE_TEST )  {
 TEST( chesse_tests, BLACK_PAWN_FAILED_TWO_STEPS_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
+    Pawn        piece   = Pawn( BLACK, &board );
+    stPosition  dst_pos = GetstPosition( 0, 5 );
 
     board.SetPiece( 0, 7, &piece );
 
-    piece.AddMovementCount(); //sets movement to 1;
+    piece.AddMovementCount(); // sets movement to 1;
 
-    bool        ret   = piece.CanMove( 0, 5 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, false );
 }
@@ -264,13 +280,14 @@ TEST( chesse_tests, BLACK_PAWN_FAILED_TWO_STEPS_MOVE_TEST )  {
 TEST( chesse_tests, BLACK_PAWN_CAPTURE_RIGHT_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
+    Pawn        piece          = Pawn( BLACK, &board );
     Pawn        captured_piece = Pawn( WHITE, &board );
+    stPosition  dst_pos        = GetstPosition( 0, 0 );
 
     board.SetPiece( 1, 1, &piece );
     board.SetPiece( 0, 0, &captured_piece );
 
-    bool        ret   = piece.CanMove( 0, 0 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -278,13 +295,14 @@ TEST( chesse_tests, BLACK_PAWN_CAPTURE_RIGHT_MOVE_TEST )  {
 TEST( chesse_tests, BLACK_PAWN_CAPTURE_LEFT_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
+    Pawn        piece          = Pawn( BLACK, &board );
     Pawn        captured_piece = Pawn( WHITE, &board );
+    stPosition  dst_pos        = GetstPosition( 1, 0 );
 
     board.SetPiece( 0, 1, &piece );
     board.SetPiece( 1, 0, &captured_piece );
 
-    bool        ret   = piece.CanMove( 1, 0 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -292,13 +310,14 @@ TEST( chesse_tests, BLACK_PAWN_CAPTURE_LEFT_MOVE_TEST )  {
 TEST( chesse_tests, BLACK_PAWN_INVALID_CAPTURE_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
-    Pawn        captured_piece = Pawn( BLACK, &board ); //same color
+    Pawn        piece          = Pawn( BLACK, &board );
+    Pawn        captured_piece = Pawn( BLACK, &board ); // same color
+    stPosition  dst_pos        = GetstPosition( 0, 0 );
 
     board.SetPiece( 1, 1, &piece );
     board.SetPiece( 0, 0, &captured_piece );
 
-    bool        ret   = piece.CanMove( 0, 0 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, false );
 }
@@ -306,11 +325,12 @@ TEST( chesse_tests, BLACK_PAWN_INVALID_CAPTURE_MOVE_TEST )  {
 TEST( chesse_tests, BLACK_PAWN_FAILED_CAPTURE_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
+    Pawn        piece   = Pawn( BLACK, &board );
+    stPosition  dst_pos = GetstPosition( 1, 0 );
 
     board.SetPiece( 0, 1, &piece );
 
-    bool        ret   = piece.CanMove( 1, 0 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, false );
 }
@@ -318,10 +338,11 @@ TEST( chesse_tests, BLACK_PAWN_FAILED_CAPTURE_MOVE_TEST )  {
 TEST( chesse_tests, BLACK_PAWN_PROMOTION_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
+    Pawn        piece   = Pawn( BLACK, &board );
+    stPosition  dst_pos = GetstPosition( 0, 0 );
 
     board.SetPiece( 0, 1, &piece );
-    piece.CanMove( 0, 0 );
+    piece.CanMove( dst_pos );
 
     bool        ret   = ( piece.GetStatus() == PROMOTION );
     
@@ -332,7 +353,7 @@ TEST( chesse_tests, BLACK_PAWN_CHECK_KING_RIGHT ) {
     
     Board       board;
     Pawn        piece = Pawn( BLACK, &board );
-    King        king = King( WHITE, &board ); 
+    King        king  = King( WHITE, &board ); 
 
     board.SetPiece( 1, 1, &piece );
     board.SetPiece( 0, 0, &king );
@@ -346,7 +367,7 @@ TEST( chesse_tests, BLACK_PAWN_CHECK_KING_LEFT ) {
     
     Board       board;
     Pawn        piece = Pawn( BLACK, &board );
-    King        king = King( WHITE, &board ); 
+    King        king  = King( WHITE, &board ); 
 
     board.SetPiece( 1, 1, &piece );
     board.SetPiece( 2, 0, &king );
@@ -360,7 +381,7 @@ TEST( chesse_tests, INVALID_BLACK_PAWN_CHECK_KING ) {
     
     Board       board;
     Pawn        piece = Pawn( BLACK, &board );
-    King        king = King( BLACK, &board ); 
+    King        king  = King( BLACK, &board ); 
 
     board.SetPiece( 1, 1, &piece );
     board.SetPiece( 0, 0, &king );
@@ -370,18 +391,19 @@ TEST( chesse_tests, INVALID_BLACK_PAWN_CHECK_KING ) {
     EXPECT_EQ ( ret, false );
 }
 
-//SPECIAL MOVES
+// SPECIAL MOVES
 TEST( chesse_tests, PAWN_EN_PASSANT_CAPTURE_RIGHT_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece          = Pawn( WHITE, &board );
     Pawn        captured_piece = Pawn( BLACK, &board );
+    stPosition  dst_pos        = GetstPosition( 1, 5 );
 
     board.SetPiece( 0, 4, &piece );
     board.SetPiece( 1, 4, &captured_piece );
     captured_piece.AddMovementCount();
 
-    piece.CanMove( 1, 5 );
+    piece.CanMove( dst_pos );
 
     bool        ret   = ( piece.GetStatus() == ENPASSANT );
     
@@ -391,14 +413,15 @@ TEST( chesse_tests, PAWN_EN_PASSANT_CAPTURE_RIGHT_MOVE_TEST )  {
 TEST( chesse_tests, PAWN_EN_PASSANT_CAPTURE_LEFT_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
+    Pawn        piece          = Pawn( BLACK, &board );
     Pawn        captured_piece = Pawn( WHITE, &board );
+    stPosition  dst_pos        = GetstPosition( 0, 2 );
 
     board.SetPiece( 1, 3, &piece );
     board.SetPiece( 0, 3, &captured_piece );
     captured_piece.AddMovementCount();
 
-    piece.CanMove( 0, 2 );
+    piece.CanMove( dst_pos );
 
     bool        ret   = ( piece.GetStatus() == ENPASSANT );
     
@@ -408,14 +431,15 @@ TEST( chesse_tests, PAWN_EN_PASSANT_CAPTURE_LEFT_MOVE_TEST )  {
 TEST( chesse_tests, PAWN_INVALID_EN_PASSANT_ROW_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
+    Pawn        piece          = Pawn( WHITE, &board );
     Pawn        captured_piece = Pawn( BLACK, &board );
+    stPosition  dst_pos        = GetstPosition( 0, 6 );
 
     board.SetPiece( 1, 5, &piece );
     board.SetPiece( 0, 5, &captured_piece );
     captured_piece.AddMovementCount();
 
-    piece.CanMove( 0, 6 );
+    piece.CanMove( dst_pos );
 
     bool        ret   = ( piece.GetStatus() == ENPASSANT );
     
@@ -425,14 +449,15 @@ TEST( chesse_tests, PAWN_INVALID_EN_PASSANT_ROW_MOVE_TEST )  {
 TEST( chesse_tests, PAWN_FAILED_EN_PASSANT_CAPTURE_MOVE_TEST )  {
     
     Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
+    Pawn        piece          = Pawn( BLACK, &board );
     Pawn        captured_piece = Pawn( WHITE, &board );
+    stPosition  dst_pos        = GetstPosition( 0, 2 );
 
     board.SetPiece( 1, 3, &piece );
     board.SetPiece( 0, 3, &captured_piece );
-    //m_moviment = 0;
+    // m_movement = 0;
 
-    piece.CanMove( 0, 2 );
+    piece.CanMove( dst_pos );
 
     bool        ret   = ( piece.GetStatus() == ENPASSANT );
     

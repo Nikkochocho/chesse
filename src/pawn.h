@@ -32,7 +32,7 @@ class Pawn : public Piece  {
     virtual ~Pawn( void );
     
     bool CanSet( IPiece *target );
-    bool CanMove( int dst_col, int dst_row );
+    bool CanMove( stPosition dst_pos );
     bool MovementCheck( bool king_check );
     void Print( void );
 };

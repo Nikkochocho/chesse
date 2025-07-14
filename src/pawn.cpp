@@ -43,20 +43,19 @@ bool Pawn :: CanSet( IPiece* target )  {
 
 /**
  * @brief Checks if new position is valid under the piece's moveset.
- * @param dst_col New X axis position.
- * @param dst_row New Y axis position.
+ * @param dst_pos New position.
  */
-bool Pawn :: CanMove( int dst_col, int dst_row )  {
+bool Pawn :: CanMove( stPosition dst_pos )  {
     
     int         direction     = ( m_color == WHITE ) ? 1 : -1;
     int         enpassant_row = ( m_color == WHITE ) ? 4 : 3;
     int         promotion_row = ( m_color == WHITE ) ? ( MAX_SIZE - 1 ) : MIN_SIZE;
     int         dist_row      = ( m_MovementCount == 0 ) ? 2 : 1;
-    IPiece      *target       = m_BoardVision -> GetPiece( dst_col, dst_row );
-    IPiece      *side_piece   = m_BoardVision -> GetPiece( dst_col, dst_row + ( direction * -1 ) );
+    IPiece      *target       = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row );
+    IPiece      *side_piece   = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row + ( direction * -1 ) );
     bool        ret           = false;
 
-    if ( ( abs( dst_col - m_position.col ) == 1 ) && ( dst_row == m_position.row + direction ) )  { 
+    if ( ( abs( dst_pos.col - m_position.col ) == 1 ) && ( dst_pos.row == m_position.row + direction ) )  { 
 
         if ( ( ( CanSet( side_piece ) ) && ( side_piece -> GetType() == PAWN ) && ( side_piece -> GetMovementCount() == 1 ) ) &&
              ( ( target == nullptr ) && ( m_position.row == enpassant_row ) ) ) {
@@ -72,16 +71,16 @@ bool Pawn :: CanMove( int dst_col, int dst_row )  {
     }
     else  {
 
-        if ( ( target != nullptr ) || ( ( ( dst_row - m_position.row ) == 2 ) && ( side_piece != nullptr ) ) )  {
+        if ( ( target != nullptr ) || ( ( ( dst_pos.row - m_position.row ) == 2 ) && ( side_piece != nullptr ) ) )  {
 
             return false;
         }
 
-        ret = ( ( dst_col == m_position.col ) && 
-                ( ( dst_row == m_position.row + direction ) || ( dst_row == m_position.row + ( dist_row * direction ) ) ) );
+        ret = ( ( dst_pos.col == m_position.col ) && 
+                ( ( dst_pos.row == m_position.row + direction ) || ( dst_pos.row == m_position.row + ( dist_row * direction ) ) ) );
     }
 
-    if ( ( ret == true ) && ( dst_row == promotion_row ) )  {
+    if ( ( ret == true ) && ( dst_pos.row == promotion_row ) )  {
 
         this -> SetStatus( PROMOTION );
     }

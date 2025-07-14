@@ -21,6 +21,7 @@
 #include "gameplay.h"
 
 
+stPosition GetstPosition( int col, int row );
 void LongCastleMove( GamePlay& game );
 void ShortCastleMove( GamePlay& game );
 void PromotionMove( GamePlay& game );

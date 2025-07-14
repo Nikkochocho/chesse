@@ -18,6 +18,16 @@
 #include "test_helper.h"
 
 
+stPosition GetstPosition( int col, int row )  {
+
+    stPosition piece_pos;
+
+    piece_pos.col = col;
+    piece_pos.row = row;
+
+    return piece_pos;
+}
+
 void LongCastleMove( GamePlay& game )  {
 
     game.Move( 'b', '1', 'c', '3' );

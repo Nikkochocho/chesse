@@ -31,7 +31,7 @@ class Queen : public Piece {
     Queen ( Color color, IBoard *boardVision );
     virtual ~Queen ( void );
 
-    bool CanMove( int dst_col, int dst_row );
+    bool CanMove( stPosition dst_pos );
     bool MovementCheck( bool king_check );
     void Print( void );
 };

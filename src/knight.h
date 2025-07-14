@@ -31,7 +31,7 @@ class Knight : public Piece {
     Knight ( Color color, IBoard *boardVision );
     virtual ~Knight ( void );
 
-    bool CanMove( int dst_col, int dst_row );
+    bool CanMove( stPosition dst_pos );
     bool MovementCheck( bool king_check );
     void Print( void );
 };

@@ -165,7 +165,7 @@ bool Player :: CanCatch( void )  {
             continue;
         }
 
-        if ( pPiece -> CanMove( m_attacker -> Position().col, m_attacker -> Position().row ) )  {
+        if ( pPiece -> CanMove( m_attacker -> Position() ) )  {
             
             return true;
         }
@@ -179,12 +179,11 @@ bool Player :: CanCatch( void )  {
  */
 bool Player :: CanBlock( void )  {
 
-    int itr_col   = 0;
-    int itr_row   = 0;
-    int col_pos   = m_attacker -> Position().col;
-    int row_pos   = m_attacker -> Position().row;
-    int dist_col  = ( m_king -> Position().col ) - ( m_attacker -> Position().col );
-    int dist_row  = ( m_king -> Position().row ) - ( m_attacker -> Position().row );
+    stPosition attacker_pos = m_attacker -> Position();
+    int        itr_col      = 0;
+    int        itr_row      = 0;
+    int        dist_col     = ( m_king -> Position().col ) - ( m_attacker -> Position().col );
+    int        dist_row     = ( m_king -> Position().row ) - ( m_attacker -> Position().row );
 
     if ( m_attacker -> GetType() == KNIGHT )  {
 
@@ -201,16 +200,16 @@ bool Player :: CanBlock( void )  {
         itr_row = ( dist_row > 0 ) ? 1 : -1;
     }
 
-    while ( ( col_pos !=  m_king -> Position().col ) || ( row_pos !=  m_king -> Position().row ) )  {
+    while ( ( attacker_pos.col !=  m_king -> Position().col ) || ( attacker_pos.row !=  m_king -> Position().row ) )  {
 
-        col_pos += itr_col;
-        row_pos += itr_row;
+        attacker_pos.col += itr_col;
+        attacker_pos.row += itr_row;
 
         for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
             IPiece    *pPiece = *it; 
 
-            if ( ( pPiece != m_king ) && pPiece -> CanMove( col_pos, row_pos ) )  {
+            if ( ( pPiece != m_king ) && pPiece -> CanMove( attacker_pos ) )  {
                 
                 return true;
             }

@@ -173,8 +173,7 @@ void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, IPiece *target, P
  * @brief Sets a virtual state for check verification
  * and movement validation.
  * @param piece IPiece object being moved.
- * @param dst_c New X axis position.
- * @param dst_r New Y axis position.
+ * @param dst_pos New position.
  * @param opponent Opponent player.
  * @param isEscape Validation Type.
  */
@@ -234,7 +233,7 @@ bool GamePlay :: KingEscape( void )  {
                 continue;
             }
 
-            if ( ( king -> CanMove( dst_pos.col, dst_pos.row ) ) && ( VirtualMovement( king, dst_pos, m_turn, true ) ) )  {
+            if ( ( king -> CanMove( dst_pos ) ) && ( VirtualMovement( king, dst_pos, m_turn, true ) ) )  {
                 
                 return true;
             }
@@ -350,7 +349,7 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
         IPiece         *captured_piece = m_board -> GetPiece( dst_c, dst_r );
         stPosition     dst_pos         = GetPiecePosition( dst_c, dst_r );
 
-        if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && ( piece -> CanMove( dst_c, dst_r ) ) )  {
+        if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && ( piece -> CanMove( dst_pos ) ) )  {
             
             if ( VirtualMovement( piece, dst_pos, opponent, false ) )  {
 

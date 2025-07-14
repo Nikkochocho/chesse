@@ -38,15 +38,14 @@ Queen :: ~Queen( void )  {
 
 /**
  * @brief Checks if new position is valid under the piece's moveset.
- * @param dst_col New X axis position.
- * @param dst_row New Y axis position.
+ * @param dst_pos New position.
  */
-bool Queen :: CanMove( int dst_col, int dst_row )  {
+bool Queen :: CanMove( stPosition dst_pos )  {
 
-    if ( ( abs( dst_col - m_position.col ) == abs( dst_row - m_position.row ) ) || 
-         ( dst_col == m_position.col || dst_row == m_position.row ) )  {
+    if ( ( abs( dst_pos.col - m_position.col ) == abs( dst_pos.row - m_position.row ) ) || 
+         ( dst_pos.col == m_position.col || dst_pos.row == m_position.row ) )  {
 
-        return CanReach( dst_col, dst_row );
+        return CanReach( dst_pos.col, dst_pos.row );
     }
 
     return false;

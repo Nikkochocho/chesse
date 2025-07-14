@@ -19,16 +19,18 @@
 #include "board.h"
 #include "bishop.h"
 #include "king.h"
+#include "test_helper.h"
 
 
 TEST( chesse_tests, BISHOP_PRIMARY_DIAGONAL_FORWARD_MOVE_TEST )  {
     
     Board       board;
-    Bishop      piece = Bishop( WHITE, &board );
+    Bishop      piece    = Bishop( WHITE, &board );
+    stPosition  dst_pos  = GetstPosition( 7, 7 );
 
     board.SetPiece( 4, 4, &piece );
 
-    bool        ret   = piece.CanMove( 7, 7 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -36,11 +38,12 @@ TEST( chesse_tests, BISHOP_PRIMARY_DIAGONAL_FORWARD_MOVE_TEST )  {
 TEST( chesse_tests, BISHOP_PRIMARY_DIAGONAL_BACKWARD_MOVE_TEST )  {
     
     Board       board;
-    Bishop      piece = Bishop( BLACK, &board );
+    Bishop      piece    = Bishop( BLACK, &board );
+    stPosition  dst_pos  = GetstPosition( 4, 4 );
 
     board.SetPiece( 7, 7, &piece );
 
-    bool        ret   = piece.CanMove( 4, 4 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -48,11 +51,12 @@ TEST( chesse_tests, BISHOP_PRIMARY_DIAGONAL_BACKWARD_MOVE_TEST )  {
 TEST( chesse_tests, BISHOP_SECONDARY_DIAGONAL_FORWARD_MOVE_TEST )  {
     
     Board       board;
-    Bishop      piece = Bishop( WHITE, &board );
+    Bishop      piece    = Bishop( WHITE, &board );
+    stPosition  dst_pos  = GetstPosition( 1, 7 );
 
     board.SetPiece( 4, 4, &piece );
 
-    bool        ret   = piece.CanMove( 1, 7 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -60,11 +64,12 @@ TEST( chesse_tests, BISHOP_SECONDARY_DIAGONAL_FORWARD_MOVE_TEST )  {
 TEST( chesse_tests, BISHOP_SECONDARY_DIAGONAL_BACKWARD_MOVE_TEST )  {
     
     Board       board;
-    Bishop      piece = Bishop( BLACK, &board );
+    Bishop      piece    = Bishop( BLACK, &board );
+    stPosition  dst_pos  = GetstPosition( 7, 1 );
 
     board.SetPiece( 4, 4, &piece );
 
-    bool        ret   = piece.CanMove( 7, 1 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -72,11 +77,12 @@ TEST( chesse_tests, BISHOP_SECONDARY_DIAGONAL_BACKWARD_MOVE_TEST )  {
 TEST( chesse_tests, BISHOP_INVALID_MOVE_TEST )  {
     
     Board       board;
-    Bishop      piece = Bishop( WHITE, &board );
+    Bishop      piece    = Bishop( WHITE, &board );
+    stPosition  dst_pos  = GetstPosition( 4, 5 );
 
     board.SetPiece( 4, 4, &piece );
 
-    bool        ret   = piece.CanMove( 4, 5 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, false );
 }
@@ -84,13 +90,14 @@ TEST( chesse_tests, BISHOP_INVALID_MOVE_TEST )  {
 TEST( chesse_tests, BISHOP_INVALID_TRESPASS_MOVE_TEST )  {
     
     Board       board;
-    Bishop      piece = Bishop( BLACK, &board );
+    Bishop      piece       = Bishop( BLACK, &board );
     Bishop      block_piece = Bishop( WHITE, &board );
+    stPosition  dst_pos     = GetstPosition( 7, 7 );
 
     board.SetPiece( 4, 4, &piece );
     board.SetPiece( 5, 5, &block_piece );
 
-    bool        ret   = piece.CanMove( 7, 7 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, false );
 }
@@ -98,13 +105,14 @@ TEST( chesse_tests, BISHOP_INVALID_TRESPASS_MOVE_TEST )  {
 TEST( chesse_tests, BISHOP_CAPTURE_MOVE_TEST )  {
     
     Board       board;
-    Bishop      piece = Bishop( BLACK, &board );
+    Bishop      piece          = Bishop( BLACK, &board );
     Bishop      captured_piece = Bishop( WHITE, &board );
+    stPosition  dst_pos        = GetstPosition( 5, 5 );
 
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 5, 5, &captured_piece );
 
-    bool        ret   = piece.CanMove( 5, 5 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, true );
 }
@@ -112,13 +120,14 @@ TEST( chesse_tests, BISHOP_CAPTURE_MOVE_TEST )  {
 TEST( chesse_tests, BISHOP_INVALID_CAPTURE_MOVE_TEST )  {
     
     Board       board;
-    Bishop      piece = Bishop( WHITE, &board );
-    Bishop      captured_piece = Bishop( WHITE, &board ); //same color
+    Bishop      piece          = Bishop( WHITE, &board );
+    Bishop      captured_piece = Bishop( WHITE, &board ); // same color
+    stPosition  dst_pos        = GetstPosition( 5, 5 );
 
     board.SetPiece( 0, 0, &piece );
     board.SetPiece( 5, 5, &captured_piece );
 
-    bool        ret   = piece.CanMove( 5, 5 );
+    bool        ret   = piece.CanMove( dst_pos );
     
     EXPECT_EQ ( ret, false );
 }
@@ -127,7 +136,7 @@ TEST( chesse_tests, BISHOP_CHECK_KING_PRIMARY_DIAGONAL_ASC ) {
     
     Board       board;
     Bishop      piece = Bishop( WHITE, &board );
-    King        king = King( BLACK, &board );
+    King        king  = King( BLACK, &board );
 
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 4, 4, &king );
@@ -141,7 +150,7 @@ TEST( chesse_tests, BISHOP_CHECK_KING_PRIMARY_DIAGONAL_DESC ) {
     
     Board       board;
     Bishop      piece = Bishop( WHITE, &board );
-    King        king = King( BLACK, &board );
+    King        king  = King( BLACK, &board );
 
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 0, 0, &king );
@@ -155,7 +164,7 @@ TEST( chesse_tests, BISHOP_CHECK_KING_SECONDARY_DIAGONAL_ASC ) {
     
     Board       board;
     Bishop      piece = Bishop( WHITE, &board );
-    King        king = King( BLACK, &board );
+    King        king  = King( BLACK, &board );
 
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 0, 4, &king );
@@ -169,7 +178,7 @@ TEST( chesse_tests, BISHOP_CHECK_KING_SECONDARY_DIAGONAL_DESC ) {
     
     Board       board;
     Bishop      piece = Bishop( WHITE, &board );
-    King        king = King( BLACK, &board );
+    King        king  = King( BLACK, &board );
 
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 4, 0, &king );
@@ -183,7 +192,7 @@ TEST( chesse_tests, INVALID_BISHOP_CHECK_KING ) {
     
     Board       board;
     Bishop      piece = Bishop( BLACK, &board );
-    King        king = King( BLACK, &board ); //same color
+    King        king  = King( BLACK, &board ); //same color
 
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 0, 4, &king );
@@ -196,9 +205,9 @@ TEST( chesse_tests, INVALID_BISHOP_CHECK_KING ) {
 TEST( chesse_tests, FAILED_BISHOP_CHECK_KING ) {
     
     Board       board;
-    Bishop      piece = Bishop( BLACK, &board );
+    Bishop      piece       = Bishop( BLACK, &board );
     Bishop      block_piece = Bishop( WHITE, &board );
-    King        king = King( WHITE, &board );
+    King        king        = King( WHITE, &board );
 
     board.SetPiece( 2, 2, &piece );
     board.SetPiece( 3, 3, &block_piece );
