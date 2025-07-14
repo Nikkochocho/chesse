@@ -62,7 +62,7 @@ bool Knight :: CanMove( stPosition dst_pos )  {
  */
 bool Knight :: MovementCheck( bool king_check )  {
 
-    IPiece        *piece;
+    IPiece        *target;
     int           col, row;
     const int     col_number[8] = { 2, 1, -1, -2, -2, -1, 1, 2 };
     const int     row_number[8] = { 1, 2, 2, 1, -1, -2, -2, -1 };
@@ -79,17 +79,17 @@ bool Knight :: MovementCheck( bool king_check )  {
         }
         else  {
 
-            piece = m_BoardVision -> GetPiece( col, row );
+            target = m_BoardVision -> GetPiece( col, row );
 
             if ( !king_check )  {
 
                 this -> m_availablePos.col = col;
                 this -> m_availablePos.row = row;
-                ret = CanSet( piece );
+                ret = CanSet( target );
             }
-            else if ( ( piece != nullptr ) && ( ( piece -> GetType() == KING ) && ( piece -> GetColor() != m_color ) ) )  {
+            else if ( IsOpponentKing( target ) )  {
 
-                piece -> SetStatus( CHECK );
+                target -> SetStatus( CHECK );
                 ret = true;
             }
 

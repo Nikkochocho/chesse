@@ -1,13 +1,20 @@
 This is a TODO list with improvements and new features;
 
 - optimize MovementCheck() from knight and pawn
-- overall code optimization
-- repetition draw implementation
+
 - InsertChanges() gigantic param count...
 - VirtualMovement() params too, might check them later
-- There might be a bug on HasAvailableMovement() logic... here: !VirtualMovement( pPiece, col_pos, row_pos, m_turn, false ), change to true. 
-- Change dst_c, dst_r to stPosition...? idk
-* CHANGE PARAMS DOCUMENTATION !!!
+
+- overall code optimization
+
+- repetition draw implementation
+
+- change board col and row o stPosition...?
+
+- Revert IsOpponentKing() back to private...?
+
+* add more unit tests on checkmate and stalemate
+
+* DOCUMENTATION !!!
 
 - Fix delete from RemovePiece() from Board class
-- Read and fix documentation

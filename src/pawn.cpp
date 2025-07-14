@@ -50,7 +50,7 @@ bool Pawn :: CanMove( stPosition dst_pos )  {
     int         direction     = ( m_color == WHITE ) ? 1 : -1;
     int         enpassant_row = ( m_color == WHITE ) ? 4 : 3;
     int         promotion_row = ( m_color == WHITE ) ? ( MAX_SIZE - 1 ) : MIN_SIZE;
-    int         dist_row      = ( m_MovementCount == 0 ) ? 2 : 1;
+    int         dist_row      = ( m_movementCount == 0 ) ? 2 : 1;
     IPiece      *target       = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row );
     IPiece      *side_piece   = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row + ( direction * -1 ) );
     bool        ret           = false;

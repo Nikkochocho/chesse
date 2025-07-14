@@ -44,10 +44,10 @@ bool King :: CanMove( stPosition dst_pos )  {
 
     IPiece    *target      = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row );
     bool      castling     = ( ( abs( dst_pos.col - m_position.col ) == 2 ) && ( dst_pos.row == m_position.row ) );
-    bool      is_default   = ( ( m_MovementCount == 0 ) && ( this -> GetStatus() == NORMAL ) );
+    bool      is_default   = ( ( m_movementCount == 0 ) && ( this -> GetStatus() == NORMAL ) );
     bool      default_move = ( ( abs( dst_pos.col - m_position.col ) <= 1 ) && ( abs( dst_pos.row - m_position.row ) <= 1 ) );
 
-    if ( ( castling ) && ( is_default ) && ( CanReach( dst_pos.col, dst_pos.row ) ) )  {
+    if ( ( castling ) && ( is_default ) && ( CanReach( dst_pos ) ) )  {
 
         int      col_pos       = ( dst_pos.col - m_position.col == 2 ) ? 1 : -2;
         Status   castle_type   = ( col_pos == 1 ) ? SHORTCASTLE : LONGCASTLE;

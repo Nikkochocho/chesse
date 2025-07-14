@@ -43,12 +43,12 @@ class GamePlay {
 
     int GetColIndex( char ch );
     int GetRowIndex( char ch );
-    stPosition GetPiecePosition( int col, int row );
+    stPosition ConvertPosition( int col, int row );
     void InitPieces( void );
     void ChangeTurn( void );
     void SpecialCases( IPiece *piece );
     void InsertChanges( stPosition pos, IPiece *piece, IPiece *target, PlayerNumber opponent, bool IsReverse );
-    bool VirtualMovement( IPiece *piece, stPosition dst_pos, PlayerNumber opponent, bool IsEscape );
+    bool VirtualMovement( IPiece *piece, stPosition dst_pos, PlayerNumber opponent, bool verif );
     bool KingEscape( void );
     bool HasAvailableMove( const std :: list<IPiece*>& available_pieces );
 

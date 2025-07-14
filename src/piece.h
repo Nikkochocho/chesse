@@ -28,22 +28,23 @@ class Piece : public IPiece  {
 
     protected:
     
-    int         m_MovementCount = 0;
+    int         m_movementCount = 0;
     stPosition  m_position;
     stPosition  m_availablePos;
     Color       m_color;
     Pieces      m_type;
-    Status      m_state = NORMAL;
+    Status      m_state         = NORMAL;
     IBoard      *m_BoardVision;
 
     
-    void CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal, bool check );
-    bool CanReach( int dst_col, int dst_row, bool check = false );
+    void GetAxisLine( stPosition& Xpos, stPosition& Ypos, bool isAsc, bool check );
+    void GetDiagonals( stPosition& posAsc, stPosition& posDesc, bool main, bool check );
+    bool IsOpponentKing( IPiece *target ) ;
+    bool CanReach( stPosition dst_pos, bool check = false );
 
     private:
 
-    bool IterationCheck( int dist_col, int dist_row, int itr_col, int itr_row, bool check );
-    bool IsOpponentKing( IPiece *target ) ;
+    bool IterationCheck( stPosition dist, int itr_col, int itr_row, bool check );
 
     public:
 

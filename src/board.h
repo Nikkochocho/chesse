@@ -21,6 +21,7 @@
 #include "iboard.h"
 #include <array>
 
+
 /**
  * @brief Arrayboard sequence array definition.
  */

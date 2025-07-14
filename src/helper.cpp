@@ -18,6 +18,7 @@
 #include <cctype>
 #include "helper.h"
 
+
 // LCOV_EXCL_START
 /**
  * @brief Returns if input follows correct format.

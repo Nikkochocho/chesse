@@ -44,7 +44,7 @@ bool Rook :: CanMove( stPosition dst_pos )  {
 
     if ( dst_pos.col == m_position.col || dst_pos.row == m_position.row )  {
 
-        return CanReach( dst_pos.col, dst_pos.row );
+        return CanReach( dst_pos );
     } 
 
     return false;
@@ -57,8 +57,15 @@ bool Rook :: CanMove( stPosition dst_pos )  {
  */
 bool Rook :: MovementCheck( bool king_check )  {
 
-    return ( ( CanReach( ( MAX_SIZE - 1 ), m_position.row, king_check ) || CanReach( MIN_SIZE, m_position.row, king_check ) ) ||
-             ( CanReach( m_position.col, ( MAX_SIZE - 1 ), king_check ) || CanReach( m_position.col, MIN_SIZE, king_check ) ) );
+    stPosition XposAsc, XposDesc, YposAsc, YposDesc;
+
+    XposAsc = XposDesc = YposAsc = YposDesc = m_position;
+
+    GetAxisLine( XposAsc, YposAsc, true, king_check );
+    GetAxisLine( XposDesc, YposDesc, false, king_check );  
+
+    return ( ( CanReach( XposAsc, king_check ) || CanReach( XposDesc, king_check ) ) ||
+             ( CanReach( YposAsc, king_check ) || CanReach( YposDesc, king_check ) ) );
 }
 
 // LCOV_EXCL_START

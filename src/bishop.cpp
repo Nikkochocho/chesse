@@ -18,6 +18,7 @@
 #include <iostream>
 #include "bishop.h"
 
+
 /**
  * @brief Constructor. Initialize all class data.
  */
@@ -43,7 +44,7 @@ bool Bishop :: CanMove( stPosition dst_pos )  {
 
     if ( abs( dst_pos.col - m_position.col ) == abs( dst_pos.row - m_position.row ) )  {
 
-        return CanReach( dst_pos.col, dst_pos.row );
+        return CanReach( dst_pos );
     }
 
     return false;
@@ -60,11 +61,11 @@ bool Bishop :: MovementCheck( bool king_check )  {
 
     MainposAsc =  MainposDesc = SecposAsc = SecposDesc = m_position;
 
-    CalcDiagonals( MainposAsc, MainposDesc, true, king_check ); // Main diagonal
-    CalcDiagonals( SecposAsc, SecposDesc, false, king_check ); // Secondary diagonal
+    GetDiagonals( MainposAsc, MainposDesc, true, king_check ); // Main diagonal
+    GetDiagonals( SecposAsc, SecposDesc, false, king_check ); // Secondary diagonal
 
-    return ( ( CanReach( MainposAsc.col, MainposAsc.row, king_check ) || CanReach( MainposDesc.col, MainposDesc.row, king_check ) ) ||
-             ( CanReach( SecposAsc.col, SecposAsc.row, king_check ) || CanReach( SecposDesc.col, SecposDesc.row, king_check ) ) );
+    return ( ( CanReach( MainposAsc, king_check ) || CanReach( MainposDesc, king_check ) ) ||
+             ( CanReach( SecposAsc, king_check ) || CanReach( SecposDesc, king_check ) ) );
 }
 
 // LCOV_EXCL_START

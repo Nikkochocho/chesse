@@ -36,7 +36,7 @@ class Player  {
     Color        m_color;
     IPiece       *m_king;
     IPiece       *m_attacker = nullptr;
-    bool         m_oncheck = false;
+    bool         m_oncheck   = false;
     
 
     public:

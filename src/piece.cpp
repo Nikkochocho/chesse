@@ -19,20 +19,45 @@
 
 
 /**
- * @brief Calculates Main and Secondary diagonal max positions.
+ * @brief Returns axis line max positions.
+ * @param Xpos X axis position.
+ * @param Ypos Y axis position.
+ * @param isAsc Position type. 
+ * true for crescent and false for decrescent. 
+ * @param check Validation type. 
+ */
+void Piece :: GetAxisLine( stPosition& Xpos, stPosition& Ypos, bool isAsc, bool check )  {
+
+    if ( check )  {
+
+        Xpos.col = ( isAsc ) ?  ( MAX_SIZE - 1 ) : MIN_SIZE;
+        Ypos.row = ( isAsc ) ?  ( MAX_SIZE - 1 ) : MIN_SIZE;
+    }
+    else  {
+
+        int col = ( isAsc ) ? ( m_position.col + 1 ) : ( m_position.col - 1 );
+        int row = ( isAsc ) ? ( m_position.row + 1 ) : ( m_position.row - 1 );
+
+        Xpos.col = ( ( col < MAX_SIZE ) && ( col >= MIN_SIZE ) ) ? col : m_position.col;
+        Ypos.row = ( ( row < MAX_SIZE ) && ( row >= MIN_SIZE ) ) ? row : m_position.row;
+    }
+}
+
+/**
+ * @brief Returns main and secondary diagonal max positions.
  * @param posAsc Diagonal crescent position.
  * @param posDesc Diagonal decrescent position.
- * @param diagonal Diagonal type. true for Main and false for Secondary.
- * @param check returns on first iteration if true.
+ * @param diagonal Diagonal type. true for main and false for secondary.
+ * @param check Returns on first iteration if true.
  */
-void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diagonal, bool check )  {
+void Piece :: GetDiagonals( stPosition& posAsc, stPosition& posDesc, bool main, bool check )  {
 
     bool asc, desc;
-    int direction   = diagonal ? 1 : -1; // default main diagonal; else secondary diagonal
-    int minAsc      = diagonal ? -1 : 0;
-    int minDesc     = diagonal ? 0 : -1;
-    int maxAsc      = diagonal ? 7 : 8;
-    int maxDesc     = diagonal ? 8 : 7;
+    int direction   = main ? 1 : -1; // default main diagonal; else secondary diagonal
+    int minAsc      = main ? -1 : 0;
+    int minDesc     = main ? 0 : -1;
+    int maxAsc      = main ? 7 : 8;
+    int maxDesc     = main ? 8 : 7;
 
     asc = desc = true;
 
@@ -60,54 +85,64 @@ void Piece :: CalcDiagonals( stPosition& posAsc, stPosition& posDesc, bool diago
 }
 
 /**
+ * @brief Checks if target is the opponent player's king.
+ * @param target IPiece object.
+ */
+bool Piece :: IsOpponentKing( IPiece *target )  {
+
+    return ( ( target != nullptr ) && 
+             ( target -> GetType() == KING && target -> GetColor() != m_color ) );
+}
+
+/**
  * @brief Returns if piece can reach next position or check opponent's king.
- * @param dst_col New X axis position.
- * @param dst_row New Y axis position.
+ * @param dst_pos New position.
  * @param check Validation type. If true inspects if piece can check opponent's king;
  * if false checks if piece can reach new position.
  */
-bool Piece :: CanReach( int dst_col, int dst_row, bool check )  { 
+bool Piece :: CanReach( stPosition dst_pos, bool check )  { 
 
-    int itr_col  = 0;
-    int itr_row  = 0;
-    int dist_col = dst_col - m_position.col;
-    int dist_row = dst_row - m_position.row;
+    stPosition   dist;
+    int          itr_col  = 0;
+    int          itr_row  = 0;
 
-    if ( ( dist_col == 0 ) && ( dist_row == 0 ) )  {
+    dist.col = dst_pos.col - m_position.col;
+    dist.row = dst_pos.row - m_position.row;
+
+    if ( ( dist.col == 0 ) && ( dist.row == 0 ) )  {
 
         return false;
     }
 
-    if ( dist_col != 0 )  {
+    if ( dist.col != 0 )  {
 
-        itr_col = ( dist_col > 0 ) ? 1 : -1;
+        itr_col = ( dist.col > 0 ) ? 1 : -1;
     }
     
-    if ( dist_row != 0 )  { 
+    if ( dist.row != 0 )  { 
 
-        itr_row = ( dist_row > 0 ) ? 1 : -1;
+        itr_row = ( dist.row > 0 ) ? 1 : -1;
     }
 
-    return IterationCheck( dist_col, dist_row, itr_col, itr_row, check );
+    return IterationCheck( dist, itr_col, itr_row, check );
 }
 
 /**
  * @brief Inspects on each iteration if piece's move is trespassing or
  * if it can check opponent's king.
- * @param dist_col distance between current and next position on X axis.
- * @param dist_row distance between current and next position on Y axis.
+ * @param dist distance between current and next position.
  * @param itr_col column iterator; Value of 1 or -1.
  * @param itr_row row iterator; Value of 1 or -1.
  * @param check Validation type. If true inspects if piece can check opponent's king;
  * if false checks if piece can reach new position.
  */
-bool Piece :: IterationCheck( int dist_col, int dist_row, int itr_col, int itr_row, bool check )  {
+bool Piece :: IterationCheck( stPosition dist, int itr_col, int itr_row, bool check )  {
 
     int        col_iterations = 0;
     int        row_iterations = 0;
     bool       ret            = ( check ) ? false : true; // default return
 
-    while ( ( row_iterations !=  dist_row ) || ( col_iterations !=  dist_col ) )  {
+    while ( ( col_iterations != dist.col ) || ( row_iterations != dist.row ) )  {
 
         row_iterations += itr_row;
         col_iterations += itr_col;
@@ -120,7 +155,7 @@ bool Piece :: IterationCheck( int dist_col, int dist_row, int itr_col, int itr_r
             return true;
         }
         
-        if ( !check && ( row_iterations ==  dist_row ) && ( col_iterations ==  dist_col ) )  {
+        if ( ( !check ) && ( col_iterations ==  dist.col ) && ( row_iterations ==  dist.row ) )  {
 
             this -> m_availablePos.col = m_position.col + col_iterations;
             this -> m_availablePos.row = m_position.row + row_iterations;
@@ -137,22 +172,12 @@ bool Piece :: IterationCheck( int dist_col, int dist_row, int itr_col, int itr_r
 }
 
 /**
- * @brief Checks if target is the opponent player's king.
- * @param target IPiece object.
- */
-bool Piece :: IsOpponentKing( IPiece *target )  {
-
-    return ( ( target != nullptr ) && 
-             ( target -> GetType() == KING && target -> GetColor() != m_color ) );
-}
-
-/**
  * @brief Returns piece's current movement count.
  * @return Movement count.
  */
 int Piece :: GetMovementCount( void )  {
 
-    return this -> m_MovementCount;
+    return this -> m_movementCount;
 }
 
 /**
@@ -160,7 +185,7 @@ int Piece :: GetMovementCount( void )  {
  */
 void Piece :: AddMovementCount( void ) {
 
-    this -> m_MovementCount++;
+    this -> m_movementCount++;
 }
 
 /**
