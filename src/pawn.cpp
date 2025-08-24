@@ -128,8 +128,6 @@ bool Pawn :: MovementCheck( bool king_check )  {
 
                 if ( !king_check )  {
 
-                    this -> m_availablePos.col = col_pos;
-                    this -> m_availablePos.row = row_pos;
                     ret = true;
                 }
                 else if ( target -> GetType() == KING )  {
@@ -141,6 +139,8 @@ bool Pawn :: MovementCheck( bool king_check )  {
 
             if ( ret )  {
 
+                this -> m_availablePos.col = col_pos;
+                this -> m_availablePos.row = row_pos;
                 break;
             }
         }

@@ -64,8 +64,8 @@ bool Knight :: MovementCheck( bool king_check )  {
 
     IPiece        *target;
     int           col, row;
-    const int     col_number[8] = { 2, 1, -1, -2, -2, -1, 1, 2 };
-    const int     row_number[8] = { 1, 2, 2, 1, -1, -2, -2, -1 };
+    const int     col_number[MAX_SIZE] = { 2, 1, -1, -2, -2, -1, 1, 2 };
+    const int     row_number[MAX_SIZE] = { 1, 2, 2, 1, -1, -2, -2, -1 };
     bool          ret           = false;
 
     for ( int i = MIN_SIZE; i < MAX_SIZE; i++ ) {

@@ -53,7 +53,7 @@ void Piece :: GetAxisLine( stPosition& Xpos, stPosition& Ypos, bool isAsc, bool 
 void Piece :: GetDiagonals( stPosition& posAsc, stPosition& posDesc, bool main, bool check )  {
 
     bool asc, desc;
-    int direction   = main ? 1 : -1; // default main diagonal; else secondary diagonal
+    int direction   = main ? 1 : -1; // Default main diagonal; else secondary diagonal
     int minAsc      = main ? -1 : 0;
     int minDesc     = main ? 0 : -1;
     int maxAsc      = main ? 7 : 8;
