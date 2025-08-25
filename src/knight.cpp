@@ -83,8 +83,6 @@ bool Knight :: MovementCheck( bool king_check )  {
 
             if ( !king_check )  {
 
-                this -> m_availablePos.col = col;
-                this -> m_availablePos.row = row;
                 ret = CanSet( target );
             }
             else if ( IsOpponentKing( target ) )  {
@@ -95,6 +93,8 @@ bool Knight :: MovementCheck( bool king_check )  {
 
             if ( ret )  {
 
+                this -> m_availablePos.col = col;
+                this -> m_availablePos.row = row;
                 break;
             }
         }

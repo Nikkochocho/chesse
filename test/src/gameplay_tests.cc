@@ -491,26 +491,65 @@ TEST( chesse_tests, KING_MOVE_INTO_CHECK ) {
     EXPECT_EQ ( ret, false );
 }
 
-TEST( chesse_tests, CHECKMATE_TRUE ) {
+TEST( chesse_tests, PAWN_CHECKMATE ) {
     
     Board       board;
     GamePlay    game( &board );
 
     game.NewGame();
-    Checkmate( game );
+    PawnCheckmate( game );
 
     bool        ret   = ( game.IsCheckmate() );
 
     EXPECT_EQ ( ret, true );
 }
 
-TEST( chesse_tests, KNIGHT_CHECKMATE_TRUE ) {
+TEST( chesse_tests, ROOK_CHECKMATE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    RookCheckmate( game );
+
+    bool        ret   = ( game.IsCheckmate() );
+
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, KNIGHT_CHECKMATE ) {
     
     Board       board;
     GamePlay    game( &board );
 
     game.NewGame();
     KnightCheckmate( game );
+
+    bool        ret   = ( game.IsCheckmate() );
+
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, BISHOP_CHECKMATE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    BishopCheckmate( game );
+
+    bool        ret   = ( game.IsCheckmate() );
+
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, QUEEN_CHECKMATE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    QueenCheckmate( game );
 
     bool        ret   = ( game.IsCheckmate() );
 

@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
 #include "piece.h"
 
 
@@ -54,10 +55,10 @@ void Piece :: GetDiagonals( stPosition& posAsc, stPosition& posDesc, bool main, 
 
     bool asc, desc;
     int direction   = main ? 1 : -1; // Default main diagonal; else secondary diagonal
-    int minAsc      = main ? -1 : 0;
-    int minDesc     = main ? 0 : -1;
-    int maxAsc      = main ? 7 : 8;
-    int maxDesc     = main ? 8 : 7;
+    int minAsc      = main ? ( MIN_SIZE - 1 ) : MIN_SIZE;
+    int minDesc     = main ? MIN_SIZE : ( MIN_SIZE - 1 );
+    int maxAsc      = main ? ( MAX_SIZE - 1 ) : MAX_SIZE;
+    int maxDesc     = main ? MAX_SIZE : ( MAX_SIZE - 1 );
 
     asc = desc = true;
 
@@ -103,8 +104,6 @@ bool Piece :: IsOpponentKing( IPiece *target )  {
 bool Piece :: CanReach( stPosition dst_pos, bool check )  { 
 
     stPosition   dist;
-    int          itr_col  = 0;
-    int          itr_row  = 0;
 
     dist.col = dst_pos.col - m_position.col;
     dist.row = dst_pos.row - m_position.row;
@@ -114,15 +113,8 @@ bool Piece :: CanReach( stPosition dst_pos, bool check )  {
         return false;
     }
 
-    if ( dist.col != 0 )  {
-
-        itr_col = ( dist.col > 0 ) ? 1 : -1;
-    }
-    
-    if ( dist.row != 0 )  { 
-
-        itr_row = ( dist.row > 0 ) ? 1 : -1;
-    }
+    int itr_col  = ( dist.col != 0 ) ? ( dist.col / abs( dist.col ) ) : 0;
+    int itr_row  = ( dist.row != 0 ) ? ( dist.row / abs( dist.row ) ) : 0;
 
     return IterationCheck( dist, itr_col, itr_row, check );
 }

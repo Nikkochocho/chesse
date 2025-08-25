@@ -119,12 +119,99 @@ void QueenCheck( GamePlay& game )  {
     game.Move( 'd', '8', 'h', '4' );
 }
 
-void Checkmate( GamePlay& game )  {
+void PawnCheckmate( GamePlay& game )  {
 
+    game.Move( 'd', '2', 'd', '4' );
+    game.Move( 'f', '7', 'f', '5' );
+    game.Move( 'c', '2', 'c', '4' );
+    game.Move( 'g', '8', 'f', '6' );
+    game.Move( 'b', '1', 'c', '3' );
+    game.Move( 'e', '7', 'e', '6' );
+    game.Move( 'g', '1', 'f', '3' );
+    game.Move( 'd', '7', 'd', '5' );
+    game.Move( 'e', '2', 'e', '3' );
+    game.Move( 'c', '7', 'c', '6' );
+    game.Move( 'f', '1', 'd', '3' );
+    game.Move( 'f', '8', 'd', '6' );
+    game.Move( 'e', '1', 'g', '1' );
+    game.Move( 'e', '8', 'g', '8' );
+    game.Move( 'c', '3', 'e', '2' );
+    game.Move( 'b', '8', 'd', '7' );
+    game.Move( 'f', '3', 'g', '5' );
+    game.Move( 'd', '6', 'h', '2' );
+    game.Move( 'g', '1', 'h', '1' );
+    game.Move( 'f', '6', 'g', '4' );
     game.Move( 'f', '2', 'f', '4' );
-    game.Move( 'e', '7', 'e', '5' );
-    game.Move( 'g', '2', 'g', '4' );
-    game.Move( 'd', '8', 'h', '4' );
+    game.Move( 'd', '8', 'e', '8' );
+    game.Move( 'g', '2', 'g', '3' );
+    game.Move( 'e', '8', 'h', '5' );
+    game.Move( 'h', '1', 'g', '2' );
+    game.Move( 'h', '2', 'g', '1' );
+    game.Move( 'e', '2', 'g', '1' );
+    game.Move( 'h', '5', 'h', '2' );
+    game.Move( 'g', '2', 'f', '3' );
+    game.Move( 'e', '6', 'e', '5' );
+    game.Move( 'd', '4', 'e', '5' );
+    game.Move( 'd', '7', 'e', '5' );
+    game.Move( 'f', '4', 'e', '5' );
+    game.Move( 'g', '4', 'e', '5' );
+    game.Move( 'f', '3', 'f', '4' );
+    game.Move( 'e', '5', 'g', '6' );
+    game.Move( 'f', '4', 'f', '3' );
+    game.Move( 'f', '5', 'f', '4' );
+    game.Move( 'e', '3', 'f', '4' );
+    game.Move( 'c', '8', 'g', '4' );
+    game.Move( 'f', '3', 'g', '4' );
+    game.Move( 'g', '6', 'e', '5' );
+    game.Move( 'f', '4', 'e', '5' );
+    game.Move( 'h', '7', 'h', '5' );
+}
+
+void RookCheckmate( GamePlay& game )  {
+
+    game.Move( 'b', '2', 'b', '4' );
+    game.Move( 'd', '7', 'd', '5' );
+    game.Move( 'c', '1', 'b', '2' );
+    game.Move( 'f', '7', 'f', '5' );
+    game.Move( 'e', '2', 'e', '3' );
+    game.Move( 'g', '8', 'f', '6' );
+    game.Move( 'f', '2', 'f', '4' );
+    game.Move( 'e', '7', 'e', '6' );
+    game.Move( 'g', '1', 'f', '3' );
+    game.Move( 'f', '8', 'b', '4' );
+    game.Move( 'b', '1', 'c', '3' );
+    game.Move( 'e', '8', 'g', '8' );
+    game.Move( 'f', '3', 'g', '5' );
+    game.Move( 'h', '7', 'h', '6' );
+    game.Move( 'h', '2', 'h', '4' );
+    game.Move( 'f', '6', 'g', '4' );
+    game.Move( 'f', '1', 'd', '3' );
+    game.Move( 'h', '6', 'g', '5' );
+    game.Move( 'h', '4', 'g', '5' );
+    game.Move( 'c', '7', 'c', '5' );
+    game.Move( 'c', '3', 'b', '5' );
+    game.Move( 'a', '7', 'a', '6' );
+    game.Move( 'h', '1', 'h', '7' );
+    game.Move( 'f', '8', 'f', '7' );
+    game.Move( 'g', '5', 'g', '6' );
+    game.Move( 'f', '7', 'f', '6' );
+    game.Move( 'e', '1', 'e', '2' );
+    game.Move( 'f', '6', 'g', '6' );
+    game.Move( 'd', '1', 'h', '1' );
+    game.Move( 'g', '4', 'h', '6' );
+    game.Move( 'h', '7', 'g', '7' );
+    game.Move( 'g', '6', 'g', '7' );
+    game.Move( 'h', '1', 'h', '6' );
+    game.Move( 'd', '8', 'e', '7' );
+    game.Move( 'b', '5', 'd', '6' );
+    game.Move( 'c', '8', 'd', '7' );
+    game.Move( 'a', '1', 'h', '1' );
+    game.Move( 'g', '8', 'f', '8' );
+    game.Move( 'h', '6', 'h', '8' );
+    game.Move( 'g', '7', 'g', '8' );
+    game.Move( 'h', '8', 'g', '8' );
+    game.Move( 'f', '8', 'g', '8' );
+    game.Move( 'h', '1', 'h', '8' );
 }
 
 void KnightCheckmate( GamePlay& game )  {
@@ -142,6 +229,39 @@ void KnightCheckmate( GamePlay& game )  {
     game.Move( 'c', '4', 'f', '7' );
     game.Move( 'e', '8', 'e', '7' );
     game.Move( 'c', '3', 'd', '5' );
+}
+
+void BishopCheckmate( GamePlay& game )  {
+    
+    game.Move( 'e', '2', 'e', '4' );
+    game.Move( 'e', '7', 'e', '6' );
+    game.Move( 'd', '2', 'd', '4' );
+    game.Move( 'd', '7', 'd', '5' );
+    game.Move( 'b', '1', 'c', '3' );
+    game.Move( 'f', '8', 'b', '4' );
+    game.Move( 'f', '1', 'd', '3' );
+    game.Move( 'b', '4', 'c', '3' );
+    game.Move( 'b', '2', 'c', '3' );
+    game.Move( 'h', '7', 'h', '6' );
+    game.Move( 'c', '1', 'a', '3' );
+    game.Move( 'b', '8', 'd', '7' );
+    game.Move( 'd', '1', 'e', '2' );
+    game.Move( 'd', '5', 'e', '4' );
+    game.Move( 'd', '3', 'e', '4' );
+    game.Move( 'g', '8', 'f', '6' );
+    game.Move( 'e', '4', 'd', '3' );
+    game.Move( 'b', '7', 'b', '6' );
+    game.Move( 'e', '2', 'e', '6' );
+    game.Move( 'f', '7', 'e', '6' );
+    game.Move( 'd', '3', 'g', '6' );
+}
+
+void QueenCheckmate( GamePlay& game )  {
+
+    game.Move( 'f', '2', 'f', '4' );
+    game.Move( 'e', '7', 'e', '5' );
+    game.Move( 'g', '2', 'g', '4' );
+    game.Move( 'd', '8', 'h', '4' );
 }
 
 void Stalemate( GamePlay& game )  {
