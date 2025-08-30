@@ -286,3 +286,71 @@ void Stalemate( GamePlay& game )  {
     game.Move( 'f', '7', 'g', '6' );
     game.Move( 'c', '8', 'e', '6' );
 }
+
+void StalemateNoCapture( GamePlay& game )  {
+    
+    game.Move( 'a', '2', 'a', '4' );
+    game.Move( 'c', '7', 'c', '5' );
+    game.Move( 'd', '2', 'd', '4' );
+    game.Move( 'd', '7', 'd', '6' );
+    game.Move( 'd', '1', 'd', '2' );
+    game.Move( 'e', '7', 'e', '5' );
+    game.Move( 'd', '2', 'f', '4' );
+    game.Move( 'e', '5', 'e', '4' );
+    game.Move( 'h', '2', 'h', '3' );
+    game.Move( 'f', '8', 'e', '7' );
+    game.Move( 'f', '4', 'h', '2' );
+    game.Move( 'e', '7', 'h', '4' );
+    game.Move( 'a', '1', 'a', '3' );
+    game.Move( 'c', '8', 'e', '6' );
+    game.Move( 'a', '3', 'g', '3' );
+    game.Move( 'e', '6', 'b', '3' );
+    game.Move( 'b', '1', 'd', '2' );
+    game.Move( 'd', '8', 'a', '5' );
+    game.Move( 'd', '4', 'd', '5' );
+    game.Move( 'e', '4', 'e', '3' );
+    game.Move( 'c', '2', 'c', '4' );
+    game.Move( 'f', '7', 'f', '5' );
+    game.Move( 'f', '2', 'f', '3' );
+    game.Move( 'f', '5', 'f', '4' );
+}
+
+void DoubleStalemate( GamePlay& game )  {
+
+    game.Move( 'c', '2', 'c', '4' );
+    game.Move( 'd', '7', 'd', '5' );
+    game.Move( 'd', '1', 'b', '3' );
+    game.Move( 'c', '8', 'h', '3' );
+    game.Move( 'g', '2', 'h', '3' );
+    game.Move( 'f', '7', 'f', '5' );
+    game.Move( 'b', '3', 'b', '7' );
+    game.Move( 'e', '8', 'f', '7' );
+    game.Move( 'b', '7', 'a', '7' );
+    game.Move( 'f', '7', 'g', '6' );
+    game.Move( 'f', '2', 'f', '3' );
+    game.Move( 'c', '7', 'c', '5' );
+    game.Move( 'a', '7', 'e', '7' );
+    game.Move( 'a', '8', 'a', '2' );
+    game.Move( 'e', '1', 'f', '2' );
+    game.Move( 'a', '2', 'b', '2' );
+    game.Move( 'e', '7', 'g', '7' );
+    game.Move( 'g', '6', 'h', '5' );
+    game.Move( 'g', '7', 'g', '8' );
+    game.Move( 'b', '2', 'b', '1' );
+    game.Move( 'a', '1', 'b', '1' );
+    game.Move( 'h', '5', 'h', '4' );
+    game.Move( 'g', '8', 'h', '8' );
+    game.Move( 'h', '7', 'h', '5' );
+    game.Move( 'h', '8', 'h', '6' );
+    game.Move( 'f', '8', 'h', '6' );
+    game.Move( 'b', '1', 'b', '8' );
+    game.Move( 'h', '6', 'e', '3' );
+    game.Move( 'd', '2', 'e', '3' );
+    game.Move( 'd', '8', 'b', '8' );
+    game.Move( 'f', '2', 'g', '2' );
+    game.Move( 'b', '8', 'f', '4' );
+    game.Move( 'e', '3', 'f', '4' );
+    game.Move( 'd', '5', 'd', '4' );
+    game.Move( 'c', '1', 'e', '3' );
+    game.Move( 'd', '4', 'e', '3' );
+}

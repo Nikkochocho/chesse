@@ -15,6 +15,7 @@
  * along with this program.  If not, see <http://www.gnu.org/licenses/>.
  */
 
+#include <iostream>
 #include "player.h"
 
 
@@ -180,8 +181,6 @@ bool Player :: CanCatch( void )  {
 bool Player :: CanBlock( void )  {
 
     stPosition attacker_pos = m_attacker -> Position();
-    int        itr_col      = 0;
-    int        itr_row      = 0;
     int        dist_col     = ( m_king -> Position().col ) - ( m_attacker -> Position().col );
     int        dist_row     = ( m_king -> Position().row ) - ( m_attacker -> Position().row );
 
@@ -190,15 +189,8 @@ bool Player :: CanBlock( void )  {
         return false;
     }
 
-    if ( dist_col != 0 )  {
-
-        itr_col = ( dist_col > 0 ) ? 1 : -1;
-    }
-    
-    if ( dist_row != 0 )  { 
-
-        itr_row = ( dist_row > 0 ) ? 1 : -1;
-    }
+    int itr_col  = ( dist_col != 0 ) ? ( dist_col / abs( dist_col ) ) : 0;
+    int itr_row  = ( dist_row != 0 ) ? ( dist_row / abs( dist_row ) ) : 0;
 
     while ( ( attacker_pos.col !=  m_king -> Position().col ) || ( attacker_pos.row !=  m_king -> Position().row ) )  {
 
@@ -209,7 +201,12 @@ bool Player :: CanBlock( void )  {
 
             IPiece    *pPiece = *it; 
 
-            if ( ( pPiece != m_king ) && pPiece -> CanMove( attacker_pos ) )  {
+            if ( pPiece == m_king )  {
+
+                continue;
+            }
+
+            if ( pPiece -> CanMove( attacker_pos ) )  {
                 
                 return true;
             }

@@ -130,10 +130,10 @@ bool Pawn :: MovementCheck( bool king_check )  {
 
                     ret = true;
                 }
-                else if ( target -> GetType() == KING )  {
+                else if ( IsOpponentKing( target ) )  {
 
                     target -> SetStatus( CHECK );
-                    ret = true;
+                    return true;
                 }
             }
 

@@ -1,17 +1,12 @@
 This is a TODO list with improvements and new features;
 
-- InsertChanges() gigantic param count...
-- VirtualMovement() params too, might check them later
+- Available_pos might need to be a list os available positions, not a single struct
 
 - overall code optimization
 
 - repetition draw implementation
 
 - change board col and row o stPosition...?
-
-- Revert IsOpponentKing() back to private...?
-
-- Available_pos might need to be a list os available positions, not a single struct
 
 * add more unit tests on checkmate and stalemate
 

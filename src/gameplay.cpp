@@ -174,11 +174,12 @@ void GamePlay :: InsertChanges( stPosition pos, IPiece *piece, IPiece *target, P
  * and movement validation.
  * @param piece IPiece object being moved.
  * @param dst_pos New position.
- * @param opponent Opponent player.
  * @param verif Validation Type. 
  */
-bool GamePlay :: VirtualMovement( IPiece *piece, stPosition dst_pos, PlayerNumber opponent, bool verif )  {
+bool GamePlay :: VirtualMovement( IPiece *piece, stPosition dst_pos, bool verif )  {
 
+    PlayerNumber opponent = ( m_turn == PLAYER_1 ) ? PLAYER_2 : PLAYER_1;
+    PlayerNumber op_check = ( verif ) ? m_turn : opponent;
     stPosition   src_pos  = piece -> Position();
     IPiece       *target  = m_board -> GetPiece( dst_pos.col, dst_pos.row );
 
@@ -187,11 +188,11 @@ bool GamePlay :: VirtualMovement( IPiece *piece, stPosition dst_pos, PlayerNumbe
         return false;
     }
 
-    InsertChanges( dst_pos, piece, target, opponent, false );
+    InsertChanges( dst_pos, piece, target, op_check, false );
 
-    if ( m_players[opponent] -> CanCheck() )  { // if check is not blocked
+    if ( m_players[op_check] -> CanCheck() )  { // if check is not blocked
 
-        InsertChanges( src_pos, piece, target, opponent, true );
+        InsertChanges( src_pos, piece, target, op_check, true );
 
         return false;
     }
@@ -203,7 +204,7 @@ bool GamePlay :: VirtualMovement( IPiece *piece, stPosition dst_pos, PlayerNumbe
         m_players[m_turn] -> SetCheckStatus( false );
     }
 
-    InsertChanges( src_pos, piece, target, opponent, true );
+    InsertChanges( src_pos, piece, target, op_check, true );
 
     return true;
 }
@@ -233,7 +234,7 @@ bool GamePlay :: KingEscape( void )  {
                 continue;
             }
 
-            if ( ( king -> CanMove( dst_pos ) ) && ( VirtualMovement( king, dst_pos, m_turn, true ) ) )  {
+            if ( ( king -> CanMove( dst_pos ) ) && ( VirtualMovement( king, dst_pos, true ) ) )  {
                 
                 return true;
             }
@@ -256,7 +257,7 @@ bool GamePlay :: HasAvailableMove( const std :: list<IPiece*>& available_pieces 
 
         IPiece *pPiece = *it; 
 
-        if ( !VirtualMovement( pPiece, ( pPiece -> AvailablePosition() ), m_turn, true ) )  {
+        if ( !VirtualMovement( pPiece, ( pPiece -> AvailablePosition() ), true ) )  {
 
             count++;
         }
@@ -351,7 +352,7 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
 
         if ( ( piece != nullptr ) && ( m_players[m_turn] -> CheckPieces( piece ) ) && ( piece -> CanMove( dst_pos ) ) )  {
             
-            if ( VirtualMovement( piece, dst_pos, opponent, false ) )  {
+            if ( VirtualMovement( piece, dst_pos, false ) )  {
 
                 if ( captured_piece != nullptr )  {
                     

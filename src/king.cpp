@@ -77,6 +77,32 @@ bool King :: CanMove( stPosition dst_pos )  {
  */
 bool King :: MovementCheck( bool king_check )  {
 
+    int  col, row;
+
+    if ( king_check )  {
+
+        for ( int i = -1; i < 2; i++ )  {
+
+            for ( int j = -1; j < 2; j++ )  {
+
+                col = m_position.col + j;
+                row = m_position.row + i;
+
+                IPiece *target = m_BoardVision -> GetPiece( col, row );
+
+                if ( ( col < MIN_SIZE || col >= MAX_SIZE ) || ( row < MIN_SIZE || row >= MAX_SIZE ) )  {
+
+                    continue;
+                }
+
+                else if ( IsOpponentKing( target ) )  {
+
+                    return true;
+                }
+            }
+        }
+    }
+
     return false;
 }
 

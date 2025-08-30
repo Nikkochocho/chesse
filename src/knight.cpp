@@ -88,7 +88,7 @@ bool Knight :: MovementCheck( bool king_check )  {
             else if ( IsOpponentKing( target ) )  {
 
                 target -> SetStatus( CHECK );
-                ret = true;
+                return true;
             }
 
             if ( ret )  {

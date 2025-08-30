@@ -592,3 +592,29 @@ TEST( chesse_tests, STALEMATE_FALSE ) {
 
     EXPECT_EQ ( ret, false );
 }
+
+TEST( chesse_tests, STALEMATE_NO_CAPTURE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    StalemateNoCapture( game );
+
+    bool        ret   = ( game.IsStalemate() );
+
+    EXPECT_EQ ( ret, true );
+}
+
+TEST( chesse_tests, DOUBLE_STALEMATE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    DoubleStalemate( game );
+
+    bool        ret   = ( game.IsStalemate() );
+
+    EXPECT_EQ ( ret, true );
+}
