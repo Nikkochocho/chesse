@@ -190,7 +190,7 @@ bool GamePlay :: VirtualMovement( IPiece *piece, stPosition dst_pos, bool verif 
 
     InsertChanges( dst_pos, piece, target, op_check, false );
 
-    if ( m_players[op_check] -> CanCheck() )  { // if check is not blocked
+    if ( m_players[op_check] -> CanCheck() != nullptr )  { // if check is not blocked
 
         InsertChanges( src_pos, piece, target, op_check, true );
 
@@ -365,10 +365,12 @@ bool GamePlay :: Move( char src_col, char src_row, char dst_col, char dst_row ) 
                 piece -> AddMovementCount();
                 SpecialCases( piece );
 
-                if ( m_players[m_turn] -> CanCheck() )  {
+                IPiece *attacker = m_players[m_turn] -> CanCheck();
+
+                if ( attacker != nullptr )  {
 
                     m_players[opponent] -> SetCheckStatus( true );
-                    m_players[opponent] -> SetAttacker( piece ); 
+                    m_players[opponent] -> SetAttacker( attacker ); 
 
                     if ( ( !KingEscape() ) && ( !( m_players[opponent] -> CanCatch() ) && !( m_players[opponent] -> CanBlock() ) ) )  {
 

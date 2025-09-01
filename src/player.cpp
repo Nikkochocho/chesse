@@ -135,9 +135,10 @@ std :: list<IPiece*> Player :: MovePieces( void )  {
 }
 
 /**
- * @brief Returns whether or not player can check opponent's king.
+ * @brief Verifies whether or not player can check opponent's king.
+ * @return IPiece object.
  */
-bool Player :: CanCheck( void ) {
+IPiece* Player :: CanCheck( void ) {
 
     for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
@@ -145,11 +146,11 @@ bool Player :: CanCheck( void ) {
 
         if ( pPiece -> MovementCheck( true ) )  {  
             
-            return true;
+            return pPiece;
         }
     }
 
-    return false;
+    return nullptr;
 }
 
 /**
