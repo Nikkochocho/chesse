@@ -35,6 +35,7 @@ void RookCheckmate( GamePlay& game );
 void KnightCheckmate( GamePlay& game );
 void BishopCheckmate( GamePlay& game );
 void QueenCheckmate( GamePlay& game );
+void DoubleCheckmate( GamePlay& game );
 void Stalemate( GamePlay& game );
 void StalemateNoCapture( GamePlay& game );
 void DoubleStalemate( GamePlay& game );

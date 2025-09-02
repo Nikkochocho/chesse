@@ -55,7 +55,7 @@ int main( int argc, char **argv ) {
 
                 do  {
 
-                    std :: cout << "Promote pawn to ( Q, B, N, R ):" << std :: endl;
+                    std :: cout << "Promote pawn to ( q, b, n, r ):" << std :: endl;
                     std :: cin >> promotion;
                     piece_type = Conversion( promotion );
 

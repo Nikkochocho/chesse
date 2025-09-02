@@ -132,7 +132,6 @@ bool Pawn :: MovementCheck( bool king_check )  {
                 }
                 else if ( IsOpponentKing( target ) )  {
 
-                    target -> SetStatus( CHECK );
                     return true;
                 }
             }

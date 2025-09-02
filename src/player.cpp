@@ -140,23 +140,31 @@ std :: list<IPiece*> Player :: MovePieces( void )  {
  */
 IPiece* Player :: CanCheck( void ) {
 
+    IPiece *attacker = nullptr;
+
     for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
         IPiece *pPiece = *it; 
 
         if ( pPiece -> MovementCheck( true ) )  {  
             
-            return pPiece;
+            attacker = pPiece;
+            
         }
     }
 
-    return nullptr;
+    return attacker;
 }
 
 /**
  * @brief Checks if player can catch current attacker.
  */
 bool Player :: CanCatch( void )  {
+
+    if ( m_king -> GetStatus() == DOUBLECHECK )  {
+
+        return false;
+    }
 
     for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
@@ -185,7 +193,7 @@ bool Player :: CanBlock( void )  {
     int        dist_col     = ( m_king -> Position().col ) - ( m_attacker -> Position().col );
     int        dist_row     = ( m_king -> Position().row ) - ( m_attacker -> Position().row );
 
-    if ( m_attacker -> GetType() == KNIGHT )  {
+    if ( ( m_attacker -> GetType() == KNIGHT ) || ( m_king -> GetStatus() == DOUBLECHECK ) )  {
 
         return false;
     }

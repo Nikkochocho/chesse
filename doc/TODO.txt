@@ -1,5 +1,7 @@
 This is a TODO list with improvements and new features;
 
+* FIX DOUBLE CHECKMATE BUG
+
 - Available_pos might need to be a list os available positions, not a single struct
 
 - overall code optimization

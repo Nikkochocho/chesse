@@ -40,19 +40,19 @@ Pieces Conversion( char promotion )  {
 
     switch ( promotion )  {
 
-        case 'Q': 
+        case 'q': 
             piece_type = QUEEN; 
             break; 
 
-        case 'B': 
+        case 'b': 
             piece_type = BISHOP; 
             break;
 
-        case 'N': 
+        case 'n': 
             piece_type = KNIGHT; 
             break;
 
-        case 'R':
+        case 'r':
             piece_type = ROOK; 
             break;
 

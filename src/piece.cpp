@@ -91,8 +91,21 @@ void Piece :: GetDiagonals( stPosition& posAsc, stPosition& posDesc, bool main, 
  */
 bool Piece :: IsOpponentKing( IPiece *target )  {
 
-    return ( ( target != nullptr ) && 
-             ( target -> GetType() == KING && target -> GetColor() != m_color ) );
+    if ( ( target != nullptr ) && ( target -> GetType() == KING && target -> GetColor() != m_color ) )  {
+
+        if ( target -> GetStatus() == CHECK )  {
+
+            target -> SetStatus( DOUBLECHECK );
+        }
+        else {
+
+            target -> SetStatus( CHECK );
+        }
+        
+        return true;
+    }
+
+    return false;
 }
 
 /**
@@ -143,7 +156,6 @@ bool Piece :: IterationCheck( stPosition dist, int itr_col, int itr_row, bool ch
         
         if ( check && IsOpponentKing( target ) )  {
 
-            target -> SetStatus( CHECK );
             return true;
         }
         

@@ -64,7 +64,8 @@ enum Status  {
     SHORTCASTLE,
     ENPASSANT,
     PROMOTION,
-    CHECK
+    CHECK,
+    DOUBLECHECK
 };
 
 /**

@@ -556,6 +556,19 @@ TEST( chesse_tests, QUEEN_CHECKMATE ) {
     EXPECT_EQ ( ret, true );
 }
 
+TEST( chesse_tests, DOUBLE_CHECKMATE ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    DoubleCheckmate( game );
+
+    bool        ret   = ( game.IsCheckmate() );
+
+    EXPECT_EQ ( ret, true );
+}
+
 TEST( chesse_tests, CHECKMATE_FALSE ) {
     
     Board       board;
