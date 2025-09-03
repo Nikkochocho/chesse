@@ -42,37 +42,17 @@ Queen :: ~Queen( void )  {
  */
 bool Queen :: CanMove( stPosition dst_pos )  {
 
-    if ( ( abs( dst_pos.col - m_position.col ) == abs( dst_pos.row - m_position.row ) ) || 
-         ( dst_pos.col == m_position.col || dst_pos.row == m_position.row ) )  {
-
-        return CanReach( dst_pos );
-    }
-
-    return false;
+    return ( ( ( abs( dst_pos.col - m_position.col ) == abs( dst_pos.row - m_position.row ) ) || 
+               ( dst_pos.col == m_position.col || dst_pos.row == m_position.row ) ) && 
+               CanReach( dst_pos ) );
 }
 
 /**
- * @brief By default, checks if piece has any possible movement available. 
- * If king_check is true, inspects if piece can check the opponents' king.
- * @param king_check Verification type. Optional parameter, false by default. 
+ * @brief Checks if piece has any possible movement available. 
  */
-bool Queen :: MovementCheck( bool king_check )  {
+bool Queen :: MovementCheck( void )  {
 
-    stPosition XposAsc, XposDesc, YposAsc, YposDesc;
-    stPosition MainposAsc, MainposDesc, SecposAsc, SecposDesc;
-
-    XposAsc    = XposDesc    = YposAsc   = YposDesc   = m_position;
-    MainposAsc = MainposDesc = SecposAsc = SecposDesc = m_position;
-    
-    GetAxisLine( XposAsc, YposAsc, true, king_check );
-    GetAxisLine( XposDesc, YposDesc, false, king_check );  
-    GetDiagonals( MainposAsc, MainposDesc, true, king_check ); // Main diagonal
-    GetDiagonals( SecposAsc, SecposDesc, false, king_check );  // Secondary diagonal
-
-    return ( ( CanReach( XposAsc, king_check ) || CanReach( XposDesc, king_check ) ) ||
-             ( CanReach( YposAsc, king_check ) || CanReach( YposDesc, king_check ) ) ||
-             ( CanReach( MainposAsc, king_check ) || CanReach( MainposDesc, king_check ) ) ||
-             ( CanReach( SecposAsc, king_check ) || CanReach( SecposDesc, king_check ) ) );
+    return ( AxisSet() || DiagonalSet() );
 }
 
 // LCOV_EXCL_START

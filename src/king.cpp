@@ -44,10 +44,10 @@ bool King :: CanMove( stPosition dst_pos )  {
 
     IPiece    *target      = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row );
     bool      castling     = ( ( abs( dst_pos.col - m_position.col ) == 2 ) && ( dst_pos.row == m_position.row ) );
-    bool      is_default   = ( ( m_movementCount == 0 ) && ( this -> GetStatus() == NORMAL ) );
+    bool      default_pos  = ( ( m_movementCount == 0 ) && ( this -> GetStatus() == NORMAL ) );
     bool      default_move = ( ( abs( dst_pos.col - m_position.col ) <= 1 ) && ( abs( dst_pos.row - m_position.row ) <= 1 ) );
 
-    if ( ( castling ) && ( is_default ) && ( CanReach( dst_pos ) ) )  {
+    if ( castling && default_pos && CanReach( dst_pos ) )  {
 
         int      col_pos       = ( dst_pos.col - m_position.col == 2 ) ? 1 : -2;
         Status   castle_type   = ( col_pos == 1 ) ? SHORTCASTLE : LONGCASTLE;
@@ -67,41 +67,13 @@ bool King :: CanMove( stPosition dst_pos )  {
         }
     }
 
-    return ( ( default_move ) && ( CanSet( target ) ) );
+    return ( default_move && CanSet( target ) );
 }
 
 /**
- * @brief By default, checks if piece has any possible movement available. 
- * If king_check is true, inspects if piece can check the opponents' king.
- * @param king_check Verification type. Optional parameter, false by default. 
+ * @brief Checks if piece has any possible movement available. 
  */
-bool King :: MovementCheck( bool king_check )  {
-
-    int  col, row;
-
-    if ( king_check )  {
-
-        for ( int i = -1; i < 2; i++ )  {
-
-            for ( int j = -1; j < 2; j++ )  {
-
-                col = m_position.col + j;
-                row = m_position.row + i;
-
-                IPiece *target = m_BoardVision -> GetPiece( col, row );
-
-                if ( ( col < MIN_SIZE || col >= MAX_SIZE ) || ( row < MIN_SIZE || row >= MAX_SIZE ) )  {
-
-                    continue;
-                }
-
-                else if ( IsOpponentKing( target ) )  {
-
-                    return true;
-                }
-            }
-        }
-    }
+bool King :: MovementCheck( void )  {
 
     return false;
 }

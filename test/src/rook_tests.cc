@@ -18,7 +18,6 @@
 #include "rook_tests.h"
 #include "board.h"
 #include "rook.h"
-#include "king.h"
 #include "test_helper.h"
 
 
@@ -129,63 +128,5 @@ TEST( chesse_tests, ROOK_INVALID_CAPTURE_MOVE_TEST )  {
 
     bool        ret   = piece.CanMove( dst_pos );
     
-    EXPECT_EQ ( ret, false );
-}
-
-TEST( chesse_tests, ROOK_HORIZONTAL_CHECK_KING ) {
-    
-    Board       board;
-    Rook        piece = Rook( WHITE, &board );
-    King        king  = King( BLACK, &board );
-
-    board.SetPiece( 0, 0, &piece );
-    board.SetPiece( 2, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, ROOK_VERTICAL_CHECK_KING ) {
-    
-    Board       board;
-    Rook        piece = Rook( WHITE, &board );
-    King        king  = King( BLACK, &board );
-
-    board.SetPiece( 0, 0, &piece );
-    board.SetPiece( 0, 2, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, INVALID_ROOK_CHECK_KING ) {
-    
-    Board       board;
-    Rook        piece = Rook( WHITE, &board );
-    King        king  = King( WHITE, &board ); // same color
-
-    board.SetPiece( 0, 0, &piece );
-    board.SetPiece( 2, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, false );
-}
-
-TEST( chesse_tests, FAILED_ROOK_CHECK_KING ) {
-    
-    Board       board;
-    Rook        piece       = Rook( BLACK, &board );
-    Rook        block_piece = Rook( WHITE, &board );
-    King        king        = King( WHITE, &board ); // same color
-
-    board.SetPiece( 0, 0, &piece );
-    board.SetPiece( 1, 0, &block_piece );
-    board.SetPiece( 2, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
     EXPECT_EQ ( ret, false );
 }

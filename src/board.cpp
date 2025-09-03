@@ -29,7 +29,7 @@
  */
 void Board :: Clear( void )  {
 
-    for ( int col = MIN_SIZE; col < m_board.size(); col++ )   {
+    for ( int col = MIN_SIZE; col < m_board.size(); col++ )  {
 
         for ( int row = MIN_SIZE; row < m_board[col].size(); row++ )  {
             
@@ -60,12 +60,7 @@ Board :: ~Board( void )  {
  */
 bool Board :: IsValid( int col, int row )  {
 
-    if ( ( col >= MIN_SIZE ) && ( col < MAX_SIZE ) && ( row >= MIN_SIZE ) && ( row < MAX_SIZE ) )  {
-
-        return true;
-    }
-
-    return false;
+    return ( ( col >= MIN_SIZE ) && ( col < MAX_SIZE ) && ( row >= MIN_SIZE ) && ( row < MAX_SIZE ) );
 }
 
 /**
@@ -108,12 +103,7 @@ IPiece* Board :: GetPromotion( Pieces piece, Color color )  {
  */
 IPiece* Board :: GetPiece( int col, int row )  {
 
-    if ( IsValid( col, row ) )  {
-
-        return m_board[col][row];
-    }
-
-    return nullptr;
+    return ( IsValid( col, row ) ) ? m_board[col][row] : nullptr;
 }
 
 /**

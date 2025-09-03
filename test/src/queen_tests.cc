@@ -18,7 +18,6 @@
 #include "queen_tests.h"
 #include "board.h"
 #include "queen.h"
-#include "king.h"
 #include "test_helper.h"
 
 
@@ -181,119 +180,5 @@ TEST( chesse_tests, QUEEN_FAILED_CAPTURE_MOVE_TEST )  {
 
     bool        ret   = piece.CanMove( dst_pos );
     
-    EXPECT_EQ ( ret, false );
-}
-
-TEST( chesse_tests, QUEEN_HORIZONTAL_CHECK_KING ) {
-    
-    Board       board;
-    Queen       piece = Queen( WHITE, &board );
-    King        king  = King( BLACK, &board );
-
-    board.SetPiece( 0, 0, &piece );
-    board.SetPiece( 2, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, QUEEN_VERTICAL_CHECK_KING ) {
-    
-    Board       board;
-    Queen       piece = Queen( WHITE, &board );
-    King        king  = King( BLACK, &board );
-
-    board.SetPiece( 0, 0, &piece );
-    board.SetPiece( 0, 2, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, QUEEN_CHECK_KING_PRIMARY_DIAGONAL_ASC ) {
-    
-    Board       board;
-    Queen       piece = Queen( WHITE, &board );
-    King        king  = King( BLACK, &board );
-
-    board.SetPiece( 2, 2, &piece );
-    board.SetPiece( 4, 4, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, QUEEN_CHECK_KING_PRIMARY_DIAGONAL_DESC ) {
-    
-    Board       board;
-    Queen       piece = Queen( WHITE, &board );
-    King        king  = King( BLACK, &board );
-
-    board.SetPiece( 2, 2, &piece );
-    board.SetPiece( 0, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, QUEEN_CHECK_KING_SECONDARY_DIAGONAL_ASC ) {
-    
-    Board       board;
-    Queen       piece = Queen( WHITE, &board );
-    King        king  = King( BLACK, &board );
-
-    board.SetPiece( 2, 2, &piece );
-    board.SetPiece( 0, 4, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, QUEEN_CHECK_KING_SECONDARY_DIAGONAL_DESC ) {
-    
-    Board       board;
-    Queen       piece = Queen( WHITE, &board );
-    King        king  = King( BLACK, &board );
-
-    board.SetPiece( 2, 2, &piece );
-    board.SetPiece( 4, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, INVALID_QUEEN_CHECK_KING ) {
-    
-    Board       board;
-    Queen       piece = Queen( BLACK, &board );
-    King        king  = King( BLACK, &board ); //same color
-
-    board.SetPiece( 2, 2, &piece );
-    board.SetPiece( 4, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, false );
-}
-
-TEST( chesse_tests, FAILED_QUEEN_CHECK_KING ) {
-    
-    Board       board;
-    Queen       piece       = Queen( BLACK, &board );
-    Queen       block_piece = Queen( WHITE, &board );
-    King        king        = King( WHITE, &board ); 
-
-    board.SetPiece( 2, 2, &piece );
-    board.SetPiece( 3, 1, &block_piece );
-    board.SetPiece( 4, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
     EXPECT_EQ ( ret, false );
 }

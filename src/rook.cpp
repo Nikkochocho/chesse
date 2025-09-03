@@ -42,30 +42,15 @@ Rook :: ~Rook( void )  {
  */
 bool Rook :: CanMove( stPosition dst_pos )  {
 
-    if ( dst_pos.col == m_position.col || dst_pos.row == m_position.row )  {
-
-        return CanReach( dst_pos );
-    } 
-
-    return false;
+    return ( ( dst_pos.col == m_position.col || dst_pos.row == m_position.row ) && CanReach( dst_pos ) );
 }
 
 /**
- * @brief By default, checks if piece has any possible movement available. 
- * If king_check is true, inspects if piece can check the opponents' king.
- * @param king_check Verification type. Optional parameter, false by default. 
+ * @brief Checks if piece has any possible movement available. 
  */
-bool Rook :: MovementCheck( bool king_check )  {
+bool Rook :: MovementCheck( void )  {
 
-    stPosition XposAsc, XposDesc, YposAsc, YposDesc;
-
-    XposAsc = XposDesc = YposAsc = YposDesc = m_position;
-
-    GetAxisLine( XposAsc, YposAsc, true, king_check );
-    GetAxisLine( XposDesc, YposDesc, false, king_check );  
-
-    return ( ( CanReach( XposAsc, king_check ) || CanReach( XposDesc, king_check ) ) ||
-             ( CanReach( YposAsc, king_check ) || CanReach( YposDesc, king_check ) ) );
+    return AxisSet();
 }
 
 // LCOV_EXCL_START

@@ -32,7 +32,7 @@ class King : public Piece {
     virtual ~King ( void );
 
     bool CanMove( stPosition dst_pos );
-    bool MovementCheck( bool king_check );
+    bool MovementCheck( void );
     void Print( void );
 };
 

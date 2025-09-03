@@ -53,8 +53,7 @@ class Player  {
     void SetCheckStatus( bool check );
     bool CheckPieces( IPiece *piece );
     std :: list<IPiece*> MovePieces( void );
-    IPiece* CanCheck( void );
-    bool CanCatch( void );
+    IPiece* CanCheck( IPiece *opponent_king );
     bool CanBlock( void );
 };
 

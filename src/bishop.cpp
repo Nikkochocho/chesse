@@ -42,30 +42,15 @@ Bishop :: ~Bishop( void )  {
  */
 bool Bishop :: CanMove( stPosition dst_pos )  {
 
-    if ( abs( dst_pos.col - m_position.col ) == abs( dst_pos.row - m_position.row ) )  {
-
-        return CanReach( dst_pos );
-    }
-
-    return false;
+    return ( ( abs( dst_pos.col - m_position.col ) == abs( dst_pos.row - m_position.row ) ) && CanReach( dst_pos ) );
 }
 
 /**
- * @brief By default, checks if piece has any possible movement available. 
- * If king_check is true, inspects if piece can check the opponents' king.
- * @param king_check Verification type. Optional parameter, false by default. 
+ * @brief Checks if piece has any possible movement available. 
  */
-bool Bishop :: MovementCheck( bool king_check )  {
+bool Bishop :: MovementCheck( void )  {
 
-    stPosition MainposAsc, MainposDesc, SecposAsc, SecposDesc;
-
-    MainposAsc =  MainposDesc = SecposAsc = SecposDesc = m_position;
-
-    GetDiagonals( MainposAsc, MainposDesc, true, king_check ); // Main diagonal
-    GetDiagonals( SecposAsc, SecposDesc, false, king_check ); // Secondary diagonal
-
-    return ( ( CanReach( MainposAsc, king_check ) || CanReach( MainposDesc, king_check ) ) ||
-             ( CanReach( SecposAsc, king_check ) || CanReach( SecposDesc, king_check ) ) );
+    return DiagonalSet();
 }
 
 // LCOV_EXCL_START

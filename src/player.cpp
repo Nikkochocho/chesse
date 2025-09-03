@@ -125,7 +125,7 @@ std :: list<IPiece*> Player :: MovePieces( void )  {
 
         IPiece *pPiece = *it; 
 
-        if ( pPiece -> MovementCheck( false ) )  {
+        if ( pPiece -> MovementCheck() )  {
             
             available_pieces.push_back( pPiece );
         }
@@ -138,50 +138,32 @@ std :: list<IPiece*> Player :: MovePieces( void )  {
  * @brief Verifies whether or not player can check opponent's king.
  * @return IPiece object.
  */
-IPiece* Player :: CanCheck( void ) {
+IPiece* Player :: CanCheck( IPiece *opponent_king ) {
 
+    int    count = 0;
     IPiece *attacker = nullptr;
-
-    for ( std :: list< IPiece* > :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
-
-        IPiece *pPiece = *it; 
-
-        if ( pPiece -> MovementCheck( true ) )  {  
-            
-            attacker = pPiece;
-            
-        }
-    }
-
-    return attacker;
-}
-
-/**
- * @brief Checks if player can catch current attacker.
- */
-bool Player :: CanCatch( void )  {
-
-    if ( m_king -> GetStatus() == DOUBLECHECK )  {
-
-        return false;
-    }
 
     for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
         IPiece *pPiece = *it; 
 
-        if ( pPiece == m_king )  {
-
-            continue;
-        }
-
-        if ( pPiece -> CanMove( m_attacker -> Position() ) )  {
+        if ( pPiece -> CanMove( opponent_king -> Position() ) )  {  
             
-            return true;
+            attacker = pPiece;
+            count++;
         }
     }
 
-    return false;
+    if ( ( count == 1 ) && ( opponent_king -> GetStatus() == NORMAL ) )  {
+
+        opponent_king -> SetStatus( CHECK );
+    }
+    if ( count == 2 )  {
+
+        opponent_king-> SetStatus( DOUBLECHECK );
+    }
+
+    return attacker;
 }
 
 /**
@@ -189,22 +171,18 @@ bool Player :: CanCatch( void )  {
  */
 bool Player :: CanBlock( void )  {
 
-    stPosition attacker_pos = m_attacker -> Position();
-    int        dist_col     = ( m_king -> Position().col ) - ( m_attacker -> Position().col );
-    int        dist_row     = ( m_king -> Position().row ) - ( m_attacker -> Position().row );
-
     if ( ( m_attacker -> GetType() == KNIGHT ) || ( m_king -> GetStatus() == DOUBLECHECK ) )  {
 
         return false;
     }
 
-    int itr_col  = ( dist_col != 0 ) ? ( dist_col / abs( dist_col ) ) : 0;
-    int itr_row  = ( dist_row != 0 ) ? ( dist_row / abs( dist_row ) ) : 0;
+    stPosition pos      = m_attacker -> Position();
+    int        dist_col = ( m_king -> Position().col ) - ( m_attacker -> Position().col );
+    int        dist_row = ( m_king -> Position().row ) - ( m_attacker -> Position().row );
+    int        itr_col  = ( dist_col != 0 ) ? ( dist_col / abs( dist_col ) ) : 0;
+    int        itr_row  = ( dist_row != 0 ) ? ( dist_row / abs( dist_row ) ) : 0;
 
-    while ( ( attacker_pos.col !=  m_king -> Position().col ) || ( attacker_pos.row !=  m_king -> Position().row ) )  {
-
-        attacker_pos.col += itr_col;
-        attacker_pos.row += itr_row;
+    while ( ( pos.col != m_king -> Position().col ) || ( pos.row != m_king -> Position().row ) )  {
 
         for ( std :: list<IPiece*> :: iterator it = m_pieces.begin(); it != m_pieces.end(); it++ )  {
 
@@ -215,11 +193,14 @@ bool Player :: CanBlock( void )  {
                 continue;
             }
 
-            if ( pPiece -> CanMove( attacker_pos ) )  {
+            if ( pPiece -> CanMove( pos ) )  {
                 
                 return true;
             }
         }
+
+        pos.col += itr_col;
+        pos.row += itr_row;
     }
 
     return false;

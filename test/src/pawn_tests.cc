@@ -18,7 +18,6 @@
 #include "pawn_tests.h"
 #include "board.h"
 #include "pawn.h"
-#include "king.h"
 #include "test_helper.h"
 
 
@@ -193,48 +192,6 @@ TEST( chesse_tests, WHITE_PAWN_PROMOTION_MOVE_TEST )  {
     EXPECT_EQ ( ret, true );
 }
 
-TEST( chesse_tests, WHITE_PAWN_CHECK_KING_RIGHT ) {
-    
-    Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
-    King        king  = King( BLACK, &board ); // same color
-
-    board.SetPiece( 1, 0, &piece );
-    board.SetPiece( 2, 1, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, WHITE_PAWN_CHECK_KING_LEFT ) {
-    
-    Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
-    King        king  = King( BLACK, &board ); //same color
-
-    board.SetPiece( 1, 0, &piece );
-    board.SetPiece( 0, 1, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, INVALID_WHITE_PAWN_CHECK_KING ) {
-    
-    Board       board;
-    Pawn        piece = Pawn( WHITE, &board );
-    King        king  = King( WHITE, &board ); //same color
-
-    board.SetPiece( 1, 0, &piece );
-    board.SetPiece( 2, 1, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, false );
-}
-
 // BLACK PAWN TESTS
 TEST( chesse_tests, BLACK_PAWN_ONE_STEP_MOVE_TEST )  {
     
@@ -347,48 +304,6 @@ TEST( chesse_tests, BLACK_PAWN_PROMOTION_MOVE_TEST )  {
     bool        ret   = ( piece.GetStatus() == PROMOTION );
     
     EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, BLACK_PAWN_CHECK_KING_RIGHT ) {
-    
-    Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
-    King        king  = King( WHITE, &board ); 
-
-    board.SetPiece( 1, 1, &piece );
-    board.SetPiece( 0, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, BLACK_PAWN_CHECK_KING_LEFT ) {
-    
-    Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
-    King        king  = King( WHITE, &board ); 
-
-    board.SetPiece( 1, 1, &piece );
-    board.SetPiece( 2, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, true );
-}
-
-TEST( chesse_tests, INVALID_BLACK_PAWN_CHECK_KING ) {
-    
-    Board       board;
-    Pawn        piece = Pawn( BLACK, &board );
-    King        king  = King( BLACK, &board ); 
-
-    board.SetPiece( 1, 1, &piece );
-    board.SetPiece( 0, 0, &king );
-
-    bool        ret   = ( piece.MovementCheck( true ) && ( king.GetStatus() == CHECK ) );
-
-    EXPECT_EQ ( ret, false );
 }
 
 // SPECIAL MOVES

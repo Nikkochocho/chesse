@@ -12,4 +12,6 @@ This is a TODO list with improvements and new features;
 
 * add more unit tests on checkmate and stalemate
 
+- change from int to short?
+
 * DOCUMENTATION !!!

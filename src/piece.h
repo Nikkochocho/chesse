@@ -37,23 +37,18 @@ class Piece : public IPiece  {
     IBoard      *m_BoardVision;
 
     
-    void GetAxisLine( stPosition& Xpos, stPosition& Ypos, bool isAsc, bool check );
-    void GetDiagonals( stPosition& posAsc, stPosition& posDesc, bool main, bool check );
-    bool IsOpponentKing( IPiece *target ) ;
-    bool CanReach( stPosition dst_pos, bool check = false );
-
-    private:
-
-    bool IterationCheck( stPosition dist, int itr_col, int itr_row, bool check );
+    bool AxisSet( void );
+    bool DiagonalSet( void );
+    bool CanReach( stPosition dst_pos );
+    bool CanSet( IPiece *target );
 
     public:
 
     int GetMovementCount( void );
     void AddMovementCount( void );
-    bool CanSet( IPiece *target );
     
     virtual bool CanMove( stPosition dst_pos );
-    virtual bool MovementCheck( bool king_check );
+    virtual bool MovementCheck( void );
     virtual void Print( void );
    
     Pieces GetType( void );

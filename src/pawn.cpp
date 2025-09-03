@@ -57,17 +57,14 @@ bool Pawn :: CanMove( stPosition dst_pos )  {
 
     if ( ( abs( dst_pos.col - m_position.col ) == 1 ) && ( dst_pos.row == m_position.row + direction ) )  { 
 
-        if ( ( ( CanSet( side_piece ) ) && ( side_piece -> GetType() == PAWN ) && ( side_piece -> GetMovementCount() == 1 ) ) &&
+        if ( ( CanSet( side_piece ) && ( side_piece -> GetType() == PAWN ) && ( side_piece -> GetMovementCount() == 1 ) ) &&
              ( ( target == nullptr ) && ( m_position.row == enpassant_row ) ) ) {
 
             this -> SetStatus( ENPASSANT );
             return true; // en passant capture
         }  
 
-        if ( CanSet( target ) )  {
-
-            ret = true; // default capture
-        }
+        ret = CanSet( target ); // default capture
     }
     else  {
 
@@ -80,7 +77,7 @@ bool Pawn :: CanMove( stPosition dst_pos )  {
                 ( ( dst_pos.row == m_position.row + direction ) || ( dst_pos.row == m_position.row + ( dist_row * direction ) ) ) );
     }
 
-    if ( ( ret == true ) && ( dst_pos.row == promotion_row ) )  {
+    if ( ret && ( dst_pos.row == promotion_row ) )  {
 
         this -> SetStatus( PROMOTION );
     }
@@ -89,57 +86,34 @@ bool Pawn :: CanMove( stPosition dst_pos )  {
 }
 
 /**
- * @brief By default, checks if piece has any possible movement available. 
- * If king_check is true, inspects if piece can check the opponents' king.
- * @param king_check Verification type. Optional parameter, false by default. 
+ * @brief Checks if piece has any possible movement available. 
  */
-bool Pawn :: MovementCheck( bool king_check )  {
+bool Pawn :: MovementCheck( void )  {
 
-    int       col_pos;
-    int       row      = ( m_color == WHITE ) ? 1 : -1;
-    int       row_pos  = m_position.row + row;
-    bool      limit    = ( ( row_pos < MIN_SIZE ) || ( row_pos >= MAX_SIZE ) ); 
-    bool      ret      = false;
+    stPosition pos;
+    int        row = ( m_color == WHITE ) ? 1 : -1;
+    bool       ret = false;
 
-    if ( !limit )  {
+    pos.row = m_position.row + row;
+
+    if ( ( pos.row >= MIN_SIZE ) && ( pos.row < MAX_SIZE ) )  {
         
         for ( int col = -1; col < 2; col++ )  {
 
-            col_pos = m_position.col + col;
+            pos.col = m_position.col + col;
             
-            if ( ( col_pos < MIN_SIZE || col_pos >= MAX_SIZE ) )  {
-
-                continue;
-            }
-            
-            if ( col == 0 )  { // should be skipped if king_check is true
-
-                if ( !king_check )  {
-
-                    ret = ( ( m_BoardVision -> GetPiece( m_position.col, m_position.row + row ) ) == nullptr );
-                }
+            if ( !m_BoardVision -> IsValid( pos.col, pos.row ) )  {
 
                 continue;
             }
 
-            IPiece *target = m_BoardVision -> GetPiece( ( col_pos ), ( row_pos ) );
+            IPiece *target = m_BoardVision -> GetPiece( ( pos.col ), ( pos.row ) );
 
-            if ( CanSet( target ) )  {
-
-                if ( !king_check )  {
-
-                    ret = true;
-                }
-                else if ( IsOpponentKing( target ) )  {
-
-                    return true;
-                }
-            }
+            ret = ( col == 0 ) ? ( target == nullptr ) : CanSet( target );
 
             if ( ret )  {
 
-                this -> m_availablePos.col = col_pos;
-                this -> m_availablePos.row = row_pos;
+                this -> m_availablePos = pos;
                 break;
             }
         }

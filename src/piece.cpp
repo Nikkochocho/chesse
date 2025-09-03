@@ -20,150 +20,98 @@
 
 
 /**
- * @brief Returns axis line max positions.
- * @param Xpos X axis position.
- * @param Ypos Y axis position.
- * @param isAsc Position type. 
- * true for crescent and false for decrescent. 
- * @param check Validation type. 
+ * @brief Returns if piece has any available position
+ * on the X or Y axis.
  */
-void Piece :: GetAxisLine( stPosition& Xpos, stPosition& Ypos, bool isAsc, bool check )  {
+bool Piece :: AxisSet( void )  {
 
-    if ( check )  {
+    stPosition pos;
 
-        Xpos.col = ( isAsc ) ?  ( MAX_SIZE - 1 ) : MIN_SIZE;
-        Ypos.row = ( isAsc ) ?  ( MAX_SIZE - 1 ) : MIN_SIZE;
-    }
-    else  {
+    for ( int col = -1; col < 2; col++ )  {
 
-        int col = ( isAsc ) ? ( m_position.col + 1 ) : ( m_position.col - 1 );
-        int row = ( isAsc ) ? ( m_position.row + 1 ) : ( m_position.row - 1 );
+        for ( int row = -1; row < 2; row++ )  {
 
-        Xpos.col = ( ( col < MAX_SIZE ) && ( col >= MIN_SIZE ) ) ? col : m_position.col;
-        Ypos.row = ( ( row < MAX_SIZE ) && ( row >= MIN_SIZE ) ) ? row : m_position.row;
-    }
-}
+            if ( abs( col ) == abs( row ) )  {
 
-/**
- * @brief Returns main and secondary diagonal max positions.
- * @param posAsc Diagonal crescent position.
- * @param posDesc Diagonal decrescent position.
- * @param diagonal Diagonal type. true for main and false for secondary.
- * @param check Returns on first iteration if true.
- */
-void Piece :: GetDiagonals( stPosition& posAsc, stPosition& posDesc, bool main, bool check )  {
+                continue;
+            }
 
-    bool asc, desc;
-    int direction   = main ? 1 : -1; // Default main diagonal; else secondary diagonal
-    int minAsc      = main ? ( MIN_SIZE - 1 ) : MIN_SIZE;
-    int minDesc     = main ? MIN_SIZE : ( MIN_SIZE - 1 );
-    int maxAsc      = main ? ( MAX_SIZE - 1 ) : MAX_SIZE;
-    int maxDesc     = main ? MAX_SIZE : ( MAX_SIZE - 1 );
+            pos.col = m_position.col + col;
+            pos.row = m_position.row + row;
 
-    asc = desc = true;
+            if ( m_BoardVision -> IsValid( pos.col, pos.row ) )  {
 
-    while ( asc || desc )  {
+                IPiece *target = m_BoardVision -> GetPiece( pos.col, pos.row );
 
-        if ( ( ( posAsc.col < maxAsc ) && ( posAsc.col > minAsc ) ) && ( posAsc.row < ( MAX_SIZE - 1 ) ) )  {
+                if ( CanSet( target ) )  {
 
-            posAsc.col += direction;
-            posAsc.row++;
+                    m_availablePos = pos;
+                    return true;
+                }
+            }
         }
-        else asc = false;
-
-        if ( ( ( posDesc.col > minDesc ) && ( posDesc.col < maxDesc ) ) && ( posDesc.row > MIN_SIZE ) )  {
-
-            posDesc.col += ( direction * -1 );
-            posDesc.row--;
-        }
-        else desc = false;
-
-        if ( !check )  {
-
-            break;
-        }
-    }
-}
-
-/**
- * @brief Checks if target is the opponent player's king.
- * @param target IPiece object.
- */
-bool Piece :: IsOpponentKing( IPiece *target )  {
-
-    if ( ( target != nullptr ) && ( target -> GetType() == KING && target -> GetColor() != m_color ) )  {
-
-        if ( target -> GetStatus() == CHECK )  {
-
-            target -> SetStatus( DOUBLECHECK );
-        }
-        else {
-
-            target -> SetStatus( CHECK );
-        }
-        
-        return true;
     }
 
     return false;
 }
 
 /**
- * @brief Returns if piece can reach next position or check opponent's king.
- * @param dst_pos New position.
- * @param check Validation type. If true inspects if piece can check opponent's king;
- * if false checks if piece can reach new position.
+ * @brief Returns if piece has any diagonal position available.
  */
-bool Piece :: CanReach( stPosition dst_pos, bool check )  { 
+bool Piece :: DiagonalSet( void )  {
 
-    stPosition   dist;
+    stPosition pos;
 
-    dist.col = dst_pos.col - m_position.col;
-    dist.row = dst_pos.row - m_position.row;
+    for ( int col = -1; col < 2; col++ )  {
 
-    if ( ( dist.col == 0 ) && ( dist.row == 0 ) )  {
+        for ( int row = -1; row < 2; row++ )  {
 
-        return false;
+            if ( col == 0 || row == 0 )  {
+
+                continue;
+            }
+
+            pos.col = m_position.col + col;
+            pos.row = m_position.row + row;
+
+            if ( m_BoardVision -> IsValid( pos.col, pos.row ) )  {
+
+                IPiece *target = m_BoardVision -> GetPiece( pos.col, pos.row );
+
+                if ( CanSet( target ) )  {
+
+                    m_availablePos = pos;
+                    return true;
+                }
+            }
+        }
     }
 
-    int itr_col  = ( dist.col != 0 ) ? ( dist.col / abs( dist.col ) ) : 0;
-    int itr_row  = ( dist.row != 0 ) ? ( dist.row / abs( dist.row ) ) : 0;
-
-    return IterationCheck( dist, itr_col, itr_row, check );
+    return false;
 }
 
 /**
- * @brief Inspects on each iteration if piece's move is trespassing or
- * if it can check opponent's king.
- * @param dist distance between current and next position.
- * @param itr_col column iterator; Value of 1 or -1.
- * @param itr_row row iterator; Value of 1 or -1.
- * @param check Validation type. If true inspects if piece can check opponent's king;
- * if false checks if piece can reach new position.
+ * @brief Returns if piece can reach destiny position.
+ * @param dst_pos New position.
  */
-bool Piece :: IterationCheck( stPosition dist, int itr_col, int itr_row, bool check )  {
+bool Piece :: CanReach( stPosition dst_pos )  { 
 
-    int        col_iterations = 0;
-    int        row_iterations = 0;
-    bool       ret            = ( check ) ? false : true; // default return
+    stPosition pos      = m_position;
+    int        dist_col = dst_pos.col - m_position.col;
+    int        dist_row = dst_pos.row - m_position.row;
+    int        itr_col  = ( dist_col != 0 ) ? ( dist_col / abs( dist_col ) ) : 0;
+    int        itr_row  = ( dist_row != 0 ) ? ( dist_row / abs( dist_row ) ) : 0;
 
-    while ( ( col_iterations != dist.col ) || ( row_iterations != dist.row ) )  {
+    while ( ( pos.col != dst_pos.col ) || ( pos.row != dst_pos.row ) )  {
 
-        row_iterations += itr_row;
-        col_iterations += itr_col;
+        pos.col += itr_col;
+        pos.row += itr_row;
         
-        IPiece *target = m_BoardVision -> GetPiece( ( m_position.col + col_iterations ), ( m_position.row + row_iterations ) );
+        IPiece *target = m_BoardVision -> GetPiece( pos.col, pos.row );
         
-        if ( check && IsOpponentKing( target ) )  {
+        if ( ( pos.col ==  dst_pos.col ) && ( pos.row ==  dst_pos.row ) && CanSet( target ) )  {
 
             return true;
-        }
-        
-        if ( ( !check ) && ( col_iterations ==  dist.col ) && ( row_iterations ==  dist.row ) )  {
-
-            this -> m_availablePos.col = m_position.col + col_iterations;
-            this -> m_availablePos.row = m_position.row + row_iterations;
-            return CanSet( target );
         }
         
         if ( target != nullptr )  {
@@ -172,7 +120,16 @@ bool Piece :: IterationCheck( stPosition dist, int itr_col, int itr_row, bool ch
         }
     }
 
-    return ret;
+    return false;
+}
+
+/**
+ * @brief Returns if piece can set on a target position.
+ * @param target IPiece object.
+ */
+bool Piece :: CanSet( IPiece* target )  {
+
+    return ( ( target == nullptr ) || ( ( target != nullptr ) && ( target -> GetColor() != m_color ) ) );
 }
 
 /**
@@ -190,15 +147,6 @@ int Piece :: GetMovementCount( void )  {
 void Piece :: AddMovementCount( void ) {
 
     this -> m_movementCount++;
-}
-
-/**
- * @brief Returns if piece can set on a target position.
- * @param target IPiece object.
- */
-bool Piece :: CanSet( IPiece* target )  {
-
-    return ( ( target == nullptr ) || ( ( target != nullptr ) && ( target -> GetColor() != m_color ) ) );
 } 
 
 // LCOV_EXCL_START
@@ -212,11 +160,9 @@ bool Piece :: CanMove( stPosition dst_pos )  {
 }
 
 /**
- * @brief By default, checks if piece has any possible movement available. 
- * If king_check is true, inspects if piece can check the opponents' king.
- * @param king_check Verification type. Optional parameter, false by default. 
+ * @brief Checks if piece has any possible movement available. 
  */
-bool Piece :: MovementCheck( bool king_check )  {
+bool Piece :: MovementCheck()  {
 
     return false;
 }

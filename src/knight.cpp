@@ -45,61 +45,40 @@ bool Knight :: CanMove( stPosition dst_pos )  {
     IPiece      *target = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row );
     int         jump_c  = abs( dst_pos.col - m_position.col );
     int         jump_r  = abs( dst_pos.row - m_position.row );
-    bool        ret     = ( ( jump_c == 1 && jump_r == 2 ) || ( jump_c == 2 && jump_r == 1 ) );
 
-    if ( ret )  {
-
-        return CanSet( target );
-    }
-
-    return ret;
+    return ( ( ( jump_c == 1 && jump_r == 2 ) || ( jump_c == 2 && jump_r == 1 ) ) && CanSet( target ) );
 }
 
 /**
- * @brief By default, checks if piece has any possible movement available. 
- * If king_check is true, inspects if piece can check the opponents' king.
- * @param king_check Verification type. Optional parameter, false by default. 
+ * @brief Checks if piece has any possible movement available. 
  */
-bool Knight :: MovementCheck( bool king_check )  {
+bool Knight :: MovementCheck( void )  {
 
+    stPosition    pos;
     IPiece        *target;
-    int           col, row;
     const int     col_number[MAX_SIZE] = { 2, 1, -1, -2, -2, -1, 1, 2 };
     const int     row_number[MAX_SIZE] = { 1, 2, 2, 1, -1, -2, -2, -1 };
-    bool          ret           = false;
 
     for ( int i = MIN_SIZE; i < MAX_SIZE; i++ ) {
 
-        col = m_position.col + col_number[i];
-        row = m_position.row + row_number[i];
+        pos.col = m_position.col + col_number[i];
+        pos.row = m_position.row + row_number[i];
 
-        if ( ( col < MIN_SIZE || col >= MAX_SIZE ) || ( row < MIN_SIZE || row >= MAX_SIZE ) )  {
+        if ( !m_BoardVision -> IsValid( pos.col, pos.row ) )  {
 
             continue;
         }
-        else  {
 
-            target = m_BoardVision -> GetPiece( col, row );
+        target = m_BoardVision -> GetPiece( pos.col, pos.row );
 
-            if ( !king_check )  {
+        if ( CanSet( target ) )  {
 
-                ret = CanSet( target );
-            }
-            else if ( IsOpponentKing( target ) )  {
-
-                return true;
-            }
-
-            if ( ret )  {
-
-                this -> m_availablePos.col = col;
-                this -> m_availablePos.row = row;
-                break;
-            }
+            this -> m_availablePos = pos;
+            return true;
         }
     }
 
-    return ret;
+    return false;
 }
 
 // LCOV_EXCL_START

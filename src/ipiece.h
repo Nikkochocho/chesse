@@ -32,7 +32,7 @@ class IPiece  {
     virtual void AddMovementCount( void ) = 0;
     virtual bool CanSet( IPiece *target ) = 0;
     virtual bool CanMove( stPosition dst_pos ) = 0;
-    virtual bool MovementCheck( bool check_king ) = 0;
+    virtual bool MovementCheck( void ) = 0;
 
     virtual void Print( void ) = 0;
     

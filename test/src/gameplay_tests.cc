@@ -60,7 +60,7 @@ TEST( chesse_tests, CHECK_INVALID_TURN_CHANGE ) {
     EXPECT_EQ ( ret, false );
 }
 
-TEST( chesse_tests, CHECK__INVALID_MOVE_OPPONENT_PIECES ) {
+TEST( chesse_tests, CHECK_INVALID_MOVE_OPPONENT_PIECES ) {
     
     Board       board;
     GamePlay    game( &board );
@@ -68,6 +68,19 @@ TEST( chesse_tests, CHECK__INVALID_MOVE_OPPONENT_PIECES ) {
     game.NewGame();
 
     bool        ret   = ( game.Move( 'e', '7', 'e', '5' ) );
+
+    EXPECT_EQ ( ret, false );
+}
+
+TEST( chesse_tests, CHECK_INVALID_MOVEMENT ) {
+    
+    Board       board;
+    GamePlay    game( &board );
+
+    game.NewGame();
+    game.Move( 'e', '2', 'e', '2' );  //same position
+
+    bool        ret   = ( game.GetTurn() == PLAYER_2 );
 
     EXPECT_EQ ( ret, false );
 }
@@ -91,7 +104,7 @@ TEST( chesse_tests, MOVE_PIECE_INVALID_POSITION ) {
 
     game.NewGame();
 
-    bool        ret   = game.Move( 'e', '8', 'e', '9' ); //invalid king trespass move
+    bool        ret   = game.Move( 'e', '1', 'e', '0' ); //invalid king trespass move
 
     EXPECT_EQ ( ret, false );
 }
