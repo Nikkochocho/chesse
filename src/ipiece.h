@@ -31,7 +31,7 @@ class IPiece  {
     virtual int GetMovementCount( void ) = 0;
     virtual void AddMovementCount( void ) = 0;
     virtual bool CanSet( IPiece *target ) = 0;
-    virtual bool CanMove( stPosition dst_pos ) = 0;
+    virtual bool CanMove( stPosition& dst_pos ) = 0;
     virtual bool MovementCheck( void ) = 0;
 
     virtual void Print( void ) = 0;
@@ -39,7 +39,7 @@ class IPiece  {
     virtual Pieces GetType( void ) = 0;
     virtual Color GetColor( void ) = 0;
     virtual Status GetStatus( void ) = 0;
-    virtual void SetStatus( Status state ) = 0;
+    virtual void SetStatus( Status status ) = 0;
     virtual stPosition& Position( void ) = 0;
     virtual stPosition& AvailablePosition( void ) = 0;
 };

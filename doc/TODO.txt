@@ -1,16 +1,10 @@
 This is a TODO list with improvements and new features;
 
-* FIX DOUBLE CHECKMATE BUG
-
-- Available_pos might need to be a list os available positions, not a single struct
-
 - overall code optimization
 
 - repetition draw implementation
 
-- change board col and row o stPosition...?
-
-* add more unit tests on checkmate and stalemate
+- change board col and row to stPosition...?
 
 - change from int to short?
 

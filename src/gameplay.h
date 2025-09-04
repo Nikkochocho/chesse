@@ -41,14 +41,16 @@ class GamePlay {
     bool         m_promotion = false;
     PlayerNumber m_turn      = PLAYER_1;
 
+    
     int GetColIndex( char ch );
     int GetRowIndex( char ch );
+    PlayerNumber GetOpponent( PlayerNumber player );
     stPosition ConvertPosition( int col, int row );
     void InitPieces( void );
     void ChangeTurn( void );
     void SpecialCases( IPiece *piece );
-    void InsertChanges( stPosition pos, IPiece *piece, IPiece *target, PlayerNumber opponent, bool IsReverse );
-    bool VirtualMovement( IPiece *piece, stPosition dst_pos, bool verif );
+    void InsertChanges( stPosition& pos, IPiece *piece, IPiece *target, PlayerNumber opponent, bool IsReverse );
+    bool VirtualMovement( IPiece *piece, stPosition& dst_pos, bool verif );
     bool KingEscape( void );
     bool HasAvailableMove( const std :: list<IPiece*>& available_pieces );
 

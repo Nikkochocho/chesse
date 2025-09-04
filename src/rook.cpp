@@ -40,7 +40,7 @@ Rook :: ~Rook( void )  {
  * @brief Checks if new position is valid under the piece's moveset.
  * @param dst_pos New position.
  */
-bool Rook :: CanMove( stPosition dst_pos )  {
+bool Rook :: CanMove( stPosition& dst_pos )  {
 
     return ( ( dst_pos.col == m_position.col || dst_pos.row == m_position.row ) && CanReach( dst_pos ) );
 }

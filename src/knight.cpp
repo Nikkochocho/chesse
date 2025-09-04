@@ -40,7 +40,7 @@ Knight :: ~Knight( void )  {
  * @brief Checks if new position is valid under the piece's moveset.
  * @param dst_pos New position.
  */
-bool Knight :: CanMove( stPosition dst_pos )  {
+bool Knight :: CanMove( stPosition& dst_pos )  {
     
     IPiece      *target = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row );
     int         jump_c  = abs( dst_pos.col - m_position.col );

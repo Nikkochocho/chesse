@@ -26,12 +26,14 @@
  */
 class King : public Piece {
 
+    bool CanCastle( stPosition& dst_pos, IPiece *target );
+
     public :
 
     King ( Color color, IBoard *boardVision );
     virtual ~King ( void );
 
-    bool CanMove( stPosition dst_pos );
+    bool CanMove( stPosition& dst_pos );
     bool MovementCheck( void );
     void Print( void );
 };

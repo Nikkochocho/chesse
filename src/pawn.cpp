@@ -20,6 +20,34 @@
 
 
 /**
+ * @brief Pawn capture verification.
+ * @param target IPiece object.
+ */
+bool Pawn :: CaptureSet( IPiece *target )  {
+ 
+    return ( target != nullptr ) && ( target -> GetColor() != m_color );
+} 
+
+/**
+ * @brief Returns true if piece has the
+ * conditions to be captured by enpassant.
+ * @param piece IPiece object.
+ */
+bool Pawn :: IsEnPassant( IPiece *piece )  {
+
+    int  enpassant_row = ( m_color == WHITE ) ? 4 : 3;
+    bool valid_pawn    = ( ( piece != nullptr ) && ( piece -> GetType() == m_type ) && ( piece -> GetMovementCount() == 1 ) );
+
+    if ( valid_pawn && CaptureSet( piece ) && ( m_position.row == enpassant_row ) )  {
+
+        this -> SetStatus( ENPASSANT );
+        return true;    
+    }
+
+    return false;
+}
+
+/**
  * @brief Constructor. Initialize all class data.
  */
 Pawn :: Pawn( Color color, IBoard *boardVision )  {
@@ -36,45 +64,32 @@ Pawn :: ~Pawn( void )  {
     
 }
 
-bool Pawn :: CanSet( IPiece* target )  {
- 
-    return ( target != nullptr ) && ( target -> GetColor() != m_color );
-} 
-
 /**
  * @brief Checks if new position is valid under the piece's moveset.
  * @param dst_pos New position.
  */
-bool Pawn :: CanMove( stPosition dst_pos )  {
+bool Pawn :: CanMove( stPosition& dst_pos )  {
     
     int         direction     = ( m_color == WHITE ) ? 1 : -1;
-    int         enpassant_row = ( m_color == WHITE ) ? 4 : 3;
     int         promotion_row = ( m_color == WHITE ) ? ( MAX_SIZE - 1 ) : MIN_SIZE;
-    int         dist_row      = ( m_movementCount == 0 ) ? 2 : 1;
     IPiece      *target       = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row );
     IPiece      *side_piece   = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row + ( direction * -1 ) );
     bool        ret           = false;
 
     if ( ( abs( dst_pos.col - m_position.col ) == 1 ) && ( dst_pos.row == m_position.row + direction ) )  { 
 
-        if ( ( CanSet( side_piece ) && ( side_piece -> GetType() == PAWN ) && ( side_piece -> GetMovementCount() == 1 ) ) &&
-             ( ( target == nullptr ) && ( m_position.row == enpassant_row ) ) ) {
-
-            this -> SetStatus( ENPASSANT );
-            return true; // en passant capture
-        }  
-
-        ret = CanSet( target ); // default capture
+        ret = ( IsEnPassant( side_piece ) ) ? true : CaptureSet( target ); 
     }
-    else  {
+    else if ( ( target == nullptr ) && ( dst_pos.col == m_position.col ) )  {
 
-        if ( ( target != nullptr ) || ( ( ( dst_pos.row - m_position.row ) == 2 ) && ( side_piece != nullptr ) ) )  {
+        bool double_move = ( ( abs( dst_pos.row - m_position.row ) == 2 ) && ( m_movementCount == 0 ) );
 
-            return false;
+        if ( double_move && ( side_piece == nullptr ) )  {
+
+            return ( ( dst_pos.row == m_position.row + direction ) || ( dst_pos.row == m_position.row + ( direction * 2 ) ) );
         }
-
-        ret = ( ( dst_pos.col == m_position.col ) && 
-                ( ( dst_pos.row == m_position.row + direction ) || ( dst_pos.row == m_position.row + ( dist_row * direction ) ) ) );
+        
+        ret = ( dst_pos.row == m_position.row + direction );
     }
 
     if ( ret && ( dst_pos.row == promotion_row ) )  {
@@ -109,7 +124,7 @@ bool Pawn :: MovementCheck( void )  {
 
             IPiece *target = m_BoardVision -> GetPiece( ( pos.col ), ( pos.row ) );
 
-            ret = ( col == 0 ) ? ( target == nullptr ) : CanSet( target );
+            ret = ( col == 0 ) ? ( target == nullptr ) : CaptureSet( target );
 
             if ( ret )  {
 

@@ -33,13 +33,13 @@ class Piece : public IPiece  {
     stPosition  m_availablePos;
     Color       m_color;
     Pieces      m_type;
-    Status      m_state         = NORMAL;
+    Status      m_status         = NORMAL;
     IBoard      *m_BoardVision;
 
     
     bool AxisSet( void );
     bool DiagonalSet( void );
-    bool CanReach( stPosition dst_pos );
+    bool CanReach( stPosition& dst_pos );
     bool CanSet( IPiece *target );
 
     public:
@@ -47,14 +47,14 @@ class Piece : public IPiece  {
     int GetMovementCount( void );
     void AddMovementCount( void );
     
-    virtual bool CanMove( stPosition dst_pos );
+    virtual bool CanMove( stPosition& dst_pos );
     virtual bool MovementCheck( void );
     virtual void Print( void );
    
     Pieces GetType( void );
     Color GetColor( void );
     Status GetStatus( void );
-    void SetStatus( Status state );
+    void SetStatus( Status status );
     stPosition& Position( void );
     stPosition& AvailablePosition( void );
 };

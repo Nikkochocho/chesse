@@ -31,7 +31,7 @@ class Bishop : public Piece {
     Bishop ( Color color, IBoard *boardVision );
     virtual ~Bishop ( void );
 
-    bool CanMove( stPosition dst_pos );
+    bool CanMove( stPosition& dst_pos );
     bool MovementCheck( void );
     void Print( void );
 };

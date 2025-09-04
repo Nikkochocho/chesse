@@ -31,7 +31,7 @@ class Rook : public Piece {
     Rook ( Color color, IBoard *boardVision );
     virtual ~Rook ( void );
 
-    bool CanMove( stPosition dst_pos );
+    bool CanMove( stPosition& dst_pos );
     bool MovementCheck( void );
     void Print( void );
 };

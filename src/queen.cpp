@@ -40,7 +40,7 @@ Queen :: ~Queen( void )  {
  * @brief Checks if new position is valid under the piece's moveset.
  * @param dst_pos New position.
  */
-bool Queen :: CanMove( stPosition dst_pos )  {
+bool Queen :: CanMove( stPosition& dst_pos )  {
 
     return ( ( ( abs( dst_pos.col - m_position.col ) == abs( dst_pos.row - m_position.row ) ) || 
                ( dst_pos.col == m_position.col || dst_pos.row == m_position.row ) ) && 

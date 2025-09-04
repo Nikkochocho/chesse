@@ -94,7 +94,7 @@ bool Piece :: DiagonalSet( void )  {
  * @brief Returns if piece can reach destiny position.
  * @param dst_pos New position.
  */
-bool Piece :: CanReach( stPosition dst_pos )  { 
+bool Piece :: CanReach( stPosition& dst_pos )  { 
 
     stPosition pos      = m_position;
     int        dist_col = dst_pos.col - m_position.col;
@@ -154,7 +154,7 @@ void Piece :: AddMovementCount( void ) {
  * @brief Checks if new position is valid under the piece's moveset.
  * @param dst_pos New position.
  */
-bool Piece :: CanMove( stPosition dst_pos )  {
+bool Piece :: CanMove( stPosition& dst_pos )  {
 
     return false;
 }
@@ -198,16 +198,16 @@ Color Piece :: GetColor( void )  {
  */
 Status Piece :: GetStatus( void )  {
 
-    return m_state;
+    return m_status;
 }
 
 /**
  * @brief Sets piece's status change.
- * @param state status.
+ * @param us status.
  */
-void Piece :: SetStatus( Status state )  {
+void Piece :: SetStatus( Status status )  {
 
-    m_state = state;
+    m_status = status;
 }
 
 /**

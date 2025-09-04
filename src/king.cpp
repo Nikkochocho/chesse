@@ -20,6 +20,33 @@
 
 
 /**
+ * @brief Checks if castle movement is possible.
+ * @param dst_pos New position.
+ * @param target IPiece object.
+ */
+bool King ::  CanCastle( stPosition& dst_pos, IPiece *target )  {
+
+    int      col_pos       = ( dst_pos.col - m_position.col == 2 ) ? 1 : -2;
+    Status   castle_type   = ( col_pos == 1 ) ? SHORTCASTLE : LONGCASTLE;
+    IPiece   *piece        = m_BoardVision -> GetPiece( ( dst_pos.col + col_pos ), m_position.row );
+
+    if ( ( target == nullptr ) && ( piece != nullptr ) && ( piece -> GetType() == ROOK ) )  {
+
+        bool valid_rook = ( ( piece -> GetMovementCount() == 0 ) && ( m_color == piece -> GetColor() ) );
+
+        if ( ( m_BoardVision -> GetPiece( ( dst_pos.col - 1 ), m_position.row ) != nullptr ) || ( !valid_rook ) )  {
+
+            return false;
+        }
+
+        this -> SetStatus( castle_type );
+        return true;
+    }
+
+    return false;
+}
+
+/**
  * @brief Constructor. Initialize all class data.
  */
 King :: King( Color color, IBoard *boardVision )  {
@@ -40,34 +67,14 @@ King :: ~King( void )  {
  * @brief Checks if new position is valid under the piece's moveset.
  * @param dst_pos New position.
  */
-bool King :: CanMove( stPosition dst_pos )  {
+bool King :: CanMove( stPosition& dst_pos )  {
 
     IPiece    *target      = m_BoardVision -> GetPiece( dst_pos.col, dst_pos.row );
-    bool      castling     = ( ( abs( dst_pos.col - m_position.col ) == 2 ) && ( dst_pos.row == m_position.row ) );
-    bool      default_pos  = ( ( m_movementCount == 0 ) && ( this -> GetStatus() == NORMAL ) );
+    bool      castle       = ( ( abs( dst_pos.col - m_position.col ) == 2 ) && ( dst_pos.row == m_position.row ) );
+    bool      is_default   = ( ( m_movementCount == 0 ) && ( this -> GetStatus() == NORMAL ) );
     bool      default_move = ( ( abs( dst_pos.col - m_position.col ) <= 1 ) && ( abs( dst_pos.row - m_position.row ) <= 1 ) );
 
-    if ( castling && default_pos && CanReach( dst_pos ) )  {
-
-        int      col_pos       = ( dst_pos.col - m_position.col == 2 ) ? 1 : -2;
-        Status   castle_type   = ( col_pos == 1 ) ? SHORTCASTLE : LONGCASTLE;
-        IPiece   *piece        = m_BoardVision -> GetPiece( ( dst_pos.col + col_pos ), m_position.row );
-
-        if ( ( target == nullptr ) && ( piece != nullptr ) && ( piece -> GetType() == ROOK ) )  {
-
-            bool valid_rook = ( ( piece -> GetMovementCount() == 0 ) && ( m_color == piece -> GetColor() ) );
-
-            if ( ( m_BoardVision -> GetPiece( ( dst_pos.col - 1 ), m_position.row ) != nullptr ) || ( !valid_rook ) )  {
-
-                return false;
-            }
-
-            this -> SetStatus( castle_type );
-            return true;
-        }
-    }
-
-    return ( default_move && CanSet( target ) );
+    return ( castle && is_default && CanReach( dst_pos ) ) ? CanCastle( dst_pos, target ) : ( default_move && CanSet( target ) );
 }
 
 /**

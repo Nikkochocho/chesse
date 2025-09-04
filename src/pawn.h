@@ -26,13 +26,15 @@
  */
 class Pawn : public Piece  {
 
+    bool CaptureSet( IPiece *target );
+    bool IsEnPassant( IPiece *piece );
+
     public:
 
     Pawn( Color color, IBoard *boardVision );
     virtual ~Pawn( void );
     
-    bool CanSet( IPiece *target );
-    bool CanMove( stPosition dst_pos );
+    bool CanMove( stPosition& dst_pos );
     bool MovementCheck( void );
     void Print( void );
 };
